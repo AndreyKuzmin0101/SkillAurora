@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: DDL/20231211-add-extension.yml
+      relativeToChangelogFile: true
+  - include:
+      file: DDL/20231211-init-db.yml
+      relativeToChangelogFile: true

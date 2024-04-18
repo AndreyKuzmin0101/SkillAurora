@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: SkillShare
+
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/database-changelog-master.xml
+    url: jdbc:postgresql://localhost:5432/SkillShareDb
+    user: postgres
+    password: qwerty1234
+    driver-class-name: org.postgresql.Driver
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/SkillShareDb
+    username: postgres
+    password: qwerty1234
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
