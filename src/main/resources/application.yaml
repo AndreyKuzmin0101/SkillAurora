@@ -23,3 +23,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+  freemarker:
+    template-loader-path: /WEB-INF/templates/
+    suffix: .ftl

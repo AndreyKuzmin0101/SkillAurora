@@ -11,7 +11,7 @@ create table users
 create table articles
 (
     id bigserial primary key,
-    title varchar(128),
+    title varchar(128) unique,
     content varchar,
     author_id bigint references users(id),
     publication_date date,
@@ -39,7 +39,7 @@ create table answers
 create table tags
 (
     id serial primary key,
-    name varchar(64),
+    name varchar(64) unique,
     description varchar,
     moderation_status varchar check (moderation_status in ('waiting', 'confirmed', 'rejected'))
 );

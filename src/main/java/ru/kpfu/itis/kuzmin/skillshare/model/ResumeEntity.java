@@ -14,7 +14,7 @@ import java.sql.Date;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Resume {
+public class ResumeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,5 +26,5 @@ public class Resume {
     private String moderationStatus;
 
     @ManyToOne
-    private User user;
+    private UserEntity user;
 }

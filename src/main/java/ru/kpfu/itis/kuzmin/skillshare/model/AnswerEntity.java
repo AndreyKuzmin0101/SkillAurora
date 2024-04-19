@@ -6,27 +6,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Date;
-
-@Table(name = "articles")
+@Table(name = "answers")
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Article {
+public class AnswerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(length = 128)
-    private String title;
     private String content;
-    @Column(name = "publication_date")
-    private Date publicationDate;
-    @Column(name = "moderation_status")
-    private String moderationStatus;
+    @Column(name = "created_date")
+    private String createdDate;
 
     @ManyToOne
-    private User author;
-
+    private UserEntity author;
+    @ManyToOne
+    private QuestionEntity question;
 }

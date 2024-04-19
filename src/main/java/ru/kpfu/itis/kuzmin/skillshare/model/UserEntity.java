@@ -1,5 +1,6 @@
 package ru.kpfu.itis.kuzmin.skillshare.model;
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,23 +9,24 @@ import lombok.Setter;
 
 import java.sql.Date;
 
-@Table(name = "vacancies")
+@Table(name = "users")
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Vacancy {
+public class UserEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String content;
-    @Column(name = "created_date")
-    private Date createdDate;
-    @Column(name = "moderation_status")
-    private String moderationStatus;
-
-    @ManyToOne
-    private User employer;
+    @Column(length = 32)
+    private String name;
+    @Column(length = 128)
+    private String email;
+    @Column(length = 64)
+    private String password;
+    @Column(name = "register_date")
+    private Date registerDate;
+    private Integer rating;
 }

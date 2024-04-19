@@ -14,7 +14,7 @@ import java.sql.Date;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Question {
+public class QuestionEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,5 +26,5 @@ public class Question {
     private Date createdDate;
 
     @ManyToOne
-    private User author;
+    private UserEntity author;
 }
