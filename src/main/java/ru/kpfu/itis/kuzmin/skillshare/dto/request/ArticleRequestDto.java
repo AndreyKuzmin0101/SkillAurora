@@ -1,4 +1,4 @@
 package ru.kpfu.itis.kuzmin.skillshare.dto.request;
 
-public record ArticleRequestDto(String title, String content) {
+public record ArticleRequestDto(String title, String content, String tags) {
 }

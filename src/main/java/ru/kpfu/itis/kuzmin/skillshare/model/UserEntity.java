@@ -20,8 +20,8 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(length = 32)
-    private String name;
+    @Column(length = 64)
+    private String username;
     @Column(length = 128)
     private String email;
     @Column(length = 64)

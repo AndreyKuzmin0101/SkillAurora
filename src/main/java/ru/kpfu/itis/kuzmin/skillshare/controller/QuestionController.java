@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.kpfu.itis.kuzmin.skillshare.dto.response.ArticleResponseDto;
 import ru.kpfu.itis.kuzmin.skillshare.dto.response.QuestionResponseDto;
-import ru.kpfu.itis.kuzmin.skillshare.service.impl.QuestionService;
+import ru.kpfu.itis.kuzmin.skillshare.service.QuestionService;
 
 @Controller
 @RequiredArgsConstructor
@@ -15,7 +15,7 @@ public class QuestionController {
 
     private final QuestionService service;
 
-    @GetMapping("/article/{id}")
+    @GetMapping("/question/{id}")
     public String getQuestionById(@RequestParam("id") String id, Model model) {
         //NumberFormatException
         Long questionId = Long.parseLong(id);
