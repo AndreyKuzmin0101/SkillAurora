@@ -49,7 +49,7 @@ public class ArticleServiceImpl implements ArticleService {
         ArticleEntity article = articleMapper.toEntity(articleDto);
         article.setPublicationDate(new Date(System.currentTimeMillis()));
         article.setModerationStatus("waiting");
-        article.setAuthor(new UserEntity(1L, null,null,null,null,null));
+        article.setAuthor(new UserEntity(1L, null,null,null,null,null, null, null, null, null, null));
 
         String[] tags = articleDto.tags().split(",");
         List<TagEntity> tagEntities = new ArrayList<>();

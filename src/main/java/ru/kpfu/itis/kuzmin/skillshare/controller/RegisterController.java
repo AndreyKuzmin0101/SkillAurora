@@ -20,7 +20,7 @@ public class RegisterController {
     }
 
     @PostMapping("/register/process")
-    public String register(@RequestBody UserRequestDto userDto) {
+    public String register(UserRequestDto userDto) {
         service.save(userDto);
         return "redirect:/profile";
     }

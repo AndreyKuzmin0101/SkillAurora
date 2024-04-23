@@ -2,7 +2,11 @@ create table users
 (
     id bigserial primary key,
     username varchar(64) unique not null,
+    real_name varchar(128),
+    age int check (age > 0 and age < 120),
     email varchar(128) unique not null,
+    country varchar(128),
+    city varchar(128),
     password varchar(64) not null,
     register_date date not null,
     rating bigint not null
@@ -88,4 +92,18 @@ create table vacancy_tag
     vacancy_id bigint references vacancies(id) not null,
     tag_id int references tags(id) not null,
     primary key (vacancy_id, tag_id)
+);
+
+create table roles
+(
+    id serial primary key,
+    name varchar(32) unique not null
+);
+
+create table user_role
+(
+    user_id bigint references users(id) not null,
+    role_id int references roles(id) not null,
+
+    primary key (user_id, role_id)
 );

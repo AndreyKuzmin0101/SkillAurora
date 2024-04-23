@@ -1,9 +1,11 @@
 package ru.kpfu.itis.kuzmin.skillshare.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import ru.kpfu.itis.kuzmin.skillshare.dto.Roles;
 import ru.kpfu.itis.kuzmin.skillshare.dto.request.UserRequestDto;
 import ru.kpfu.itis.kuzmin.skillshare.dto.response.UserResponseDto;
 import ru.kpfu.itis.kuzmin.skillshare.exception.alreadyexitsts.UserWithEmailAlreadyExistsException;
@@ -12,11 +14,14 @@ import ru.kpfu.itis.kuzmin.skillshare.exception.notfound.UserNotFoundException;
 import ru.kpfu.itis.kuzmin.skillshare.mapper.UserMapper;
 import ru.kpfu.itis.kuzmin.skillshare.model.UserEntity;
 import ru.kpfu.itis.kuzmin.skillshare.repository.jpa.UserJpaRepository;
+import ru.kpfu.itis.kuzmin.skillshare.repository.spring.RoleSpringRepository;
 import ru.kpfu.itis.kuzmin.skillshare.repository.spring.UserSpringRepository;
 import ru.kpfu.itis.kuzmin.skillshare.service.FileService;
 import ru.kpfu.itis.kuzmin.skillshare.service.UserService;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,9 +34,10 @@ public class UserServiceImpl implements UserService {
 
     private final UserSpringRepository userSpringRepository;
     private final UserJpaRepository userJpaRepository;
+    private final RoleSpringRepository roleSpringRepository;
 
     private final UserMapper userMapper;
-
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserResponseDto getUserById(Long id) {
@@ -61,8 +67,18 @@ public class UserServiceImpl implements UserService {
             throw new UserWithNameAlreadyExistsException(userDto.username());
         }
 
+        UserEntity user = userMapper.toEntity(userDto);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        user.setRegisterDate(new Date(System.currentTimeMillis()));
+        user.setRating(0);
+
+        user.setRoles(List.of(
+                roleSpringRepository.findByName(Roles.USER.getName()).get()
+        ));
+
         return userSpringRepository
-                .save(userMapper.toEntity(userDto))
+                .save(user)
                 .getId();
     }
 

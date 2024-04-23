@@ -48,7 +48,11 @@ public class CacheUserAspect {
         UserRequestDto userRequestDto = (UserRequestDto) joinPoint.getArgs()[1];
         UserResponseDto userResponseDto = new UserResponseDto(
                 userRequestDto.username(),
+                userRequestDto.realName(),
+                userRequestDto.age(),
                 userRequestDto.email(),
+                userRequestDto.country(),
+                userRequestDto.city(),
                 userRequestDto.password(),
                 userRequestDto.registerDate(),
                 userRequestDto.rating()
