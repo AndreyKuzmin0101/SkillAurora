@@ -8,7 +8,7 @@ import ru.kpfu.itis.kuzmin.skillshare.dto.response.QuestionResponseDto;
 import ru.kpfu.itis.kuzmin.skillshare.exception.notfound.QuestionNotFoundException;
 import ru.kpfu.itis.kuzmin.skillshare.mapper.QuestionMapper;
 import ru.kpfu.itis.kuzmin.skillshare.model.QuestionEntity;
-import ru.kpfu.itis.kuzmin.skillshare.repository.QuestionRepository;
+import ru.kpfu.itis.kuzmin.skillshare.repository.spring.QuestionSpringRepository;
 import ru.kpfu.itis.kuzmin.skillshare.service.QuestionService;
 
 import java.util.Optional;
@@ -17,7 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class QuestionServiceImpl implements QuestionService {
 
-    private final QuestionRepository questionRepository;
+    private final QuestionSpringRepository questionRepository;
     private final QuestionMapper questionMapper;
 
     @Override

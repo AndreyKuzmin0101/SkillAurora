@@ -5,14 +5,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.kpfu.itis.kuzmin.skillshare.dto.request.ResumeRequestDto;
 import ru.kpfu.itis.kuzmin.skillshare.mapper.ResumeMapper;
-import ru.kpfu.itis.kuzmin.skillshare.repository.ResumeRepository;
+import ru.kpfu.itis.kuzmin.skillshare.repository.spring.ResumeSpringRepository;
 import ru.kpfu.itis.kuzmin.skillshare.service.ResumeService;
 
 @Service
 @RequiredArgsConstructor
 public class ResumeServiceImpl implements ResumeService {
 
-    private final ResumeRepository resumeRepository;
+    private final ResumeSpringRepository resumeRepository;
     private final ResumeMapper resumeMapper;
 
     @Override

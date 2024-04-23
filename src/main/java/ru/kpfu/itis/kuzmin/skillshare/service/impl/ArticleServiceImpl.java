@@ -11,8 +11,8 @@ import ru.kpfu.itis.kuzmin.skillshare.mapper.ArticleMapper;
 import ru.kpfu.itis.kuzmin.skillshare.model.ArticleEntity;
 import ru.kpfu.itis.kuzmin.skillshare.model.TagEntity;
 import ru.kpfu.itis.kuzmin.skillshare.model.UserEntity;
-import ru.kpfu.itis.kuzmin.skillshare.repository.ArticleRepository;
-import ru.kpfu.itis.kuzmin.skillshare.repository.TagRepository;
+import ru.kpfu.itis.kuzmin.skillshare.repository.spring.ArticleSpringRepository;
+import ru.kpfu.itis.kuzmin.skillshare.repository.spring.TagSpringRepository;
 import ru.kpfu.itis.kuzmin.skillshare.service.ArticleService;
 
 import java.sql.Date;
@@ -24,8 +24,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ArticleServiceImpl implements ArticleService {
 
-    private final ArticleRepository articleRepository;
-    private final TagRepository tagRepository;
+    private final ArticleSpringRepository articleRepository;
+    private final TagSpringRepository tagRepository;
 
     private final ArticleMapper articleMapper;
 
