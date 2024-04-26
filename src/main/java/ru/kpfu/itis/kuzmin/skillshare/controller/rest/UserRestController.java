@@ -3,10 +3,13 @@ package ru.kpfu.itis.kuzmin.skillshare.controller.rest;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import ru.kpfu.itis.kuzmin.skillshare.dto.request.UserRequestDto;
 import ru.kpfu.itis.kuzmin.skillshare.dto.response.UserResponseDto;
+import ru.kpfu.itis.kuzmin.skillshare.model.UserEntity;
 import ru.kpfu.itis.kuzmin.skillshare.service.UserService;
+import ru.kpfu.itis.kuzmin.skillshare.utils.SecurityUtil;
 
 import java.util.List;
 
@@ -45,5 +48,12 @@ public class UserRestController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") Long id) {
         userService.deleteUser(id);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/me/profile-image")
+    public String getCurrentUserProfileImage() {
+        UserEntity user = SecurityUtil.getAuthenticatedUser();
+        return user.getProfileImage();
     }
 }

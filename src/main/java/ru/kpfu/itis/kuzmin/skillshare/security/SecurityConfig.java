@@ -28,7 +28,9 @@ public class SecurityConfig {
                 })
                 .formLogin(login -> { login
                         .loginPage("/login")
-                        .failureForwardUrl("/login");
+                        .defaultSuccessUrl("/profile")
+                        // TODO: как правильно отдавать на фронт ошибки
+                        .failureUrl("/login");
                 })
                 .logout(logout -> { logout
                         .logoutUrl("/logout");

@@ -9,6 +9,7 @@ import ru.kpfu.itis.kuzmin.skillshare.model.UserEntity;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "skills", ignore = true)
     UserEntity toEntity(UserRequestDto userRequest);
 
     UserResponseDto toResponse(UserEntity userEntity);

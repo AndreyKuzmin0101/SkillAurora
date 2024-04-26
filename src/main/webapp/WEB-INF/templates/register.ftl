@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Регистрация пользователя</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/styles.css" rel="stylesheet">
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-    <script src="js/validate-register-form.js"></script>
+    <script src="/js/validate.js"></script>
+    <script src="/js/register.js"></script>
+    <script src="/js/tags.js"></script>
 </head>
 <body>
 
@@ -14,7 +17,7 @@
     <div class="row justify-content-center">
         <div class="col-lg-6">
             <h2 class="mb-4">Регистрация пользователя</h2>
-            <form action="/register/process" method="post" onsubmit="submit_form(event)">
+            <div style="margin-bottom: 20px">
                 <div class="mb-3">
                     <label for="realName" class="form-label">Реальное имя</label>
                     <input type="text" class="form-control" id="realName" name="realName">
@@ -43,24 +46,25 @@
                     <label for="password" class="form-label">Пароль</label>
                     <input type="password" class="form-control" id="password" name="password" required>
                 </div>
+                <div></div>
+                <h6>Имеет длину не менее 8 символов.</h6>
+                <h6>По крайней мере, одна заглавная английская буква.</h6>
+                <h6>Хотя бы одна строчная буква английского алфавита.</h6>
+                <h6>Должен содержать хотя бы одну цифру.</h6>
+                <h6>По крайней мере, один специальный символ. (#?!@$%^&*-)</h6>
                 <div class="mb-3">
                     <label for="confirmPassword" class="form-label">Повторите пароль</label>
                     <input type="password" class="form-control" id="confirmPassword" required>
                 </div>
+                <h5 class="form-label">Навыки</h5>
+                <input class="form-control me-2" type="search" placeholder="Поиск тегов" id="tag-search" style="width: 200px; margin-bottom: 5px;">
+                <div id="selected-tags" style="margin-top: 10px; margin-bottom: 10px;"></div>
                 <div class="mb-3">
-                    <label for="skills" class="form-label">Теги-навыки</label>
-                    <select multiple class="form-select" id="skills" name="skills">
-                        <option value="Java">Java</option>
-                        <option value="Python">Python</option>
-                        <option value="JavaScript">JavaScript</option>
-                        <option value="HTML">HTML</option>
-                        <option value="CSS">CSS</option>
-                        <option value="SQL">SQL</option>
-                        <!-- Добавьте другие теги-навыки по вашему выбору -->
+                    <select multiple class="form-select" id="tag-list">
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
-            </form>
+                <button id="register-btn" class="btn btn-primary">Зарегистрироваться</button>
+            </div>
         </div>
     </div>
 </div>

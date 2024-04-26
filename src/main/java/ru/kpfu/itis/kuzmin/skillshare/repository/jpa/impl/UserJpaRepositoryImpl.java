@@ -18,19 +18,7 @@ public class UserJpaRepositoryImpl implements UserJpaRepository {
     //TODO: шифорвание
     @Override
     public void update(UserEntity user) {
-        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-
-        CriteriaUpdate<UserEntity> query = criteriaBuilder.createCriteriaUpdate(UserEntity.class);
-        Root<UserEntity> root = query.from(UserEntity.class);
-
-        query.set("username", user.getUsername());
-        query.set("email", user.getEmail());
-        query.set("password", user.getPassword());
-        query.set("registerDate", user.getRegisterDate());
-        query.set("rating", user.getRating());
-
-        query.where(criteriaBuilder.equal(root.get("id"), user.getId()));
-
-        em.createQuery(query).executeUpdate();
+        em.merge(user);
+        em.flush();
     }
 }

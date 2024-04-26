@@ -2,6 +2,7 @@ package ru.kpfu.itis.kuzmin.skillshare.service.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.kpfu.itis.kuzmin.skillshare.service.FileService;
@@ -13,8 +14,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @Service
+@RequiredArgsConstructor
 public class FileServiceImpl implements FileService {
-    private final Cloudinary cloudinary = CloudinaryUtil.getInstance();
+    private final CloudinaryUtil cloudinaryUtil;
     @Override
     public String uploadImage(MultipartFile image, String username) throws IOException {
         long currentTimeMillis = System.currentTimeMillis();
@@ -34,7 +36,7 @@ public class FileServiceImpl implements FileService {
         String filenameWithoutType = removeTypeFile(filename);
         String imagePath = "%s/%s/".formatted(username, currentTimeMillis);
 
-        cloudinary.uploader().upload(file, ObjectUtils.asMap("public_id", imagePath + filenameWithoutType));
+        cloudinaryUtil.getInstance().uploader().upload(file, ObjectUtils.asMap("public_id", imagePath + filenameWithoutType));
         return "https://res.cloudinary.com/debjgvnym/image/upload/" + imagePath + filename;
     }
 

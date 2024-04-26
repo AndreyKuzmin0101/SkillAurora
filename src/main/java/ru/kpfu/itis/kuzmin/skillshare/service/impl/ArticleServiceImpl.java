@@ -4,10 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.kpfu.itis.kuzmin.skillshare.dto.request.ArticleRequestDto;
 import ru.kpfu.itis.kuzmin.skillshare.dto.response.ArticleResponseDto;
+import ru.kpfu.itis.kuzmin.skillshare.dto.response.UserResponseDto;
 import ru.kpfu.itis.kuzmin.skillshare.exception.alreadyexitsts.ArticleAlreadyExistsException;
 import ru.kpfu.itis.kuzmin.skillshare.exception.notfound.ArticleNotFoundException;
 import ru.kpfu.itis.kuzmin.skillshare.exception.notfound.TagNotFoundException;
+import ru.kpfu.itis.kuzmin.skillshare.exception.notfound.UserNotFoundException;
 import ru.kpfu.itis.kuzmin.skillshare.mapper.ArticleMapper;
+import ru.kpfu.itis.kuzmin.skillshare.mapper.UserMapper;
 import ru.kpfu.itis.kuzmin.skillshare.model.ArticleEntity;
 import ru.kpfu.itis.kuzmin.skillshare.model.TagEntity;
 import ru.kpfu.itis.kuzmin.skillshare.model.UserEntity;
@@ -28,6 +31,7 @@ public class ArticleServiceImpl implements ArticleService {
     private final TagSpringRepository tagRepository;
 
     private final ArticleMapper articleMapper;
+    private final UserMapper userMapper;
 
 
     @Override
@@ -41,7 +45,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Long save(ArticleRequestDto articleDto) {
+    public Long save(Long authorId, ArticleRequestDto articleDto) {
         if (articleRepository.findByTitle(articleDto.title()).isPresent()) {
             throw new ArticleAlreadyExistsException(articleDto.title());
         }
@@ -49,7 +53,7 @@ public class ArticleServiceImpl implements ArticleService {
         ArticleEntity article = articleMapper.toEntity(articleDto);
         article.setPublicationDate(new Date(System.currentTimeMillis()));
         article.setModerationStatus("waiting");
-        article.setAuthor(new UserEntity(1L, null,null,null,null,null, null, null, null, null, null));
+        article.setAuthor(UserEntity.builder().id(authorId).build());
 
         String[] tags = articleDto.tags().split(",");
         List<TagEntity> tagEntities = new ArrayList<>();
@@ -66,5 +70,11 @@ public class ArticleServiceImpl implements ArticleService {
         return articleRepository
                 .save(article)
                 .getId();
+    }
+
+    @Override
+    public UserResponseDto getAuthor(Long articleId) {
+        Optional<UserEntity> optionalUser = articleRepository.findAuthorByArticleId(articleId);
+        return optionalUser.map(userMapper::toResponse).orElse(null);
     }
 }

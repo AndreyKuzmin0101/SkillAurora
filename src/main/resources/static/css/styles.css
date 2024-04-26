@@ -1,0 +1,114 @@
+.main-content {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+}
+
+.filter {
+    flex: 1;
+    background-color: #ecf0f1;
+    padding: 20px;
+    border-radius: 10px;
+    margin-right: 20px;
+}
+
+.articles {
+    flex: 3;
+    background-color: #ecf0f1;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.article-filter {
+    margin-top: 10px;
+
+}
+
+.search input {
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.search button {
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.article-filter ul, .rating-threshold ul, .tags ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.article-filter ul li, .rating-threshold ul li, .tags ul li {
+    margin-bottom: 10px;
+}
+
+.article-filter ul li a, .rating-threshold ul li a, .tags ul li a {
+    text-decoration: none;
+    color: #3498db;
+}
+
+.info-item {
+    margin-top: 10px;
+}
+
+.edit-field {
+    display: none;
+    margin-top: 10px;
+}
+
+.edit-field input {
+    width: 200px;
+    padding: 5px;
+    margin-right: 10px;
+}
+
+.edit-btn {
+    border: 0;
+}
+
+.confirm-btn {
+    padding: 5px 10px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.profile {
+    display: inline-block;
+    width: 50%;
+    margin: 50px;
+    background-color: #ecf0f1;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.profile-img {
+    position: relative;
+    top: -25px;
+    display: inline-block;
+    margin: 50px;
+    background-color: #ecf0f1;
+    padding: 20px;
+    border-radius: 10px;
+    width: 280px;
+}
+
+.tag-style {
+    border-radius: 5px;
+    background-color: #3498db;
+    margin: 5px;
+    padding-left: 3px;
+    padding-right: 3px;
+    color: white;
+    cursor: pointer;
+}

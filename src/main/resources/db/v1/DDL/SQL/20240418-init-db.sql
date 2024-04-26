@@ -9,7 +9,8 @@ create table users
     city varchar(128),
     password varchar(64) not null,
     register_date date not null,
-    rating bigint not null
+    rating bigint not null,
+    profile_image varchar
 );
 
 create table articles
@@ -45,7 +46,7 @@ create table tags
     id serial primary key,
     name varchar(64) unique not null,
     description varchar,
-    moderation_status varchar check (moderation_status in ('waiting', 'confirmed', 'rejected')) not null
+    is_custom boolean not null
 );
 
 create table user_tag

@@ -27,3 +27,8 @@ spring:
   freemarker:
     template-loader-path: /WEB-INF/templates/
     suffix: .ftl
+
+cloudinary:
+  cloud_name: debjgvnym
+  api_key: 364164765398895
+  api_secret: mIIkpEjFGlusCjSM8ccwQM1AjyY

@@ -2,10 +2,7 @@ package ru.kpfu.itis.kuzmin.skillshare.model;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.sql.Date;
 import java.util.List;
@@ -16,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 public class UserEntity {
 
     @Id
@@ -35,6 +33,15 @@ public class UserEntity {
     @Column(name = "register_date")
     private Date registerDate;
     private Integer rating;
+    private String profileImage;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_tag",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id")
+    )
+    private List<TagEntity> skills;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

@@ -12,16 +12,8 @@ import ru.kpfu.itis.kuzmin.skillshare.service.UserService;
 @RequiredArgsConstructor
 public class RegisterController {
 
-    private final UserService service;
-
     @GetMapping("/register")
     public String getRegisterForm() {
         return "register";
-    }
-
-    @PostMapping("/register/process")
-    public String register(UserRequestDto userDto) {
-        service.save(userDto);
-        return "redirect:/profile";
     }
 }

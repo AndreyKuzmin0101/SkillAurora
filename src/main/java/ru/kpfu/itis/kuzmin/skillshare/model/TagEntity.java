@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Table(name = "tags")
 @Entity
 @AllArgsConstructor
@@ -19,6 +21,6 @@ public class TagEntity {
     @Column(length = 64)
     private String name;
     private String description;
-    @Column(name = "moderation_status")
-    private String moderationStatus;
+    @Column(name = "is_custom")
+    private Boolean custom;
 }
