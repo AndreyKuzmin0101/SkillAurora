@@ -1,0 +1,30 @@
+package ru.kpfu.itis.kuzmin.skillshare.model;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.List;
+
+@Table(name = "chats")
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Builder
+public class ChatEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @OneToOne
+    @PrimaryKeyJoinColumn(name = "first_user")
+    private UserEntity firstUser;
+
+    @OneToOne
+    @PrimaryKeyJoinColumn(name = "second_user")
+    private UserEntity secondUser;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "chat")
+    private List<MessageEntity> messages;
+}

@@ -1,4 +1,4 @@
-package ru.kpfu.itis.kuzmin.skillshare.controller;
+package ru.kpfu.itis.kuzmin.skillshare.controller.rest;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;

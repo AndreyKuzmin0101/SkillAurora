@@ -55,17 +55,17 @@ public class ArticleServiceImpl implements ArticleService {
         article.setModerationStatus("waiting");
         article.setAuthor(UserEntity.builder().id(authorId).build());
 
-        String[] tags = articleDto.tags().split(",");
-        List<TagEntity> tagEntities = new ArrayList<>();
-        for (String tag: tags) {
-            Optional<TagEntity> tagOptional = tagRepository.findByName(tag);
-            if (tagOptional.isPresent()) {
-                tagEntities.add(tagOptional.get());
-            } else {
-                throw new TagNotFoundException(tag);
-            }
-        }
-        article.setTags(tagEntities);
+//        String[] tags = articleDto.tags().split(",");
+//        List<TagEntity> tagEntities = new ArrayList<>();
+//        for (String tag: tags) {
+//            Optional<TagEntity> tagOptional = tagRepository.findByName(tag);
+//            if (tagOptional.isPresent()) {
+//                tagEntities.add(tagOptional.get());
+//            } else {
+//                throw new TagNotFoundException(tag);
+//            }
+//        }
+//        article.setTags(tagEntities);
 
         return articleRepository
                 .save(article)
