@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import ru.kpfu.itis.kuzmin.skillshare.model.ArticleEntity;
 import ru.kpfu.itis.kuzmin.skillshare.model.UserEntity;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -16,4 +17,5 @@ public interface ArticleSpringRepository extends JpaRepository<ArticleEntity, Lo
 
     @Query("select a.author from ArticleEntity a where a.id = :articleId")
     Optional<UserEntity> findAuthorByArticleId(@Param("articleId") Long articleId);
+
 }

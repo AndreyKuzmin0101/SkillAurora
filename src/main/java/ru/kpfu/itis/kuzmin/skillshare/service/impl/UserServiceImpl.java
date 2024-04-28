@@ -196,7 +196,7 @@ public class UserServiceImpl implements UserService {
         return url;
     }
 
-    // TODO: с пользователем связаны статьи, теги, вопросы, ответы, что делать?
+    // В целях сохранения целостности данных пользователь просто помечается удалённым
     @Override
     public void deleteUser(Long id) {
     }

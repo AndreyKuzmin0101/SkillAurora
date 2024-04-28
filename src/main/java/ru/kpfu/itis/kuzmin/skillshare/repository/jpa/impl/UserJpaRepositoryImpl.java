@@ -15,7 +15,6 @@ public class UserJpaRepositoryImpl implements UserJpaRepository {
     @PersistenceContext
     private EntityManager em;
 
-    //TODO: шифорвание
     @Override
     public void update(UserEntity user) {
         em.merge(user);

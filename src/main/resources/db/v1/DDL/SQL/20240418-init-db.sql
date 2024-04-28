@@ -10,8 +10,10 @@ create table users
     password varchar(64) not null,
     register_date date not null,
     rating bigint not null,
-    profile_image varchar
+    profile_image varchar,
+    is_enabled bool not null default true
 );
+
 
 create table articles
 (
@@ -20,8 +22,11 @@ create table articles
     content varchar not null,
     author_id bigint references users(id) not null,
     publication_date date not null,
-    moderation_status varchar check (moderation_status in ('waiting', 'confirmed', 'rejected')) not null
+    moderation_status varchar check (moderation_status in ('waiting', 'confirmed', 'rejected')) not null,
+    views bigint not null default 0,
+    rating bigint not null default 0
 );
+
 
 create table questions
 (

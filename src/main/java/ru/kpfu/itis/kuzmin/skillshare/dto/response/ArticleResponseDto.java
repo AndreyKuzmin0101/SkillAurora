@@ -4,5 +4,5 @@ import java.sql.Date;
 import java.util.List;
 
 public record ArticleResponseDto(String title, String content, Date publicationDate, String moderationStatus,
-                                 List<TagResponseDto> tags) {
+                                 Long views, Long rating, List<TagResponseDto> tags) {
 }

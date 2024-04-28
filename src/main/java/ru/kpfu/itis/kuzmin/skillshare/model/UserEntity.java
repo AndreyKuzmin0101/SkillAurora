@@ -34,6 +34,7 @@ public class UserEntity {
     private Date registerDate;
     private Integer rating;
     private String profileImage;
+    private Boolean enabled;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

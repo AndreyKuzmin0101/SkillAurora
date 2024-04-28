@@ -26,6 +26,8 @@ public class ArticleEntity {
     private Date publicationDate;
     @Column(name = "moderation_status")
     private String moderationStatus;
+    private Long views;
+    private Long rating;
 
     @ManyToOne
     private UserEntity author;
