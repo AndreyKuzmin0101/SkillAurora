@@ -29,14 +29,7 @@ $(document).ready(function (){
             return;
         }
 
-        let skills = [];
-        $('#selected-tags span').each(function(){
-            // Получаем текст каждого span и выводим его в консоль
-            let spanText = $(this).text();
-            let jsonSkill = {}
-            jsonSkill.name = spanText;
-            skills.push(jsonSkill);
-        });
+        let skills = getTagsFromSelectedTags();
         let json= {
             realName: realName,
             age: age,

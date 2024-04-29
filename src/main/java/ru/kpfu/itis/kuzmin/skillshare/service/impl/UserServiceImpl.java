@@ -83,6 +83,7 @@ public class UserServiceImpl implements UserService {
 
         user.setRegisterDate(new Date(System.currentTimeMillis()));
         user.setRating(0);
+        user.setEnabled(true);
         user.setProfileImage("https://res.cloudinary.com/debjgvnym/image/upload/v1713967470/user.jpg");
 
         user.setSkills(tagService.getListUniqTagEntitiesAndSaveNonExistent(userDto.skills()));
@@ -185,6 +186,7 @@ public class UserServiceImpl implements UserService {
                 .profileImage(profileImage)
                 .rating(user.getRating())
                 .registerDate(user.getRegisterDate())
+                .enabled(user.getEnabled())
                 .build();
         userJpaRepository.update(updatedUser);
     }

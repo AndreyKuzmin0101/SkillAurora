@@ -73,7 +73,7 @@
         <div class="info-item">
             <span>Навыки:</span>
             <span id="skills"><#list user.skills() as skill>
-                <span class="tag-style">${skill.name()}</span>
+            <span class="tag-style">${skill.name()}</span>
             </#list></span>
             <br>
             <button class="edit-btn confirm-btn" data-target="Skills"️ style="margin-top: 5px">Изменить навыки</button>

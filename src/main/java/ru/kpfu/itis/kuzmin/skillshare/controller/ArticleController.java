@@ -2,6 +2,9 @@ package ru.kpfu.itis.kuzmin.skillshare.controller;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +29,7 @@ public class ArticleController {
         return "stream";
     }
 
+
     @GetMapping("/articles/{id}")
     public String getArticleById(@PathVariable("id") String id, Model model) {
         //NumberFormatException
@@ -46,14 +50,16 @@ public class ArticleController {
 
 
     @PostMapping("/create/article")
-    public String create(ArticleRequestDto articleRequestDto) {
+    public ResponseEntity<?> create(@RequestBody ArticleRequestDto articleRequestDto) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Long userId = ((BaseUserDetails) principal).getUser().getId();
         Long articleId = articleService.save(userId, articleRequestDto);
-        return "redirect:/article/%s".formatted(articleId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", "/articles/%s".formatted(articleId));
+        return new ResponseEntity<>(headers, HttpStatus.FOUND);
     }
 
-    // url: /articles/filter?page={page}&size={size}
     @GetMapping("/articles/filter")
     @ResponseBody
     public List<ArticleResponseDto> getPageFilteredArticles (ArticleFilter filter) {

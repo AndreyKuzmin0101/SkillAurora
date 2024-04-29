@@ -20,6 +20,8 @@ create table articles
     id bigserial primary key,
     title varchar(128) unique not null,
     content varchar not null,
+    cover varchar,
+    description varchar(512) not null,
     author_id bigint references users(id) not null,
     publication_date date not null,
     moderation_status varchar check (moderation_status in ('waiting', 'confirmed', 'rejected')) not null,

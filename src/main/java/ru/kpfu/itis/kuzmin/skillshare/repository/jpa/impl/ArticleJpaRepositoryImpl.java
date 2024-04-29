@@ -15,6 +15,8 @@ import ru.kpfu.itis.kuzmin.skillshare.repository.jpa.ArticleJpaRepository;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Repository
 public class ArticleJpaRepositoryImpl implements ArticleJpaRepository {
@@ -24,7 +26,7 @@ public class ArticleJpaRepositoryImpl implements ArticleJpaRepository {
 
 
     @Override
-    public Page<ArticleEntity> findArticlesByFilter(Pageable pageable, Integer ratingThreshold,
+    public Page<ArticleEntity> findArticlesByFilter(Pageable pageable, Long ratingThreshold,
                                                     Date from, Date to, List<TagEntity> tags) {
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<ArticleEntity> query = criteriaBuilder.createQuery(ArticleEntity.class);
@@ -34,12 +36,7 @@ public class ArticleJpaRepositoryImpl implements ArticleJpaRepository {
         Predicate predicateRating = criteriaBuilder.greaterThanOrEqualTo(root.get("rating"), ratingThreshold);
         Predicate predicatePeriod = criteriaBuilder.between(root.get("publicationDate"), from, to);
 
-        CriteriaBuilder.In<TagEntity> inClause = criteriaBuilder.in(root.get("tags"));
-        for (TagEntity tag: tags) {
-            inClause.value(tag);
-        }
-
-        query.select(root).where(predicatePeriod, predicateRating, inClause);
+        query.select(root).where(predicatePeriod, predicateRating);
 
         Sort.Order sortOrder = pageable.getSort().get().findFirst().orElse(null);
         if (sortOrder != null) {
@@ -48,15 +45,28 @@ public class ArticleJpaRepositoryImpl implements ArticleJpaRepository {
         }
 
         List<ArticleEntity> articles = em.createQuery(query).getResultList();
+
+        List<ArticleEntity> articlesByTags = new ArrayList<>();
+        if (tags == null) tags = new ArrayList<>();
+        for (ArticleEntity article: articles) {
+            if ("confirmed".equals(article.getModerationStatus())) {
+                Set<Integer> articleTagIds = article.getTags().stream().map(TagEntity::getId).collect(Collectors.toSet());
+                Set<Integer> argumentTagIds = tags.stream().map(TagEntity::getId).collect(Collectors.toSet());
+                if (articleTagIds.containsAll(argumentTagIds)) {
+                    articlesByTags.add(article);
+                }
+            }
+        }
+
         List<ArticleEntity> subList;
 
         int start = (int) pageable.getOffset();
-        int end = (int) (Math.min((start + pageable.getPageSize()), articles.size()));
+        int end = (Math.min((start + pageable.getPageSize()), articlesByTags.size()));
         if (start < end) {
-            subList = articles.subList(start, end);
+            subList = articlesByTags.subList(start, end);
         } else {
             subList = new ArrayList<>();
         }
-        return new PageImpl<>(subList, pageable, articles.size());
+        return new PageImpl<>(subList, pageable, articlesByTags.size());
     }
 }

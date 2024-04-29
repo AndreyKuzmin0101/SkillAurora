@@ -73,7 +73,7 @@
             </div>
         </div>
         <div class="articles">
-            <!-- Список статей -->
+
         </div>
     </div>
     <script src="js/article-filter.js"></script>

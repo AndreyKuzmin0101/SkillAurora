@@ -22,6 +22,8 @@ public class ArticleEntity {
     @Column(length = 128)
     private String title;
     private String content;
+    private String cover;
+    private String description;
     @Column(name = "publication_date")
     private Date publicationDate;
     @Column(name = "moderation_status")

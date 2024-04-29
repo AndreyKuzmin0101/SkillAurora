@@ -14,8 +14,6 @@ $(document).ready(function() {
             });
         }
     );
-
-
 });
 
 function bind_tag_options() {
@@ -39,3 +37,13 @@ function updateTagList(query) {
 }
 
 
+function getTagsFromSelectedTags() {
+    let skills = [];
+    $('#selected-tags span').each(function(){
+        let spanText = $(this).text();
+        let jsonSkill = {}
+        jsonSkill.name = spanText;
+        skills.push(jsonSkill);
+    });
+    return skills;
+}

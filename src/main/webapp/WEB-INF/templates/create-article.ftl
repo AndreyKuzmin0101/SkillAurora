@@ -15,26 +15,25 @@
     <div class="row justify-content-center">
         <div class="col-lg-8">
             <h2 class="mb-4">Создать новую статью</h2>
-            <form action="/create/article" method="post">
+            <div class="mb-3">
+                <label for="articleTitle" class="form-label">Загаловок</label>
+                <input type="text" class="form-control" id="title" name="title" required>
+            </div>
+            <div class="mb-3">
+                <label for="articleContent" class="form-label">Содержание</label>
+                <textarea class="form-control" id="content" name="content" rows="8" required></textarea>
+            </div>
+            <div class="mb-3">
+                <h5 class="form-label">Теги</h5>
+                <input class="form-control me-2" type="search" placeholder="Поиск тегов" id="tag-search"
+                       style="width: 200px; margin-bottom: 5px;">
+                <div id="selected-tags" style="margin-top: 10px; margin-bottom: 10px;"></div>
                 <div class="mb-3">
-                    <label for="articleTitle" class="form-label">Загаловок</label>
-                    <input type="text" class="form-control" id="articleTitle" name="title" required>
+                    <select multiple class="form-select" id="tag-list">
+                    </select>
                 </div>
-                <div class="mb-3">
-                    <label for="articleContent" class="form-label">Содержание</label>
-                    <textarea class="form-control" id="articleContent" name="content" rows="8"></textarea>
-                </div>
-                <div class="mb-3">
-                    <h5 class="form-label">Теги</h5>
-                    <input class="form-control me-2" type="search" placeholder="Поиск тегов" id="tag-search" style="width: 200px; margin-bottom: 5px;">
-                    <div id="selected-tags" style="margin-top: 10px; margin-bottom: 10px;"></div>
-                    <div class="mb-3">
-                        <select multiple class="form-select" id="tag-list">
-                        </select>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary">Publish</button>
-            </form>
+            </div>
+            <button id="submit-button" class="btn btn-primary">Опубликовать</button>
         </div>
     </div>
 </div>

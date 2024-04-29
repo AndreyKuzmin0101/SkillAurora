@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.kpfu.itis.kuzmin.skillshare.dto.request.ArticleFilter;
 import ru.kpfu.itis.kuzmin.skillshare.dto.request.ArticleRequestDto;
+import ru.kpfu.itis.kuzmin.skillshare.dto.request.TagRequestDto;
 import ru.kpfu.itis.kuzmin.skillshare.dto.response.ArticleResponseDto;
 import ru.kpfu.itis.kuzmin.skillshare.dto.response.UserResponseDto;
 import ru.kpfu.itis.kuzmin.skillshare.exception.alreadyexitsts.ArticleAlreadyExistsException;
@@ -25,10 +26,7 @@ import ru.kpfu.itis.kuzmin.skillshare.service.TagService;
 import ru.kpfu.itis.kuzmin.skillshare.utils.UserProfileUtil;
 
 import java.sql.Date;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -38,12 +36,11 @@ public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleSpringRepository articleSpringRepository;
     private final ArticleJpaRepository articleJpaRepository;
-    private final TagSpringRepository tagRepository;
 
     private final ArticleMapper articleMapper;
     private final UserMapper userMapper;
 
-    //TODO: обновление кол-во просмотров
+    //TODO: обновление кол-во просмотров. запрет доступа другим пользователям, если модерация не пройдена
     @Override
     public ArticleResponseDto getById(Long id) {
         Optional<ArticleEntity> articleOptional = articleSpringRepository.findById(id);
@@ -63,6 +60,8 @@ public class ArticleServiceImpl implements ArticleService {
         ArticleEntity article = articleMapper.toEntity(articleDto);
         article.setPublicationDate(new Date(System.currentTimeMillis()));
         article.setModerationStatus("waiting");
+        article.setRating(0L);
+        article.setViews(0L);
         article.setAuthor(UserEntity.builder().id(authorId).build());
 
         article.setTags(tagService.getListUniqTagEntitiesAndSaveNonExistent(articleDto.tags()));
@@ -84,8 +83,14 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<ArticleResponseDto> getPageFiltered(ArticleFilter filter) {
+        List<TagRequestDto> requestTags;
 
-        List<TagEntity> tags = tagService.getListUniqTagEntitiesAndSaveNonExistent(filter.tags());
+        if (filter.tags() == null) {
+            requestTags = new ArrayList<>();
+        } else {
+            requestTags = filter.tags().stream().map(name -> new TagRequestDto(name, null)).toList();
+        }
+        List<TagEntity> tags = tagService.getListUniqTagEntitiesAndSaveNonExistent(requestTags);
         Pageable pageable = PageRequest.of(filter.page(), filter.size(), Sort.by(filter.showFirst()));
 
         long currentTime = System.currentTimeMillis();
@@ -100,8 +105,10 @@ public class ArticleServiceImpl implements ArticleService {
             from = new Date(currentTime-2_592_000_000L);
         }
 
+        Long ratingThreshold = filter.ratingThreshold() == null ? Long.MIN_VALUE : filter.ratingThreshold();
+
         Page<ArticleEntity> page = articleJpaRepository.findArticlesByFilter(
-                pageable, filter.ratingThreshold(), from, to, tags
+                pageable, ratingThreshold, from, to, tags
         );
 
         if (filter.page() > page.getTotalPages()) {
