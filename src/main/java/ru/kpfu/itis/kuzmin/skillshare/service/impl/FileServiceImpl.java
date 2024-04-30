@@ -5,8 +5,10 @@ import com.cloudinary.utils.ObjectUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import ru.kpfu.itis.kuzmin.skillshare.model.UserEntity;
 import ru.kpfu.itis.kuzmin.skillshare.service.FileService;
 import ru.kpfu.itis.kuzmin.skillshare.utils.CloudinaryUtil;
+import ru.kpfu.itis.kuzmin.skillshare.utils.SecurityUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -18,7 +20,10 @@ import java.io.InputStream;
 public class FileServiceImpl implements FileService {
     private final CloudinaryUtil cloudinaryUtil;
     @Override
-    public String uploadImage(MultipartFile image, String username) throws IOException {
+    public String uploadImage(MultipartFile image) throws IOException {
+        UserEntity currentUser = SecurityUtil.getAuthenticatedUser();
+        String username = currentUser.getUsername();
+
         long currentTimeMillis = System.currentTimeMillis();
         String filename = image.getOriginalFilename();
 

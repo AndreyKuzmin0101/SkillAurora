@@ -112,3 +112,43 @@
     color: white;
     cursor: pointer;
 }
+
+.cover {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.article {
+    background-color: white;
+    border-radius: 10px;
+    color: black;
+    padding: 20px;
+}
+
+.cover, article img {
+    max-width: 800px;
+    max-height: 350px;
+}
+
+.article-profile-mini-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.article-icon-rating {
+    height: 25px;
+}
+
+.article-icon-views {
+    height: 20px;
+    margin-right: 3px;
+}
+
+.article-content {
+    background-color: #ecf0f1;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 10px 100px;
+}

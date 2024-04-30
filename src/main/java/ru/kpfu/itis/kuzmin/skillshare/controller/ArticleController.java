@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.kpfu.itis.kuzmin.skillshare.dto.request.ArticleFilter;
 import ru.kpfu.itis.kuzmin.skillshare.dto.request.ArticleRequestDto;
 import ru.kpfu.itis.kuzmin.skillshare.dto.response.ArticleResponseDto;
+import ru.kpfu.itis.kuzmin.skillshare.dto.response.UrlResponse;
 import ru.kpfu.itis.kuzmin.skillshare.dto.response.UserResponseDto;
 import ru.kpfu.itis.kuzmin.skillshare.security.BaseUserDetails;
 import ru.kpfu.itis.kuzmin.skillshare.service.ArticleService;
@@ -25,7 +26,6 @@ public class ArticleController {
 
     @GetMapping("")
     public String getStream() {
-        // TODO: подготовка модели
         return "stream";
     }
 
@@ -35,11 +35,8 @@ public class ArticleController {
         //NumberFormatException
         Long articleId = Long.parseLong(id);
         ArticleResponseDto articleDto = articleService.getById(articleId);
-        UserResponseDto userDto = articleService.getAuthor(articleId);
 
         model.addAttribute("article", articleDto);
-        model.addAttribute("author", userDto);
-
         return "article";
     }
 
@@ -50,14 +47,12 @@ public class ArticleController {
 
 
     @PostMapping("/create/article")
-    public ResponseEntity<?> create(@RequestBody ArticleRequestDto articleRequestDto) {
+    public UrlResponse create(@RequestBody ArticleRequestDto articleRequestDto) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Long userId = ((BaseUserDetails) principal).getUser().getId();
         Long articleId = articleService.save(userId, articleRequestDto);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Location", "/articles/%s".formatted(articleId));
-        return new ResponseEntity<>(headers, HttpStatus.FOUND);
+        return new UrlResponse("/articles/%s".formatted(articleId));
     }
 
     @GetMapping("/articles/filter")

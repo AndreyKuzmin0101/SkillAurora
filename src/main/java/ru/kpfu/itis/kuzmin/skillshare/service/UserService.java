@@ -17,7 +17,7 @@ public interface UserService {
 
     void updateNotNullFields(Long id, UserRequestDto userDto);
 
-    String updateProfileImage(MultipartFile image, String username) throws IOException;
+    String updateProfileImage(MultipartFile image) throws IOException;
 
     // TODO: с пользователем связаны статьи, теги, вопросы, ответы, что делать?
     void deleteUser(Long id);

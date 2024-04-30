@@ -82,4 +82,23 @@ $(document).ready(function() {
         let targetId = $(this).data('target');
         $('#edit' + targetId).toggle();
     });
+
+    $('#upload-image').click(function() {
+        let formData = new FormData();
+        let fileInput = $('#image-input')[0].files[0];
+        formData.append('upload', fileInput);
+
+        $.ajax({
+            url: '/settings/profile-image',
+            type: 'PUT',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                $('#profile-image').empty();
+                $('#profile-image').append('<img src="' + response.url + '" style="max-width: 230px">');
+            }
+        });
+    });
+
 });

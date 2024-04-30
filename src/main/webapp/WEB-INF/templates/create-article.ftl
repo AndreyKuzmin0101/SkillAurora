@@ -16,12 +16,21 @@
         <div class="col-lg-8">
             <h2 class="mb-4">Создать новую статью</h2>
             <div class="mb-3">
-                <label for="articleTitle" class="form-label">Загаловок</label>
+                <label for="title" class="form-label">Загаловок</label>
                 <input type="text" class="form-control" id="title" name="title" required>
             </div>
             <div class="mb-3">
-                <label for="articleContent" class="form-label">Содержание</label>
+                <label for="content" class="form-label">Содержание</label>
                 <textarea class="form-control" id="content" name="content" rows="8" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Краткое описание статьи</label>
+                <textarea class="form-control" id="description" name="description" rows="8" required></textarea>
+            </div>
+            <div class="mb-3">
+                <div id="cover-preview" class="cover"></div>
+                <input type="file" id="cover-input" accept=".png, .jpg, .jpeg">
+                <button id="upload-cover">Загрузить обложку</button>
             </div>
             <div class="mb-3">
                 <h5 class="form-label">Теги</h5>

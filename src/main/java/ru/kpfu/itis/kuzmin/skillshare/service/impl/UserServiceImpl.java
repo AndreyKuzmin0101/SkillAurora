@@ -24,6 +24,7 @@ import ru.kpfu.itis.kuzmin.skillshare.repository.spring.UserSpringRepository;
 import ru.kpfu.itis.kuzmin.skillshare.service.FileService;
 import ru.kpfu.itis.kuzmin.skillshare.service.TagService;
 import ru.kpfu.itis.kuzmin.skillshare.service.UserService;
+import ru.kpfu.itis.kuzmin.skillshare.utils.SecurityUtil;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -192,9 +193,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String updateProfileImage(MultipartFile image, String username) throws IOException {
-        String url = fileService.uploadImage(image, username);
-        // TODO: обновляем базу
+    public String updateProfileImage(MultipartFile image) throws IOException {
+        String url = fileService.uploadImage(image);
+        UserEntity currentUser = SecurityUtil.getAuthenticatedUser();
+        userSpringRepository.updateProfileImage(currentUser.getId(), url);
         return url;
     }
 

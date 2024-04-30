@@ -11,7 +11,5 @@ public interface ArticleService {
     ArticleResponseDto getById(Long id);
     Long save(Long authorId, ArticleRequestDto articleDto);
 
-    UserResponseDto getAuthor(Long articleId);
-
     List<ArticleResponseDto> getPageFiltered(ArticleFilter filter);
 }

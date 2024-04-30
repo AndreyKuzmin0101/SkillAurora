@@ -19,7 +19,7 @@ public class FileController {
     @Loggable
     @PostMapping("/upload/image")
     public UrlResponse postImage(@RequestParam("upload") MultipartFile image) throws IOException {
-        return new UrlResponse(fileService.uploadImage(image, "TEST"));
+        return new UrlResponse(fileService.uploadImage(image));
     }
 
 }

@@ -103,13 +103,11 @@
         </div>
     </div>
     <div class="profile-img">
-        <img src="${user.profileImage()}" style="width: 220px">
-        <form action="" method="post" enctype="multipart/form-data">
-            <label for="file">Аватарка</label>
-            <input type="file" name="image" id="file" accept=".png, .jpg, .jpeg" title=" ">
-            <br>
-            <input type="submit" value="Загрузить">
-        </form>
+        <div id="profile-image"><img src="${user.profileImage()}" style="width: 230px"></div>
+        <label for="image-input">Аватарка</label>
+        <input type="file" name="image" id="image-input" accept=".png, .jpg, .jpeg" title=" ">
+        <br>
+        <button style="margin-top: 10px" id="upload-image">Загрузить</button>
     </div>
     <script src="/js/settings.js"></script>
 </#macro>

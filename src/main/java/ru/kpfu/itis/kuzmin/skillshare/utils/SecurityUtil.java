@@ -7,6 +7,7 @@ import ru.kpfu.itis.kuzmin.skillshare.security.BaseUserDetails;
 
 public class SecurityUtil {
 
+    // TODO: статус в случае ошибки
     public static UserEntity getAuthenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 

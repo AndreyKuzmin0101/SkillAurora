@@ -45,6 +45,8 @@ public class ArticleServiceImpl implements ArticleService {
     public ArticleResponseDto getById(Long id) {
         Optional<ArticleEntity> articleOptional = articleSpringRepository.findById(id);
         if (articleOptional.isPresent()) {
+            ArticleEntity article = articleOptional.get();
+            article.setAuthor(UserProfileUtil.processUser(article.getAuthor()));
             return articleMapper.toResponse(articleOptional.get());
         } else {
             throw new ArticleNotFoundException(id);
@@ -71,15 +73,6 @@ public class ArticleServiceImpl implements ArticleService {
                 .getId();
     }
 
-    @Override
-    public UserResponseDto getAuthor(Long articleId) {
-        Optional<UserEntity> optionalUser = articleSpringRepository.findAuthorByArticleId(articleId);
-        if (optionalUser.isPresent()) {
-            UserEntity user = optionalUser.get();
-            return userMapper.toResponse(UserProfileUtil.processUser(user));
-        }
-        return null;
-    }
 
     @Override
     public List<ArticleResponseDto> getPageFiltered(ArticleFilter filter) {
@@ -115,6 +108,9 @@ public class ArticleServiceImpl implements ArticleService {
             throw new ArticleNotFoundException();
         }
 
-        return page.stream().map(articleMapper::toResponse).toList();
+        return page.stream()
+                .peek(articleEntity ->
+                        articleEntity.setAuthor(UserProfileUtil.processUser(articleEntity.getAuthor()))
+                ).map(articleMapper::toResponse).toList();
     }
 }

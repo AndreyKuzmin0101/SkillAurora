@@ -27,13 +27,37 @@ window.editor = editor;
 
 $(document).ready(function() {
 
+	let cover;
+
+	$('#upload-cover').click(function() {
+		let formData = new FormData();
+		let fileInput = $('#cover-input')[0].files[0];
+		formData.append('upload', fileInput);
+
+		$.ajax({
+			url: '/upload/image',
+			type: 'POST',
+			data: formData,
+			processData: false,
+			contentType: false,
+			success: function(response) {
+				cover = response.url;
+				$('#cover-preview').empty();
+				$('#cover-preview').append('<img src="' + cover + '">');
+			}
+		});
+	});
+
 	$('#submit-button').on('click', function () {
 		let title = $('#title').val();
 		let content = window.editor.getData();
+		let description = $('#description').val();
 		let tags = getTagsFromSelectedTags();
 		let json= {
 			title: title,
 			content: content,
+			description: description,
+			cover: cover,
 			tags: tags
 		}
 		let jsonString = JSON.stringify(json);

@@ -35,8 +35,10 @@ public class ArticleJpaRepositoryImpl implements ArticleJpaRepository {
 
         Predicate predicateRating = criteriaBuilder.greaterThanOrEqualTo(root.get("rating"), ratingThreshold);
         Predicate predicatePeriod = criteriaBuilder.between(root.get("publicationDate"), from, to);
+        Predicate predicateStatus = criteriaBuilder.equal(root.get("moderationStatus"), "confirmed");
 
-        query.select(root).where(predicatePeriod, predicateRating);
+
+        query.select(root).where(predicatePeriod, predicateRating, predicateStatus);
 
         Sort.Order sortOrder = pageable.getSort().get().findFirst().orElse(null);
         if (sortOrder != null) {
@@ -48,13 +50,11 @@ public class ArticleJpaRepositoryImpl implements ArticleJpaRepository {
 
         List<ArticleEntity> articlesByTags = new ArrayList<>();
         if (tags == null) tags = new ArrayList<>();
-        for (ArticleEntity article: articles) {
-            if ("confirmed".equals(article.getModerationStatus())) {
-                Set<Integer> articleTagIds = article.getTags().stream().map(TagEntity::getId).collect(Collectors.toSet());
-                Set<Integer> argumentTagIds = tags.stream().map(TagEntity::getId).collect(Collectors.toSet());
-                if (articleTagIds.containsAll(argumentTagIds)) {
-                    articlesByTags.add(article);
-                }
+        for (ArticleEntity article : articles) {
+            Set<Integer> articleTagIds = article.getTags().stream().map(TagEntity::getId).collect(Collectors.toSet());
+            Set<Integer> argumentTagIds = tags.stream().map(TagEntity::getId).collect(Collectors.toSet());
+            if (articleTagIds.containsAll(argumentTagIds)) {
+                articlesByTags.add(article);
             }
         }
 

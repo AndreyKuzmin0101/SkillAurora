@@ -11,26 +11,26 @@
             <h2>Фильтр</h2>
             <div class="search">
                 <input type="text" placeholder="Поиск...">
-                <button class="btn btn-outline-success">Найти</button>
+                <button id="find-button" class="btn btn-outline-success">Найти</button>
             </div>
             <div class="article-filter">
                 <h3>Сначала показывать</h3>
-                <ul>
+                <ul id="show-first">
                     <li>
-                        <input type="radio" name="articleFilter" value="new" checked> Новые
+                        <input type="radio" value="publicationDate" name="articleFilter" checked> Новые
                     </li>
                     <li>
-                        <input type="radio" name="articleFilter" value="popular"> Популярные
+                        <input type="radio" name="articleFilter" value="rating"> Популярные
                     </li>
                 </ul>
                 <div id="rating-threshold">
                     <h4>Порог рейтинга</h4>
-                    <ul>
+                    <ul id="rating-threshold">
                         <li>
                             <input type="radio" name="rating-input" value="all" checked> Все
                         </li>
                         <li>
-                            <input type="radio" name="rating-input" value="10"> ≥ 0
+                            <input type="radio" name="rating-input" value="0"> ≥ 0
                         </li>
                         <li>
                             <input type="radio" name="rating-input" value="10"> ≥ 10
@@ -48,7 +48,10 @@
                 </div>
                 <div id="period-popular">
                     <h4>Период</h4>
-                    <ul>
+                    <ul id="period">
+                        <li>
+                            <input type="radio" name="period-input" value="all" checked> Всё время
+                        </li>
                         <li>
                             <input type="radio" name="period-input" value="day"> Сутки
                         </li>
@@ -57,9 +60,6 @@
                         </li>
                         <li>
                             <input type="radio" name="period-input" value="month"> Месяц
-                        </li>
-                        <li>
-                            <input type="radio" name="period-input" value="all"> Всё время
                         </li>
                     </ul>
                 </div>
@@ -72,8 +72,7 @@
                 </div>
             </div>
         </div>
-        <div class="articles">
-
+        <div id="articles-stream" class="articles">
         </div>
     </div>
     <script src="js/article-filter.js"></script>
