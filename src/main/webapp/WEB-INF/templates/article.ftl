@@ -26,7 +26,9 @@
             ${article.content()}
         </div>
         <div>
-            <img class="article-icon-rating" src="/images/rating.png"><strong style="color: gray">${article.rating()}</strong>
+            <img class="article-icon-rating" src="/images/rating.png"><strong id="rating" style="color: gray;">${article.rating()}</strong>
+            <button id="plus-btn" class="btn"><img class="article-icon-rating" src="/images/plus.png"></button>
+            <button id="minus-btn" class="btn"><img class="article-icon-rating" src="/images/minus.png"></button>
         </div>
     </div>
 

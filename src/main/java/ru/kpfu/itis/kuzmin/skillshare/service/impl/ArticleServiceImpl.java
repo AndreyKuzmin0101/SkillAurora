@@ -20,6 +20,7 @@ import ru.kpfu.itis.kuzmin.skillshare.model.TagEntity;
 import ru.kpfu.itis.kuzmin.skillshare.model.UserEntity;
 import ru.kpfu.itis.kuzmin.skillshare.repository.jpa.ArticleJpaRepository;
 import ru.kpfu.itis.kuzmin.skillshare.repository.spring.ArticleSpringRepository;
+import ru.kpfu.itis.kuzmin.skillshare.repository.spring.RatingSpringRepository;
 import ru.kpfu.itis.kuzmin.skillshare.repository.spring.TagSpringRepository;
 import ru.kpfu.itis.kuzmin.skillshare.service.ArticleService;
 import ru.kpfu.itis.kuzmin.skillshare.service.TagService;
@@ -35,6 +36,7 @@ public class ArticleServiceImpl implements ArticleService {
     private final TagService tagService;
 
     private final ArticleSpringRepository articleSpringRepository;
+    private final RatingSpringRepository ratingSpringRepository;
     private final ArticleJpaRepository articleJpaRepository;
 
     private final ArticleMapper articleMapper;
@@ -47,6 +49,9 @@ public class ArticleServiceImpl implements ArticleService {
         if (articleOptional.isPresent()) {
             ArticleEntity article = articleOptional.get();
             article.setAuthor(UserProfileUtil.processUser(article.getAuthor()));
+            article.setRating(
+                    ratingSpringRepository.sumRatingByArticleId(article.getId())
+            );
             return articleMapper.toResponse(articleOptional.get());
         } else {
             throw new ArticleNotFoundException(id);
@@ -62,7 +67,6 @@ public class ArticleServiceImpl implements ArticleService {
         ArticleEntity article = articleMapper.toEntity(articleDto);
         article.setPublicationDate(new Date(System.currentTimeMillis()));
         article.setModerationStatus("waiting");
-        article.setRating(0L);
         article.setViews(0L);
         article.setAuthor(UserEntity.builder().id(authorId).build());
 
@@ -109,8 +113,12 @@ public class ArticleServiceImpl implements ArticleService {
         }
 
         return page.stream()
-                .peek(articleEntity ->
-                        articleEntity.setAuthor(UserProfileUtil.processUser(articleEntity.getAuthor()))
+                .peek(articleEntity -> {
+                            articleEntity.setAuthor(UserProfileUtil.processUser(articleEntity.getAuthor()));
+                            articleEntity.setRating(
+                                    ratingSpringRepository.sumRatingByArticleId(articleEntity.getId())
+                            );
+                        }
                 ).map(articleMapper::toResponse).toList();
     }
 }

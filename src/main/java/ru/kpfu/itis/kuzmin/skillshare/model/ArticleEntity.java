@@ -1,10 +1,7 @@
 package ru.kpfu.itis.kuzmin.skillshare.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.sql.Date;
 import java.util.List;
@@ -15,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 public class ArticleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +27,7 @@ public class ArticleEntity {
     @Column(name = "moderation_status")
     private String moderationStatus;
     private Long views;
+    @Transient
     private Long rating;
 
     @ManyToOne

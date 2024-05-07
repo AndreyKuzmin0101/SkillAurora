@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import ru.kpfu.itis.kuzmin.skillshare.model.ArticleEntity;
+import ru.kpfu.itis.kuzmin.skillshare.model.RatingEntity;
 import ru.kpfu.itis.kuzmin.skillshare.model.TagEntity;
 import ru.kpfu.itis.kuzmin.skillshare.repository.jpa.ArticleJpaRepository;
 
@@ -33,7 +34,13 @@ public class ArticleJpaRepositoryImpl implements ArticleJpaRepository {
 
         Root<ArticleEntity> root = query.from(ArticleEntity.class);
 
-        Predicate predicateRating = criteriaBuilder.greaterThanOrEqualTo(root.get("rating"), ratingThreshold);
+        Subquery<Long> subquery = query.subquery(Long.class);
+        Root<RatingEntity> subRoot = subquery.from(RatingEntity.class);
+        Expression<Long> ratingValueSum = criteriaBuilder.sum(subRoot.get("ratingValue"));
+        subquery.select(criteriaBuilder.coalesce(ratingValueSum, 0L));
+        subquery.where(criteriaBuilder.equal(subRoot.get("article"), root));
+        Predicate predicateRating = criteriaBuilder.greaterThanOrEqualTo(subquery, ratingThreshold);
+
         Predicate predicatePeriod = criteriaBuilder.between(root.get("publicationDate"), from, to);
         Predicate predicateStatus = criteriaBuilder.equal(root.get("moderationStatus"), "confirmed");
 

@@ -1,7 +1,10 @@
 databaseChangeLog:
   - include:
-      file: DDL/20231211-add-extension.yml
+      file: DDL/20231211-init-db.yml
       relativeToChangelogFile: true
   - include:
-      file: DDL/20231211-init-db.yml
+      file: DDL/20240427-create-table.yml
+      relativeToChangelogFile: true
+  - include:
+      file: DDL/20240507-add-rating.yml
       relativeToChangelogFile: true
