@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: '1'
+      author: aakuzmin
+      changes:
+        - sqlFile:
+            path: SQL/20240508-add-question-fields-and-answer-mark.sql
+            relativeToChangelogFile: true

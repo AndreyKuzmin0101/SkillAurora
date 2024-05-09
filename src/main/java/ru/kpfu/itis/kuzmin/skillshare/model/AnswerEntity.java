@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Date;
+
 @Table(name = "answers")
 @Entity
 @AllArgsConstructor
@@ -18,10 +20,14 @@ public class AnswerEntity {
     private Long id;
     private String content;
     @Column(name = "created_date")
-    private String createdDate;
+    private Date createdDate;
+    @Column(name = "best_answer")
+    private Boolean bestAnswer;
 
     @ManyToOne
     private UserEntity author;
+
     @ManyToOne
+    @JoinColumn(name = "question_id")
     private QuestionEntity question;
 }

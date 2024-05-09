@@ -16,6 +16,7 @@ import ru.kpfu.itis.kuzmin.skillshare.dto.response.UrlResponse;
 import ru.kpfu.itis.kuzmin.skillshare.dto.response.UserResponseDto;
 import ru.kpfu.itis.kuzmin.skillshare.security.BaseUserDetails;
 import ru.kpfu.itis.kuzmin.skillshare.service.ArticleService;
+import ru.kpfu.itis.kuzmin.skillshare.utils.SecurityUtil;
 
 import java.util.List;
 
@@ -48,8 +49,7 @@ public class ArticleController {
 
     @PostMapping("/create/article")
     public UrlResponse create(@RequestBody ArticleRequestDto articleRequestDto) {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Long userId = ((BaseUserDetails) principal).getUser().getId();
+        Long userId = SecurityUtil.getAuthenticatedUser().getId();
         Long articleId = articleService.save(userId, articleRequestDto);
 
         return new UrlResponse("/articles/%s".formatted(articleId));

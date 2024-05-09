@@ -1,4 +1,6 @@
 package ru.kpfu.itis.kuzmin.skillshare.dto.response;
 
-public record AnswerResponseDto(String content, String createdDate) {
+import java.sql.Date;
+
+public record AnswerResponseDto(String content, Date createdDate, UserResponseDto author, Boolean bestAnswer) {
 }

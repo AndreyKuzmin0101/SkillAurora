@@ -152,3 +152,34 @@
     border-radius: 10px;
     margin: 10px 100px;
 }
+
+.stream-header button {
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.question {
+    padding: 20px;
+    background-color: white;
+    color: black;
+    margin: 1px;
+}
+
+.question-stats {
+    display: inline-block;
+    width: 20%;
+}
+
+.question-info {
+    display: inline-block;
+    width: 79%;
+}
+
+.question-author-info {
+    display: flex;
+    justify-content: right;
+}

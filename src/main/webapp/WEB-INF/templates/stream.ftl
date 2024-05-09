@@ -10,7 +10,7 @@
         <div class="filter">
             <h2>Фильтр</h2>
             <div class="search">
-                <input type="text" placeholder="Поиск...">
+                <input id="search" type="text" placeholder="Поиск...">
                 <button id="find-button" class="btn btn-outline-success">Найти</button>
             </div>
             <div class="article-filter">

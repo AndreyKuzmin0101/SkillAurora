@@ -23,6 +23,8 @@ function update_stream() {
     let options = '';
     options += 'page=0&size=10&'
 
+    let search = $('#search').val();
+    options += 'search=' + search + '&';
     let show_first = $('#show-first input[type="radio"]:checked').val();
     options += 'showFirst=' + show_first + '&';
     let rating_threshold = $('#rating-threshold input[type="radio"]:checked').val();

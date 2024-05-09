@@ -27,7 +27,7 @@ public class ArticleJpaRepositoryImpl implements ArticleJpaRepository {
 
 
     @Override
-    public Page<ArticleEntity> findArticlesByFilter(Pageable pageable, Long ratingThreshold,
+    public Page<ArticleEntity> findArticlesByFilter(Pageable pageable, String search, Long ratingThreshold,
                                                     Date from, Date to, List<TagEntity> tags) {
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<ArticleEntity> query = criteriaBuilder.createQuery(ArticleEntity.class);
@@ -44,8 +44,12 @@ public class ArticleJpaRepositoryImpl implements ArticleJpaRepository {
         Predicate predicatePeriod = criteriaBuilder.between(root.get("publicationDate"), from, to);
         Predicate predicateStatus = criteriaBuilder.equal(root.get("moderationStatus"), "confirmed");
 
+        if (search == null) search = "";
+        search = search.toLowerCase();
+        Predicate predicateSearch = criteriaBuilder.like(criteriaBuilder.lower(root.get("title")), "%" + search + "%");
 
-        query.select(root).where(predicatePeriod, predicateRating, predicateStatus);
+
+        query.select(root).where(predicatePeriod, predicateRating, predicateStatus, predicateSearch);
 
         Sort.Order sortOrder = pageable.getSort().get().findFirst().orElse(null);
         if (sortOrder != null) {

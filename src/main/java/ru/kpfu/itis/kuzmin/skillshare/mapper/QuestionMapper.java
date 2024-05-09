@@ -12,6 +12,7 @@ import ru.kpfu.itis.kuzmin.skillshare.model.UserEntity;
 @Mapper(componentModel = "spring")
 public interface QuestionMapper {
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "tags", ignore = true)
     QuestionEntity toEntity(QuestionRequestDto questionRequest);
 
     QuestionResponseDto toResponse(QuestionEntity questionEntity);

@@ -24,7 +24,7 @@
 <nav>
     <ul>
         <li><a href="">Поток</a></li>
-        <li><a href="#">Вопросы</a></li>
+        <li><a href="/questions">Вопросы</a></li>
         <li><a href="#">Вакансии</a></li>
         <li><a href="#">Резюме</a></li>
         <li><a href="#">Модерация</a></li>

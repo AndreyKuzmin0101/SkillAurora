@@ -105,7 +105,7 @@ public class ArticleServiceImpl implements ArticleService {
         Long ratingThreshold = filter.ratingThreshold() == null ? Long.MIN_VALUE : filter.ratingThreshold();
 
         Page<ArticleEntity> page = articleJpaRepository.findArticlesByFilter(
-                pageable, ratingThreshold, from, to, tags
+                pageable, filter.search().toLowerCase(), ratingThreshold, from, to, tags
         );
 
         if (filter.page() > page.getTotalPages()) {

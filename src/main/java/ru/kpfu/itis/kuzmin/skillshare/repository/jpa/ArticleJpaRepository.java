@@ -9,6 +9,6 @@ import java.sql.Date;
 import java.util.List;
 
 public interface ArticleJpaRepository {
-    Page<ArticleEntity> findArticlesByFilter(Pageable pageable, Long ratingThreshold,
+    Page<ArticleEntity> findArticlesByFilter(Pageable pageable, String search, Long ratingThreshold,
                                              Date from, Date to, List<TagEntity> tags);
 }
