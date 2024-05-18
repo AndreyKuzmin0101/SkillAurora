@@ -8,7 +8,7 @@ import ru.kpfu.itis.kuzmin.skillshare.dto.request.UserRequestDto;
 import ru.kpfu.itis.kuzmin.skillshare.dto.response.UserResponseDto;
 import ru.kpfu.itis.kuzmin.skillshare.model.UserEntity;
 import ru.kpfu.itis.kuzmin.skillshare.service.UserService;
-import ru.kpfu.itis.kuzmin.skillshare.utils.SecurityUtil;
+import ru.kpfu.itis.kuzmin.skillshare.security.util.SecurityUtil;
 
 import java.util.List;
 
@@ -16,6 +16,7 @@ import java.util.List;
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 public class UserController {
+
     private final UserService userService;
 
     @GetMapping("/{id}")
@@ -49,10 +50,19 @@ public class UserController {
         userService.deleteUser(id);
     }
 
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/me/profile")
+    public UserResponseDto getProfileData() {
+        Long userId = SecurityUtil.getIdAuthenticatedUser();
+        return userService.getUserById(userId);
+    }
+
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/me/profile-image")
     public String getCurrentUserProfileImage() {
-        UserEntity user = SecurityUtil.getAuthenticatedUser();
-        return user.getProfileImage();
+        Long userId = SecurityUtil.getIdAuthenticatedUser();
+        UserResponseDto currentUser = userService.getUserById(userId);
+        return currentUser.profileImage();
     }
 }

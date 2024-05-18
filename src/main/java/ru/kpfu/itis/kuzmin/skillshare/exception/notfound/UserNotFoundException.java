@@ -6,7 +6,7 @@ public class UserNotFoundException extends NotFoundServiceException {
         super("User with id = %s - not found".formatted(id));
     }
 
-    public UserNotFoundException(String email) {
-        super("User with email = %s - not found".formatted(email));
+    public UserNotFoundException(String msg) {
+        super(msg);
     }
 }

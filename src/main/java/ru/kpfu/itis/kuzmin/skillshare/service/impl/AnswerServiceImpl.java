@@ -2,6 +2,7 @@ package ru.kpfu.itis.kuzmin.skillshare.service.impl;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import ru.kpfu.itis.kuzmin.skillshare.dto.request.AnswerRequestDto;
 import ru.kpfu.itis.kuzmin.skillshare.dto.response.AnswerResponseDto;
@@ -15,8 +16,9 @@ import ru.kpfu.itis.kuzmin.skillshare.model.QuestionStatus;
 import ru.kpfu.itis.kuzmin.skillshare.model.UserEntity;
 import ru.kpfu.itis.kuzmin.skillshare.repository.spring.AnswerSpringRepository;
 import ru.kpfu.itis.kuzmin.skillshare.repository.spring.QuestionSpringRepository;
+import ru.kpfu.itis.kuzmin.skillshare.security.exception.AuthorizationException;
 import ru.kpfu.itis.kuzmin.skillshare.service.AnswerService;
-import ru.kpfu.itis.kuzmin.skillshare.utils.SecurityUtil;
+import ru.kpfu.itis.kuzmin.skillshare.security.util.SecurityUtil;
 import ru.kpfu.itis.kuzmin.skillshare.utils.UserProfileUtil;
 
 import java.sql.Date;
@@ -62,7 +64,9 @@ public class AnswerServiceImpl implements AnswerService {
         AnswerEntity answer = answerMapper.toEntity(answerDto);
         answer.setCreatedDate(new Date(System.currentTimeMillis()));
 
-        UserEntity author = SecurityUtil.getAuthenticatedUser();
+        UserEntity author = UserEntity.builder()
+                .id(SecurityUtil.getIdAuthenticatedUser())
+                .build();
         answer.setAuthor(author);
 
         answer.setBestAnswer(false);
@@ -77,23 +81,28 @@ public class AnswerServiceImpl implements AnswerService {
         Optional<AnswerEntity> optionalAnswer = answerRepository.findById(answerId);
         if (optionalAnswer.isPresent()) {
             AnswerEntity answer = optionalAnswer.get();
-
             QuestionEntity question = answer.getQuestion();
-            Optional<AnswerEntity> optionalBestAnswer = answerRepository.findByQuestionAndBestAnswerTrue(question);
-            if (optionalBestAnswer.isPresent()) {
-                AnswerEntity bestAnswer = optionalBestAnswer.get();
-                bestAnswer.setBestAnswer(false);
-                answerRepository.save(bestAnswer);
+
+            Long userId = SecurityUtil.getIdAuthenticatedUser();
+
+            if (question.getAuthor().getId().equals(userId)) {
+                Optional<AnswerEntity> optionalBestAnswer = answerRepository.findByQuestionAndBestAnswerTrue(question);
+                if (optionalBestAnswer.isPresent()) {
+                    AnswerEntity bestAnswer = optionalBestAnswer.get();
+                    bestAnswer.setBestAnswer(false);
+                    answerRepository.save(bestAnswer);
+                }
+
+                answer.setBestAnswer(true);
+                answerRepository.save(answer);
+
+                question.setStatus(QuestionStatus.RESOLVED);
+                questionRepository.save(question);
+            } else {
+                throw new AuthorizationException("You are not author of question");
             }
-
-            answer.setBestAnswer(true);
-            answerRepository.save(answer);
-
-            question.setStatus(QuestionStatus.RESOLVED);
-            questionRepository.save(question);
         } else {
             throw new AnswerNotFoundException(answerId);
-
         }
     }
 
@@ -102,12 +111,18 @@ public class AnswerServiceImpl implements AnswerService {
         Optional<AnswerEntity> optionalAnswer = answerRepository.findById(answerId);
         if (optionalAnswer.isPresent()) {
             AnswerEntity answer = optionalAnswer.get();
-            answer.setBestAnswer(false);
-            answerRepository.save(answer);
-
             QuestionEntity question = answer.getQuestion();
-            question.setStatus(QuestionStatus.OPEN);
-            questionRepository.save(question);
+
+            Long userId = SecurityUtil.getIdAuthenticatedUser();
+            if (question.getAuthor().getId().equals(userId)) {
+                answer.setBestAnswer(false);
+                answerRepository.save(answer);
+
+                question.setStatus(QuestionStatus.OPEN);
+                questionRepository.save(question);
+            } else {
+                throw new AuthorizationException("You are not author of question");
+            }
         } else {
             throw new AnswerNotFoundException(answerId);
         }

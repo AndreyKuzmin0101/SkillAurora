@@ -4,14 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.kpfu.itis.kuzmin.skillshare.dto.request.ChatRequestDto;
 import ru.kpfu.itis.kuzmin.skillshare.dto.response.ChatResponseDto;
-import ru.kpfu.itis.kuzmin.skillshare.exception.notfound.ChatNotFoundException;
 import ru.kpfu.itis.kuzmin.skillshare.exception.notfound.UserNotFoundException;
 import ru.kpfu.itis.kuzmin.skillshare.model.ChatEntity;
 import ru.kpfu.itis.kuzmin.skillshare.model.UserEntity;
 import ru.kpfu.itis.kuzmin.skillshare.repository.spring.ChatSpringRepository;
 import ru.kpfu.itis.kuzmin.skillshare.repository.spring.UserSpringRepository;
 import ru.kpfu.itis.kuzmin.skillshare.service.ChatService;
-import ru.kpfu.itis.kuzmin.skillshare.utils.SecurityUtil;
+import ru.kpfu.itis.kuzmin.skillshare.security.util.SecurityUtil;
 
 import java.util.Optional;
 
@@ -25,7 +24,9 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public Long create(ChatRequestDto chatRequestDto) {
-        UserEntity firstUser = SecurityUtil.getAuthenticatedUser();
+        UserEntity firstUser = UserEntity.builder()
+                .id(SecurityUtil.getIdAuthenticatedUser())
+                .build();
         Optional<UserEntity> optionalSecondUser = userSpringRepository.findById(chatRequestDto.secondUserId());
 
         if (optionalSecondUser.isPresent()) {

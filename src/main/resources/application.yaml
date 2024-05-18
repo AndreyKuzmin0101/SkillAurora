@@ -32,3 +32,10 @@ cloudinary:
   cloud_name: debjgvnym
   api_key: 364164765398895
   api_secret: mIIkpEjFGlusCjSM8ccwQM1AjyY
+
+jwt:
+  expiration.access.millis: 600000
+  secret: Q3rEz8QVq8mV/pcRTV+NRDM7ylWjMRsadnpsZr8tcFUWQooHakzf5KzD48VfEAmcjIAXbSTHv89uSzcC5yAsyw==
+
+rt:
+  expiration.access.millis: 2419200000

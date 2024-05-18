@@ -5,7 +5,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
+import ru.kpfu.itis.kuzmin.skillshare.dto.Roles;
 import ru.kpfu.itis.kuzmin.skillshare.dto.request.ArticleFilter;
 import ru.kpfu.itis.kuzmin.skillshare.dto.request.ArticleRequestDto;
 import ru.kpfu.itis.kuzmin.skillshare.dto.request.TagRequestDto;
@@ -22,12 +24,16 @@ import ru.kpfu.itis.kuzmin.skillshare.repository.jpa.ArticleJpaRepository;
 import ru.kpfu.itis.kuzmin.skillshare.repository.spring.ArticleSpringRepository;
 import ru.kpfu.itis.kuzmin.skillshare.repository.spring.RatingSpringRepository;
 import ru.kpfu.itis.kuzmin.skillshare.repository.spring.TagSpringRepository;
+import ru.kpfu.itis.kuzmin.skillshare.security.JwtTokenAuthentication;
+import ru.kpfu.itis.kuzmin.skillshare.security.exception.AuthenticationHeaderException;
+import ru.kpfu.itis.kuzmin.skillshare.security.util.SecurityUtil;
 import ru.kpfu.itis.kuzmin.skillshare.service.ArticleService;
 import ru.kpfu.itis.kuzmin.skillshare.service.TagService;
 import ru.kpfu.itis.kuzmin.skillshare.utils.UserProfileUtil;
 
 import java.sql.Date;
 import java.util.*;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -43,6 +49,9 @@ public class ArticleServiceImpl implements ArticleService {
     private final UserMapper userMapper;
 
     //TODO: обновление кол-во просмотров. запрет доступа другим пользователям, если модерация не пройдена
+
+    //TODO: как отделить логику от безопасности
+    //TODO: лучше один админский эндпоинт и один для пользователей или совмещать?
     @Override
     public ArticleResponseDto getById(Long id) {
         Optional<ArticleEntity> articleOptional = articleSpringRepository.findById(id);
@@ -52,10 +61,29 @@ public class ArticleServiceImpl implements ArticleService {
             article.setRating(
                     ratingSpringRepository.sumRatingByArticleId(article.getId())
             );
-            return articleMapper.toResponse(articleOptional.get());
-        } else {
-            throw new ArticleNotFoundException(id);
+            ArticleResponseDto articleDto = articleMapper.toResponse(articleOptional.get());
+
+            if (!Objects.equals(article.getModerationStatus(), "confirmed")) {
+                JwtTokenAuthentication authentication;
+                try {
+                    authentication = SecurityUtil.getJwtTokenAuthentication();
+                    if (authentication.getUserId().equals(article.getAuthor().getId())) {
+                        return articleDto;
+                    } else {
+                        Stream<String> roles = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority);
+                        List<String> resolved = List.of(Roles.ADMIN.getFullName(), Roles.MODER.getFullName());
+                        if (roles.anyMatch(resolved::contains)) {
+                            return articleDto;
+                        }
+                    }
+                } catch (AuthenticationHeaderException e) {
+                    throw new ArticleNotFoundException(id);
+                }
+            } else {
+                return articleDto;
+            }
         }
+        throw new ArticleNotFoundException(id);
     }
 
     @Override

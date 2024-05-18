@@ -1,14 +1,14 @@
 package ru.kpfu.itis.kuzmin.skillshare.service.impl;
 
-import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.kpfu.itis.kuzmin.skillshare.model.UserEntity;
+import ru.kpfu.itis.kuzmin.skillshare.repository.spring.UserSpringRepository;
 import ru.kpfu.itis.kuzmin.skillshare.service.FileService;
 import ru.kpfu.itis.kuzmin.skillshare.utils.CloudinaryUtil;
-import ru.kpfu.itis.kuzmin.skillshare.utils.SecurityUtil;
+import ru.kpfu.itis.kuzmin.skillshare.security.util.SecurityUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -18,10 +18,14 @@ import java.io.InputStream;
 @Service
 @RequiredArgsConstructor
 public class FileServiceImpl implements FileService {
+
+    private final UserSpringRepository userSpringRepository;
+
     private final CloudinaryUtil cloudinaryUtil;
+
     @Override
     public String uploadImage(MultipartFile image) throws IOException {
-        UserEntity currentUser = SecurityUtil.getAuthenticatedUser();
+        UserEntity currentUser = userSpringRepository.findById(SecurityUtil.getIdAuthenticatedUser()).get();
         String username = currentUser.getUsername();
 
         long currentTimeMillis = System.currentTimeMillis();

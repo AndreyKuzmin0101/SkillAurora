@@ -10,30 +10,32 @@ import ru.kpfu.itis.kuzmin.skillshare.service.AnswerService;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/v1/answers")
 @RequiredArgsConstructor
 public class AnswerController {
 
     private final AnswerService answerService;
 
-    @GetMapping("/answers/{question-id}")
+    @GetMapping("/{question-id}")
     @ResponseStatus(HttpStatus.OK)
     public List<AnswerResponseDto> getAnswersToQuestion(@PathVariable("question-id") Long questionId) {
         return answerService.getAllByQuestionId(questionId);
     }
 
-    @PutMapping("/answers/{answer-id}/mark")
+
+    @PutMapping("/{answer-id}/mark")
     @ResponseStatus(HttpStatus.OK)
     public void markAnswerAsTheBest(@PathVariable("answer-id") Long answerId) {
         answerService.markAsTheBest(answerId);
     }
 
-    @PutMapping("/answers/{answer-id}/unmark")
+    @PutMapping("/{answer-id}/unmark")
     @ResponseStatus(HttpStatus.OK)
     public void unmarkAnswer(@PathVariable("answer-id") Long answerId) {
         answerService.unmarkTheBest(answerId);
     }
 
-    @PostMapping("/create/answer/{question-id}")
+    @PostMapping("/create/{question-id}")
     @ResponseStatus(HttpStatus.CREATED)
     public Long postAnswer(@PathVariable("question-id") Long questionId, AnswerRequestDto answerRequest) {
         return answerService.save(questionId, answerRequest);

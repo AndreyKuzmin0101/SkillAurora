@@ -11,3 +11,7 @@ databaseChangeLog:
   - include:
       file: DDL/20240508-add-question-fields-and-answer-mark.yml
       relativeToChangelogFile: true
+  - include:
+      file: DDL/20240512-add-refresh-tokens.yml
+      relativeToChangelogFile: true
+

@@ -9,7 +9,7 @@ import ru.kpfu.itis.kuzmin.skillshare.model.UserEntity;
 import ru.kpfu.itis.kuzmin.skillshare.repository.spring.ArticleSpringRepository;
 import ru.kpfu.itis.kuzmin.skillshare.repository.spring.RatingSpringRepository;
 import ru.kpfu.itis.kuzmin.skillshare.service.RatingService;
-import ru.kpfu.itis.kuzmin.skillshare.utils.SecurityUtil;
+import ru.kpfu.itis.kuzmin.skillshare.security.util.SecurityUtil;
 
 import java.util.Optional;
 
@@ -33,7 +33,7 @@ public class RatingServiceImpl implements RatingService {
     public Integer getRatingByCurrUserForArticle(Long articleId) {
         Optional<ArticleEntity> optionalArticle = articleSpringRepository.findById(articleId);
         if (optionalArticle.isPresent()) {
-            Long userId = SecurityUtil.getAuthenticatedUser().getId();
+            Long userId = SecurityUtil.getIdAuthenticatedUser();
             Optional<RatingEntity> rating = ratingSpringRepository.findByArticleAndUser(articleId, userId);
             if (rating.isPresent()) {
                 return rating.get().getRatingValue();
@@ -46,28 +46,28 @@ public class RatingServiceImpl implements RatingService {
 
     @Override
     public void plusToArticle(Long articleId) {
-        UserEntity currentUser = SecurityUtil.getAuthenticatedUser();
-        Integer rating = determineRatingChange(currentUser);
+        Long userId = SecurityUtil.getIdAuthenticatedUser();
+        Integer rating = determineRatingChange(userId);
         changeArticleRating(articleId, rating);
     }
 
     @Override
     public void minusToArticle(Long articleId) {
-        UserEntity currentUser = SecurityUtil.getAuthenticatedUser();
-        Integer rating = -determineRatingChange(currentUser);
+        Long userId = SecurityUtil.getIdAuthenticatedUser();
+        Integer rating = -determineRatingChange(userId);
         changeArticleRating(articleId, rating);
     }
 
     // В зависимости от репутации пользователя или иных причин оценка пользователя
     // может быть более или менее ценной
-    private Integer determineRatingChange(UserEntity user) {
+    private Integer determineRatingChange(Long userId) {
         return 10;
     }
 
     private void changeArticleRating(Long articleId, Integer rating) {
         Optional<ArticleEntity> optionalArticle = articleSpringRepository.findById(articleId);
         if (optionalArticle.isPresent()) {
-            Long userId = SecurityUtil.getAuthenticatedUser().getId();
+            Long userId = SecurityUtil.getIdAuthenticatedUser();
             Optional<RatingEntity> optionalRating = ratingSpringRepository.findByArticleAndUser(articleId, userId);
 
             if (optionalRating.isEmpty()) {

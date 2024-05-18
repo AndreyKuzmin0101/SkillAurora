@@ -1,30 +1,27 @@
 package ru.kpfu.itis.kuzmin.skillshare.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import ru.kpfu.itis.kuzmin.skillshare.dto.Roles;
-import ru.kpfu.itis.kuzmin.skillshare.dto.request.TagRequestDto;
 import ru.kpfu.itis.kuzmin.skillshare.dto.request.UserRequestDto;
 import ru.kpfu.itis.kuzmin.skillshare.dto.response.UserResponseDto;
 import ru.kpfu.itis.kuzmin.skillshare.exception.alreadyexitsts.UserWithEmailAlreadyExistsException;
 import ru.kpfu.itis.kuzmin.skillshare.exception.alreadyexitsts.UserWithNameAlreadyExistsException;
 import ru.kpfu.itis.kuzmin.skillshare.exception.notfound.UserNotFoundException;
-import ru.kpfu.itis.kuzmin.skillshare.mapper.TagMapper;
 import ru.kpfu.itis.kuzmin.skillshare.mapper.UserMapper;
+import ru.kpfu.itis.kuzmin.skillshare.model.RoleEntity;
 import ru.kpfu.itis.kuzmin.skillshare.model.TagEntity;
 import ru.kpfu.itis.kuzmin.skillshare.model.UserEntity;
 import ru.kpfu.itis.kuzmin.skillshare.repository.jpa.UserJpaRepository;
 import ru.kpfu.itis.kuzmin.skillshare.repository.spring.RoleSpringRepository;
-import ru.kpfu.itis.kuzmin.skillshare.repository.spring.TagSpringRepository;
 import ru.kpfu.itis.kuzmin.skillshare.repository.spring.UserSpringRepository;
 import ru.kpfu.itis.kuzmin.skillshare.service.FileService;
 import ru.kpfu.itis.kuzmin.skillshare.service.TagService;
 import ru.kpfu.itis.kuzmin.skillshare.service.UserService;
-import ru.kpfu.itis.kuzmin.skillshare.utils.SecurityUtil;
+import ru.kpfu.itis.kuzmin.skillshare.security.util.SecurityUtil;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -185,6 +182,7 @@ public class UserServiceImpl implements UserService {
                 .skills(skills)
                 .password(password)
                 .profileImage(profileImage)
+                .roles(user.getRoles())
                 .rating(user.getRating())
                 .registerDate(user.getRegisterDate())
                 .enabled(user.getEnabled())
@@ -195,8 +193,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public String updateProfileImage(MultipartFile image) throws IOException {
         String url = fileService.uploadImage(image);
-        UserEntity currentUser = SecurityUtil.getAuthenticatedUser();
-        userSpringRepository.updateProfileImage(currentUser.getId(), url);
+        Long userId = SecurityUtil.getIdAuthenticatedUser();
+        userSpringRepository.updateProfileImage(userId, url);
         return url;
     }
 

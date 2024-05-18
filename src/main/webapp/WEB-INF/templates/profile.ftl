@@ -1,8 +1,9 @@
 <#macro title>Мой профиль</#macro>
 <#macro headtags>
-    <script src="/js/validate.js" xmlns="http://www.w3.org/1999/html"></script>
+    <script src="/js/validate.js"></script>
     <link rel="stylesheet" href="/css/styles.css">
     <script src="/js/tags.js"></script>
+    <script type="module" src="/js/profile.js"></script>
 </#macro>
 
 <#macro content>
@@ -10,7 +11,7 @@
         <h2>Профиль пользователя</h2>
         <div class="info-item">
             <span>Имя пользователя:</span>
-            <span id="username">${user.username()}</span>
+            <span id="username"></span>
             <button class="edit-btn" data-target="Username">✏️</button>
             <div class="edit-field" id="editUsername">
                 <input id ="username-input" type="text" placeholder="Новое имя пользователя">
@@ -19,7 +20,7 @@
         </div>
         <div class="info-item">
             <span>Настоящее имя</span>
-            <span id="realName"><#if user.realName()??>${user.realName()}<#else>Не указано</#if></span>
+            <span id="realName"></span>
             <button class="edit-btn" data-target="RealName">✏️</button>
             <div class="edit-field" id="editRealName">
                 <input id="realName-input" type="text" placeholder="Настроящее имя">
@@ -28,7 +29,7 @@
         </div>
         <div class="info-item">
             <span>Возраст</span>
-            <span id="age"><#if user.age()??>${user.age()}<#else>Не указан</#if></span>
+            <span id="age"></span>
             <button class="edit-btn" data-target="Age">✏️</button>
             <div class="edit-field" id="editAge">
                 <input id="age-input" type="number" placeholder="Возраст">
@@ -37,7 +38,7 @@
         </div>
         <div class="info-item">
             <span>Email:</span>
-            <span id="email">${user.email()}</span>
+            <span id="email"></span>
             <button class="edit-btn" data-target="Email">✏️</button>
             <div class="edit-field" id="editEmail">
                 <input id="email-input" type="email" placeholder="Новый Email">
@@ -46,7 +47,7 @@
         </div>
         <div class="info-item">
             <span>Страна:</span>
-            <span id="country"><#if user.country()??>${user.country()}<#else>Не указана</#if></span>
+            <span id="country"></span>
             <button class="edit-btn" data-target="Country">✏️</button>
             <div class="edit-field" id="editCountry">
                 <input id="country-input" type="text" placeholder="Страна">
@@ -55,7 +56,7 @@
         </div>
         <div class="info-item">
             <span>Город:</span>
-            <span id="city"><#if user.city()??>${user.city()}<#else>Не указан</#if></span>
+            <span id="city"></span>
             <button class="edit-btn" data-target="City">✏️</button>
             <div class="edit-field" id="editCity">
                 <input id="city-input" type="text" placeholder="Город">
@@ -64,25 +65,20 @@
         </div>
         <div class="info-item">
             <span>Дата регистрации:</span>
-            <span>${user.registerDate()}</span>
+            <span id="registerDate"></span>
         </div>
         <div class="info-item">
             <span>Рейтинг:</span>
-            <span>${user.rating()}</span>
+            <span id="rating"></span>
         </div>
         <div class="info-item">
             <span>Навыки:</span>
-            <span id="skills"><#list user.skills() as skill>
-            <span class="tag-style">${skill.name()}</span>
-            </#list></span>
+            <span id="skills"></span>
             <br>
             <button class="edit-btn confirm-btn" data-target="Skills"️ style="margin-top: 5px">Изменить навыки</button>
             <div class="edit-field" id="editSkills">
                 <input class="form-control me-2" type="search" placeholder="Поиск тегов" id="tag-search" style="width: 200px; margin-bottom: 5px;">
                 <div id="selected-tags" style="margin-top: 10px; margin-bottom: 10px;">
-                    <#list user.skills() as skill>
-                        <span class="tag-style new-tag">${skill.name()}</span>
-                    </#list>
                 </div>
                 <div class="mb-3">
                     <select multiple class="form-select" id="tag-list">
@@ -103,13 +99,13 @@
         </div>
     </div>
     <div class="profile-img">
-        <div id="profile-image"><img src="${user.profileImage()}" style="width: 230px"></div>
+        <div id="profile-image"><img id="profile-img" src="" style="width: 230px"></div>
         <label for="image-input">Аватарка</label>
         <input type="file" name="image" id="image-input" accept=".png, .jpg, .jpeg" title=" ">
         <br>
         <button style="margin-top: 10px" id="upload-image">Загрузить</button>
     </div>
-    <script src="/js/settings.js"></script>
+    <script type="module" src="/js/settings.js"></script>
 </#macro>
 
 <#include "base.ftl">

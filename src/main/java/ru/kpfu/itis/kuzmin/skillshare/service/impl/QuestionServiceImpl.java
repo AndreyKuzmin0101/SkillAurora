@@ -12,16 +12,19 @@ import ru.kpfu.itis.kuzmin.skillshare.dto.request.QuestionRequestDto;
 import ru.kpfu.itis.kuzmin.skillshare.dto.request.TagRequestDto;
 import ru.kpfu.itis.kuzmin.skillshare.dto.response.QuestionResponseDto;
 import ru.kpfu.itis.kuzmin.skillshare.exception.notfound.AnswerNotFoundException;
-import ru.kpfu.itis.kuzmin.skillshare.exception.notfound.ArticleNotFoundException;
 import ru.kpfu.itis.kuzmin.skillshare.exception.notfound.QuestionNotFoundException;
 import ru.kpfu.itis.kuzmin.skillshare.mapper.QuestionMapper;
-import ru.kpfu.itis.kuzmin.skillshare.model.*;
+import ru.kpfu.itis.kuzmin.skillshare.model.QuestionEntity;
+import ru.kpfu.itis.kuzmin.skillshare.model.QuestionStatus;
+import ru.kpfu.itis.kuzmin.skillshare.model.TagEntity;
+import ru.kpfu.itis.kuzmin.skillshare.model.UserEntity;
 import ru.kpfu.itis.kuzmin.skillshare.repository.jpa.QuestionJpaRepository;
 import ru.kpfu.itis.kuzmin.skillshare.repository.spring.AnswerSpringRepository;
 import ru.kpfu.itis.kuzmin.skillshare.repository.spring.QuestionSpringRepository;
+import ru.kpfu.itis.kuzmin.skillshare.security.exception.AuthorizationException;
+import ru.kpfu.itis.kuzmin.skillshare.security.util.SecurityUtil;
 import ru.kpfu.itis.kuzmin.skillshare.service.QuestionService;
 import ru.kpfu.itis.kuzmin.skillshare.service.TagService;
-import ru.kpfu.itis.kuzmin.skillshare.utils.SecurityUtil;
 import ru.kpfu.itis.kuzmin.skillshare.utils.UserProfileUtil;
 
 import java.sql.Date;
@@ -60,7 +63,9 @@ public class QuestionServiceImpl implements QuestionService {
         question.setCreatedDate(new Date(System.currentTimeMillis()));
         question.setStatus(QuestionStatus.OPEN);
 
-        UserEntity author = SecurityUtil.getAuthenticatedUser();
+        UserEntity author = UserEntity.builder()
+                .id(SecurityUtil.getIdAuthenticatedUser())
+                .build();
         question.setAuthor(author);
 
         question.setTags(tagService.getListUniqTagEntitiesAndSaveNonExistent(questionDto.tags()));
@@ -103,15 +108,14 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public void close(Long questionId) {
-        UserEntity currentUser = SecurityUtil.getAuthenticatedUser();
         Optional<QuestionEntity> optionalQuestion = questionSpringRepository.findById(questionId);
         if (optionalQuestion.isPresent()) {
             QuestionEntity question = optionalQuestion.get();
-            if (question.getAuthor().getId().equals(currentUser.getId())) {
+            if (question.getAuthor().getId().equals(SecurityUtil.getIdAuthenticatedUser())) {
                 question.setStatus(QuestionStatus.CLOSED);
                 questionSpringRepository.save(question);
             } else {
-                throw new RuntimeException("An access error has occurred");
+                throw new AuthorizationException("An access error has occurred");
             }
         } else {
             throw new QuestionNotFoundException(questionId);

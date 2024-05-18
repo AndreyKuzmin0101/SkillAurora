@@ -7,24 +7,25 @@ import ru.kpfu.itis.kuzmin.skillshare.service.RatingService;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/ratings")
 public class RatingController {
 
     private final RatingService ratingService;
 
-    @GetMapping("/rating/{id}/me")
+    @GetMapping("/articles/{id}/me")
     @ResponseStatus(HttpStatus.OK)
     public Integer getMyRatingForArticle(@PathVariable("id") Long id) {
         return ratingService.getRatingByCurrUserForArticle(id);
     }
 
-    @PostMapping("/rating/{id}/plus")
+    @PostMapping("/articles/{id}/plus")
     @ResponseStatus(HttpStatus.OK)
     public Long plusRating(@PathVariable("id") Long id) {
         ratingService.plusToArticle(id);
         return ratingService.getArticleRating(id);
     }
 
-    @PostMapping("/rating/{id}/minus")
+    @PostMapping("/articles/{id}/minus")
     @ResponseStatus(HttpStatus.OK)
     public Long minusRating(@PathVariable("id") Long id) {
         ratingService.minusToArticle(id);
