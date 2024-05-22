@@ -1,9 +1,11 @@
 package ru.kpfu.itis.skillshare.mainservice.controller;
 
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.kpfu.itis.skillshare.mainservice.dto.request.ArticleFilter;
 import ru.kpfu.itis.skillshare.mainservice.dto.request.ArticleRequestDto;
@@ -33,10 +35,8 @@ public class ArticleController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/api/v1/articles/{id}")
     @ResponseBody
-    public ArticleResponseDto getArticleById(@PathVariable("id") String id) {
-        //NumberFormatException
-        Long articleId = Long.parseLong(id);
-        return articleService.getById(articleId);
+    public ArticleResponseDto getArticleById(@PathVariable("id") Long id) {
+        return articleService.getById(id);
     }
 
     @GetMapping("/create/article")
@@ -48,7 +48,7 @@ public class ArticleController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/create/article")
     @ResponseBody
-    public UrlResponse create(@RequestBody ArticleRequestDto articleRequestDto) {
+    public UrlResponse create(@Validated @RequestBody ArticleRequestDto articleRequestDto) {
         Long userId = SecurityUtil.getIdAuthenticatedUser();
         Long articleId = articleService.save(userId, articleRequestDto);
 
@@ -57,7 +57,7 @@ public class ArticleController {
 
     @GetMapping("/articles/filter")
     @ResponseBody
-    public List<ArticleResponseDto> getPageFilteredArticles(ArticleFilter filter) {
+    public List<ArticleResponseDto> getPageFilteredArticles(@Validated ArticleFilter filter) {
         return articleService.getPageFiltered(filter);
     }
 

@@ -4,6 +4,7 @@ package ru.kpfu.itis.skillshare.mainservice.api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import ru.kpfu.itis.skillshare.mainservice.dto.response.MessageResponseDto;

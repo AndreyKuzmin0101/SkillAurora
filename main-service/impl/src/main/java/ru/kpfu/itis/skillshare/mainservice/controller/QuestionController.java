@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.kpfu.itis.skillshare.mainservice.dto.request.QuestionFilter;
 import ru.kpfu.itis.skillshare.mainservice.dto.request.QuestionRequestDto;
@@ -26,7 +27,7 @@ public class QuestionController {
 
     @GetMapping("/questions/filter")
     @ResponseBody
-    public List<QuestionResponseDto> getPageFilteredQuestions(QuestionFilter filter) {
+    public List<QuestionResponseDto> getPageFilteredQuestions(@Validated @RequestBody QuestionFilter filter) {
         return questionService.getPageFiltered(filter);
     }
 
@@ -47,7 +48,7 @@ public class QuestionController {
     @PostMapping("/create/question")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public UrlResponse postQuestion(@RequestBody QuestionRequestDto questionRequest) {
+    public UrlResponse postQuestion(@Validated @RequestBody QuestionRequestDto questionRequest) {
         Long questionId = questionService.save(questionRequest);
         return new UrlResponse("/question/%s".formatted(questionId));
     }

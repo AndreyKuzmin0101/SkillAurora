@@ -3,6 +3,7 @@ package ru.kpfu.itis.skillshare.mainservice.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.kpfu.itis.skillshare.mainservice.dto.request.ChatRequestDto;
 import ru.kpfu.itis.skillshare.mainservice.dto.response.ChatResponseDto;
@@ -30,7 +31,7 @@ public class ChatController {
 
 
     @PostMapping("/api/v1/chats")
-    public String createChat(ChatRequestDto chatRequest) {
+    public String createChat(@Validated ChatRequestDto chatRequest) {
         Long chatId = chatService.create(chatRequest);
         return "redirect:/chats/%s".formatted(chatId);
     }

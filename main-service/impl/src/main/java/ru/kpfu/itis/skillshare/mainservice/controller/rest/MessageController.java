@@ -1,8 +1,11 @@
 package ru.kpfu.itis.skillshare.mainservice.controller.rest;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +24,7 @@ public class MessageController implements MessageApi {
     private final MessageService messageService;
 
     @MessageMapping("/chats")
-    public void message(MessageRequestDto messageRequest, @Header("auth") JwtTokenAuthentication authentication) {
+    public void message(@Validated MessageRequestDto messageRequest, @Header("auth") JwtTokenAuthentication authentication) {
         messageService.create(messageRequest, authentication.getUserId());
     }
 

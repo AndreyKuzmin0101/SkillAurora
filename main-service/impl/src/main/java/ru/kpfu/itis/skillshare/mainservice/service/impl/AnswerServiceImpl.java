@@ -63,6 +63,7 @@ public class AnswerServiceImpl implements AnswerService {
         AnswerEntity answer = answerMapper.toEntity(answerDto);
         answer.setCreatedDate(new Date(System.currentTimeMillis()));
 
+
         UserEntity author = UserEntity.builder()
                 .id(SecurityUtil.getIdAuthenticatedUser())
                 .build();

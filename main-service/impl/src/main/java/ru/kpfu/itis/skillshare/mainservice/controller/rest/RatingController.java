@@ -1,7 +1,9 @@
 package ru.kpfu.itis.skillshare.mainservice.controller.rest;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.kpfu.itis.skillshare.mainservice.api.RatingApi;
 import ru.kpfu.itis.skillshare.mainservice.service.RatingService;

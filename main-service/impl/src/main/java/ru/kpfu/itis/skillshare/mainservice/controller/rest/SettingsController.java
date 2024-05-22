@@ -2,6 +2,7 @@ package ru.kpfu.itis.skillshare.mainservice.controller.rest;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.kpfu.itis.skillshare.mainservice.api.SettingsApi;
@@ -18,7 +19,7 @@ public class SettingsController implements SettingsApi {
     private final UserService userService;
 
     @Override
-    public void updateOneField(UserRequestDto userRequestDto) {
+    public void updateOneField(@Validated UserRequestDto userRequestDto) {
         Long id = SecurityUtil.getIdAuthenticatedUser();
         userService.updateNotNullFields(id, userRequestDto);
     }

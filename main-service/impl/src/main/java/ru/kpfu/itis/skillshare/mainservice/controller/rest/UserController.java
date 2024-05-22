@@ -1,14 +1,16 @@
 package ru.kpfu.itis.skillshare.mainservice.controller.rest;
 
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RestController;
 import ru.kpfu.itis.skillshare.mainservice.api.UserApi;
 import ru.kpfu.itis.skillshare.mainservice.dto.request.UserRequestDto;
 import ru.kpfu.itis.skillshare.mainservice.dto.response.UserResponseDto;
-import ru.kpfu.itis.skillshare.mainservice.service.UserService;
 import ru.kpfu.itis.skillshare.mainservice.security.util.SecurityUtil;
+import ru.kpfu.itis.skillshare.mainservice.service.UserService;
 
 import java.util.List;
 
@@ -29,12 +31,13 @@ public class UserController implements UserApi {
     }
 
     @Override
-    public Long create(UserRequestDto userDto) {
+    public Long create(@Validated UserRequestDto userDto) {
         return userService.save(userDto);
     }
 
     @Override
-    public void update(Long id, UserRequestDto userDto) {
+    public void update(Long id, @Validated UserRequestDto userDto
+    ) {
         userService.update(id, userDto);
     }
 

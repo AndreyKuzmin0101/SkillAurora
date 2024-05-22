@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.kpfu.itis.skillshare.mainservice.api.AuthApi;
 import ru.kpfu.itis.skillshare.mainservice.dto.Roles;
@@ -24,12 +25,12 @@ public class AuthController implements AuthApi {
     private final AuthService authService;
 
     @Override
-    public TokenCoupleResponse login (LoginRequest loginRequest) {
+    public TokenCoupleResponse login (@Validated LoginRequest loginRequest) {
         return authService.login(loginRequest.username(), loginRequest.password());
     }
 
     @Override
-    public TokenCoupleResponse refresh(TokenRequest refreshToken) {
+    public TokenCoupleResponse refresh(@Validated TokenRequest refreshToken) {
         return authService.refresh(refreshToken);
     }
 

@@ -1,7 +1,8 @@
 package ru.kpfu.itis.skillshare.mainservice.controller.rest;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RestController;
 import ru.kpfu.itis.skillshare.mainservice.api.AnswerApi;
 import ru.kpfu.itis.skillshare.mainservice.dto.request.AnswerRequestDto;
 import ru.kpfu.itis.skillshare.mainservice.dto.response.AnswerResponseDto;
@@ -31,7 +32,8 @@ public class AnswerController implements AnswerApi {
     }
 
     @Override
-    public Long postAnswer(Long questionId, AnswerRequestDto answerRequest) {
+    public Long postAnswer(Long questionId,
+                           @Validated AnswerRequestDto answerRequest) {
         return answerService.save(questionId, answerRequest);
     }
 }
