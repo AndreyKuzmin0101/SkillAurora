@@ -5,3 +5,95 @@
 2024-05-22 19:35:36.828 [http-nio-8080-exec-2] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [refresh] of class [AuthController]
 2024-05-22 19:35:36.841 [http-nio-8080-exec-2] ERROR r.k.i.s.l.a.RestControllerLoggingAspect - Exception in method [refresh] of class [AuthController] with message: Invalid refresh token.
 2024-05-22 19:35:36.843 [http-nio-8080-exec-1] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Method [getAllNotCustom] of class [TagController] executed in 134 ms
+2024-05-22 19:43:01.605 [main] INFO  r.k.i.k.s.SkillShareApplication - Starting SkillShareApplication using Java 18.0.2 with PID 10160 (C:\Users\Andrey\IdeaProjects\SkillShare10\main-service\impl\build\classes\java\main started by Andrey in C:\Users\Andrey\IdeaProjects\SkillShare10\main-service)
+2024-05-22 19:43:01.607 [main] INFO  r.k.i.k.s.SkillShareApplication - No active profile set, falling back to 1 default profile: "default"
+2024-05-22 19:43:06.466 [main] INFO  r.k.i.k.s.SkillShareApplication - Started SkillShareApplication in 5.322 seconds (process running for 5.692)
+2024-05-22 19:43:29.597 [main] INFO  r.k.i.k.s.SkillShareApplication - Starting SkillShareApplication using Java 18.0.2 with PID 4508 (C:\Users\Andrey\IdeaProjects\SkillShare10\main-service\impl\build\classes\java\main started by Andrey in C:\Users\Andrey\IdeaProjects\SkillShare10\main-service)
+2024-05-22 19:43:29.599 [main] INFO  r.k.i.k.s.SkillShareApplication - No active profile set, falling back to 1 default profile: "default"
+2024-05-22 19:43:35.030 [main] INFO  r.k.i.k.s.SkillShareApplication - Started SkillShareApplication in 5.827 seconds (process running for 6.191)
+2024-05-22 19:43:38.505 [http-nio-8080-exec-1] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [getAllNotCustom] of class [TagController]
+2024-05-22 19:43:38.601 [http-nio-8080-exec-10] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [refresh] of class [AuthController]
+2024-05-22 19:43:38.615 [http-nio-8080-exec-10] ERROR r.k.i.s.l.a.RestControllerLoggingAspect - Exception in method [refresh] of class [AuthController] with message: Invalid refresh token.
+2024-05-22 19:43:38.618 [http-nio-8080-exec-1] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Method [getAllNotCustom] of class [TagController] executed in 113 ms
+2024-05-22 20:54:22.513 [main] INFO  r.k.i.s.m.SkillShareApplication - Starting SkillShareApplication using Java 18.0.2 with PID 17512 (C:\Users\Andrey\IdeaProjects\SkillShare10\main-service\impl\build\classes\java\main started by Andrey in C:\Users\Andrey\IdeaProjects\SkillShare10\main-service)
+2024-05-22 20:54:22.515 [main] INFO  r.k.i.s.m.SkillShareApplication - No active profile set, falling back to 1 default profile: "default"
+2024-05-22 20:54:28.809 [main] INFO  r.k.i.s.m.SkillShareApplication - Started SkillShareApplication in 6.714 seconds (process running for 7.108)
+2024-05-22 20:54:34.096 [http-nio-8080-exec-1] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [getAllNotCustom] of class [TagController]
+2024-05-22 20:54:34.194 [http-nio-8080-exec-6] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [refresh] of class [AuthController]
+2024-05-22 20:54:34.208 [http-nio-8080-exec-6] ERROR r.k.i.s.l.a.RestControllerLoggingAspect - Exception in method [refresh] of class [AuthController] with message: Invalid refresh token.
+2024-05-22 20:54:34.210 [http-nio-8080-exec-1] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Method [getAllNotCustom] of class [TagController] executed in 114 ms
+2024-05-22 20:54:41.678 [http-nio-8080-exec-2] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [getAllNotCustom] of class [TagController]
+2024-05-22 20:54:41.684 [http-nio-8080-exec-8] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [refresh] of class [AuthController]
+2024-05-22 20:54:41.686 [http-nio-8080-exec-2] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Method [getAllNotCustom] of class [TagController] executed in 8 ms
+2024-05-22 20:54:41.689 [http-nio-8080-exec-8] ERROR r.k.i.s.l.a.RestControllerLoggingAspect - Exception in method [refresh] of class [AuthController] with message: Invalid refresh token.
+2024-05-22 20:54:56.638 [http-nio-8080-exec-4] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [getAllNotCustom] of class [TagController]
+2024-05-22 20:54:56.642 [http-nio-8080-exec-4] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Method [getAllNotCustom] of class [TagController] executed in 4 ms
+2024-05-22 20:55:07.170 [http-nio-8080-exec-1] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [login] of class [AuthController]
+2024-05-22 20:55:07.319 [http-nio-8080-exec-1] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Method [login] of class [AuthController] executed in 149 ms
+2024-05-22 20:55:07.395 [http-nio-8080-exec-1] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [getCurrentUserProfileImage] of class [UserController]
+2024-05-22 20:55:07.402 [http-nio-8080-exec-7] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [getAllNotCustom] of class [TagController]
+2024-05-22 20:55:07.409 [http-nio-8080-exec-7] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Method [getAllNotCustom] of class [TagController] executed in 7 ms
+2024-05-22 20:55:07.423 [http-nio-8080-exec-1] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Method [getCurrentUserProfileImage] of class [UserController] executed in 28 ms
+2024-05-22 20:55:09.373 [http-nio-8080-exec-10] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [getProfileData] of class [UserController]
+2024-05-22 20:55:09.373 [http-nio-8080-exec-8] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [getCurrentUserProfileImage] of class [UserController]
+2024-05-22 20:55:09.386 [http-nio-8080-exec-7] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [getAllNotCustom] of class [TagController]
+2024-05-22 20:55:09.387 [http-nio-8080-exec-8] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Method [getCurrentUserProfileImage] of class [UserController] executed in 14 ms
+2024-05-22 20:55:09.390 [http-nio-8080-exec-7] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Method [getAllNotCustom] of class [TagController] executed in 4 ms
+2024-05-22 20:55:09.396 [http-nio-8080-exec-10] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Method [getProfileData] of class [UserController] executed in 23 ms
+2024-05-22 20:55:11.438 [http-nio-8080-exec-1] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [getAllNotCustom] of class [TagController]
+2024-05-22 20:55:11.439 [http-nio-8080-exec-10] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [getCurrentUserProfileImage] of class [UserController]
+2024-05-22 20:55:11.442 [http-nio-8080-exec-1] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Method [getAllNotCustom] of class [TagController] executed in 4 ms
+2024-05-22 20:55:11.446 [http-nio-8080-exec-10] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Method [getCurrentUserProfileImage] of class [UserController] executed in 7 ms
+2024-05-22 21:26:22.391 [main] INFO  r.k.i.s.m.SkillShareApplication - Starting SkillShareApplication using Java 18.0.2 with PID 13864 (C:\Users\Andrey\IdeaProjects\SkillShare10\main-service\impl\build\classes\java\main started by Andrey in C:\Users\Andrey\IdeaProjects\SkillShare10\main-service)
+2024-05-22 21:26:22.393 [main] INFO  r.k.i.s.m.SkillShareApplication - No active profile set, falling back to 1 default profile: "default"
+2024-05-22 21:26:28.427 [main] INFO  r.k.i.s.m.SkillShareApplication - Started SkillShareApplication in 6.467 seconds (process running for 6.919)
+2024-05-22 21:26:42.063 [http-nio-8080-exec-7] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [openapiJson] of class [SwaggerConfigResource]
+2024-05-22 21:26:42.064 [http-nio-8080-exec-7] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Method [openapiJson] of class [SwaggerConfigResource] executed in 2 ms
+2024-05-22 21:26:42.094 [http-nio-8080-exec-8] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [openapiJson] of class [OpenApiWebMvcResource]
+2024-05-22 21:26:42.613 [http-nio-8080-exec-8] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Method [openapiJson] of class [OpenApiWebMvcResource] executed in 519 ms
+2024-05-22 21:27:58.973 [http-nio-8080-exec-6] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [login] of class [AuthController]
+2024-05-22 21:27:59.237 [http-nio-8080-exec-6] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Method [login] of class [AuthController] executed in 264 ms
+2024-05-22 21:28:19.916 [http-nio-8080-exec-4] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [checkAuth] of class [AuthController]
+2024-05-22 21:28:19.916 [http-nio-8080-exec-4] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Method [checkAuth] of class [AuthController] executed in 0 ms
+2024-05-22 21:31:07.361 [main] INFO  r.k.i.s.m.SkillShareApplication - Starting SkillShareApplication using Java 18.0.2 with PID 1964 (C:\Users\Andrey\IdeaProjects\SkillShare10\main-service\impl\build\classes\java\main started by Andrey in C:\Users\Andrey\IdeaProjects\SkillShare10\main-service)
+2024-05-22 21:31:07.363 [main] INFO  r.k.i.s.m.SkillShareApplication - No active profile set, falling back to 1 default profile: "default"
+2024-05-22 21:31:13.929 [main] INFO  r.k.i.s.m.SkillShareApplication - Started SkillShareApplication in 7.036 seconds (process running for 7.586)
+2024-05-22 21:31:14.280 [http-nio-8080-exec-4] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [openapiJson] of class [SwaggerConfigResource]
+2024-05-22 21:31:14.281 [http-nio-8080-exec-4] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Method [openapiJson] of class [SwaggerConfigResource] executed in 1 ms
+2024-05-22 21:31:14.321 [http-nio-8080-exec-9] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [openapiJson] of class [OpenApiWebMvcResource]
+2024-05-22 21:31:14.873 [http-nio-8080-exec-9] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Method [openapiJson] of class [OpenApiWebMvcResource] executed in 552 ms
+2024-05-22 21:32:07.388 [http-nio-8080-exec-6] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [openapiJson] of class [SwaggerConfigResource]
+2024-05-22 21:32:07.389 [http-nio-8080-exec-6] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Method [openapiJson] of class [SwaggerConfigResource] executed in 1 ms
+2024-05-22 21:32:07.398 [http-nio-8080-exec-4] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [openapiJson] of class [OpenApiWebMvcResource]
+2024-05-22 21:32:07.402 [http-nio-8080-exec-4] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Method [openapiJson] of class [OpenApiWebMvcResource] executed in 4 ms
+2024-05-22 21:32:14.073 [main] INFO  r.k.i.s.m.SkillShareApplication - Starting SkillShareApplication using Java 18.0.2 with PID 16240 (C:\Users\Andrey\IdeaProjects\SkillShare10\main-service\impl\build\classes\java\main started by Andrey in C:\Users\Andrey\IdeaProjects\SkillShare10\main-service)
+2024-05-22 21:32:14.074 [main] INFO  r.k.i.s.m.SkillShareApplication - No active profile set, falling back to 1 default profile: "default"
+2024-05-22 21:32:20.105 [main] INFO  r.k.i.s.m.SkillShareApplication - Started SkillShareApplication in 6.438 seconds (process running for 6.827)
+2024-05-22 21:32:25.219 [http-nio-8080-exec-7] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [openapiJson] of class [SwaggerConfigResource]
+2024-05-22 21:32:25.221 [http-nio-8080-exec-7] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Method [openapiJson] of class [SwaggerConfigResource] executed in 2 ms
+2024-05-22 21:32:25.249 [http-nio-8080-exec-9] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [openapiJson] of class [OpenApiWebMvcResource]
+2024-05-22 21:32:25.757 [http-nio-8080-exec-9] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Method [openapiJson] of class [OpenApiWebMvcResource] executed in 508 ms
+2024-05-22 21:35:07.616 [main] INFO  r.k.i.s.m.SkillShareApplication - Starting SkillShareApplication using Java 18.0.2 with PID 3732 (C:\Users\Andrey\IdeaProjects\SkillShare10\main-service\impl\build\classes\java\main started by Andrey in C:\Users\Andrey\IdeaProjects\SkillShare10\main-service)
+2024-05-22 21:35:07.618 [main] INFO  r.k.i.s.m.SkillShareApplication - No active profile set, falling back to 1 default profile: "default"
+2024-05-22 21:35:14.642 [main] INFO  r.k.i.s.m.SkillShareApplication - Started SkillShareApplication in 7.483 seconds (process running for 8.213)
+2024-05-22 21:35:20.191 [http-nio-8080-exec-5] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [openapiJson] of class [SwaggerConfigResource]
+2024-05-22 21:35:20.192 [http-nio-8080-exec-5] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Method [openapiJson] of class [SwaggerConfigResource] executed in 1 ms
+2024-05-22 21:35:20.222 [http-nio-8080-exec-7] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [openapiJson] of class [OpenApiWebMvcResource]
+2024-05-22 21:35:20.720 [http-nio-8080-exec-7] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Method [openapiJson] of class [OpenApiWebMvcResource] executed in 498 ms
+2024-05-22 21:36:10.241 [http-nio-8080-exec-4] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [openapiJson] of class [SwaggerConfigResource]
+2024-05-22 21:36:10.242 [http-nio-8080-exec-4] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Method [openapiJson] of class [SwaggerConfigResource] executed in 1 ms
+2024-05-22 21:36:10.259 [http-nio-8080-exec-1] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [openapiJson] of class [OpenApiWebMvcResource]
+2024-05-22 21:36:10.263 [http-nio-8080-exec-1] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Method [openapiJson] of class [OpenApiWebMvcResource] executed in 4 ms
+2024-05-22 21:36:38.237 [http-nio-8080-exec-6] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [login] of class [AuthController]
+2024-05-22 21:36:38.505 [http-nio-8080-exec-6] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Method [login] of class [AuthController] executed in 268 ms
+2024-05-22 21:36:53.453 [http-nio-8080-exec-9] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [getAllNotCustom] of class [TagController]
+2024-05-22 21:36:53.457 [http-nio-8080-exec-9] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Method [getAllNotCustom] of class [TagController] executed in 4 ms
+2024-05-22 21:37:10.998 [http-nio-8080-exec-3] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [getProfileData] of class [UserController]
+2024-05-22 21:37:11.015 [http-nio-8080-exec-3] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Method [getProfileData] of class [UserController] executed in 17 ms
+2024-05-22 21:44:44.327 [main] INFO  r.k.i.s.m.SkillShareApplication - Starting SkillShareApplication using Java 18.0.2 with PID 10484 (C:\Users\Andrey\IdeaProjects\SkillShare10\main-service\impl\build\classes\java\main started by Andrey in C:\Users\Andrey\IdeaProjects\SkillShare10\main-service)
+2024-05-22 21:44:44.328 [main] INFO  r.k.i.s.m.SkillShareApplication - No active profile set, falling back to 1 default profile: "default"
+2024-05-22 21:44:50.644 [main] INFO  r.k.i.s.m.SkillShareApplication - Started SkillShareApplication in 6.733 seconds (process running for 7.131)
+2024-05-22 21:44:53.639 [http-nio-8080-exec-7] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [openapiJson] of class [SwaggerConfigResource]
+2024-05-22 21:44:53.639 [http-nio-8080-exec-7] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Method [openapiJson] of class [SwaggerConfigResource] executed in 1 ms
+2024-05-22 21:44:53.670 [http-nio-8080-exec-9] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [openapiJson] of class [OpenApiWebMvcResource]
+2024-05-22 21:44:54.180 [http-nio-8080-exec-9] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Method [openapiJson] of class [OpenApiWebMvcResource] executed in 510 ms

@@ -1,7 +1,7 @@
 import {sendAuthenticatedRequest} from "./auth.js";
 
 function update_field(field, new_value, button) {
-    sendAuthenticatedRequest('/api/v1/settings',
+    sendAuthenticatedRequest('/api/v1/users/settings',
         {
             method: 'PUT',
             headers: {
@@ -70,7 +70,7 @@ $(document).ready(function () {
             skills.push(jsonSkill);
         });
 
-        sendAuthenticatedRequest('/api/v1/settings', {
+        sendAuthenticatedRequest('/api/v1/users/settings', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -98,7 +98,7 @@ $(document).ready(function () {
         formData.append('upload', fileInput);
 
 
-        sendAuthenticatedRequest('/api/v1/settings/profile-image', {
+        sendAuthenticatedRequest('/api/v1/users/settings/profile-image', {
             method: 'PUT',
             body: formData,
         }).then(response => {

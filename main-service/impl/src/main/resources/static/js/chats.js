@@ -7,7 +7,7 @@ let authenticated = check_auth_request.then(res => {
 
 authenticated.then(res => {
     if (res === true) {
-        let chats_response = sendAuthenticatedRequest('/api/v1/chats', {method: 'GET'});
+        let chats_response = sendAuthenticatedRequest('/api/v1/chats/me', {method: 'GET'});
         chats_response.then(res_chats => {
             if (res_chats.status === 200) {
                 return res_chats.json();
@@ -24,7 +24,7 @@ authenticated.then(res => {
                 $('.chat').on('click', function () {
                     disconnect();
                     chatId = $(this).data('target');
-                    let messages_response = sendAuthenticatedRequest('/api/v1/messages/' + chatId, {method: 'GET'})
+                    let messages_response = sendAuthenticatedRequest('/api/v1/chats/' + chatId + '/messages', {method: 'GET'})
                     messages_response.then(res_messages => {
                         if (res_messages.status === 200) {
                             connect(chatId);
