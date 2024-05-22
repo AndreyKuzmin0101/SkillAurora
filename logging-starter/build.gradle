@@ -1,0 +1,43 @@
+plugins {
+    id 'maven-publish'
+    id 'java'
+    id 'org.springframework.boot' version '3.2.5'
+    id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'ru.kpfu.itis.skillshare'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '17'
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = "ru.kpfu.itis.skillshare"
+            artifactId = "logging-starter"
+            version = "0.0.1-SNAPSHOT"
+            from components.java
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    implementation 'org.springframework.boot:spring-boot-starter-aop:3.2.0'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

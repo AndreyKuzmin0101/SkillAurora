@@ -1,0 +1,7 @@
+2024-05-22 19:35:25.352 [main] INFO  r.k.i.k.s.SkillShareApplication - Starting SkillShareApplication using Java 18.0.2 with PID 10172 (C:\Users\Andrey\IdeaProjects\SkillShare10\main-service\impl\build\classes\java\main started by Andrey in C:\Users\Andrey\IdeaProjects\SkillShare10\main-service)
+2024-05-22 19:35:25.354 [main] INFO  r.k.i.k.s.SkillShareApplication - No active profile set, falling back to 1 default profile: "default"
+2024-05-22 19:35:30.988 [main] INFO  r.k.i.k.s.SkillShareApplication - Started SkillShareApplication in 6.028 seconds (process running for 6.407)
+2024-05-22 19:35:36.710 [http-nio-8080-exec-1] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [getAllNotCustom] of class [TagController]
+2024-05-22 19:35:36.828 [http-nio-8080-exec-2] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Entering method [refresh] of class [AuthController]
+2024-05-22 19:35:36.841 [http-nio-8080-exec-2] ERROR r.k.i.s.l.a.RestControllerLoggingAspect - Exception in method [refresh] of class [AuthController] with message: Invalid refresh token.
+2024-05-22 19:35:36.843 [http-nio-8080-exec-1] INFO  r.k.i.s.l.a.RestControllerLoggingAspect - Method [getAllNotCustom] of class [TagController] executed in 134 ms

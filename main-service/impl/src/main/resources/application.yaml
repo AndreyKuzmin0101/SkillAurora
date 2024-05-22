@@ -38,3 +38,12 @@ jwt:
 
 rt:
   expiration.access.millis: 2419200000
+
+logging:
+  level:
+    org:
+      springframework: INFO
+
+logger:
+  rest-controllers:
+    enabled: true

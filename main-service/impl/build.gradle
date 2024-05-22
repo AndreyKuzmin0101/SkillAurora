@@ -20,6 +20,7 @@ configurations {
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
@@ -56,6 +57,7 @@ dependencies {
 
     implementation project(':db')
     implementation project(':api')
+    implementation 'ru.kpfu.itis.skillshare:logging-starter:0.0.1-SNAPSHOT'
 }
 
 
