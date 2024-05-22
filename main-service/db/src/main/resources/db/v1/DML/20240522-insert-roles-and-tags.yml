@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: '1'
+      author: aakuzmin
+      changes:
+        - sqlFile:
+            path: SQL/20240522-insert-roles-and-tags.sql
+            relativeToChangelogFile: true

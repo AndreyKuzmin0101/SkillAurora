@@ -21,6 +21,7 @@ public class ArticleController {
 
     @GetMapping()
     public String getStream() {
+        System.out.println(1);
         return "stream";
     }
 
