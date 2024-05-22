@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService {
         user.setSkills(tagService.getListUniqTagEntitiesAndSaveNonExistent(userDto.skills()));
 
         user.setRoles(List.of(
-                roleSpringRepository.findByName(Roles.USER.getName()).get()
+                roleSpringRepository.findByName(Roles.USER.getFullName()).get()
         ));
 
         return userSpringRepository

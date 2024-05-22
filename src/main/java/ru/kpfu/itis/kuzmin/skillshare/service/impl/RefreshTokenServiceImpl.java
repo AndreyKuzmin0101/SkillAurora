@@ -8,7 +8,7 @@ import ru.kpfu.itis.kuzmin.skillshare.dto.response.RefreshTokenResponse;
 import ru.kpfu.itis.kuzmin.skillshare.model.RefreshTokenEntity;
 import ru.kpfu.itis.kuzmin.skillshare.model.UserEntity;
 import ru.kpfu.itis.kuzmin.skillshare.repository.spring.RefreshTokenSpringRepository;
-import ru.kpfu.itis.kuzmin.skillshare.security.exception.InvalidTokenException;
+import ru.kpfu.itis.kuzmin.skillshare.exception.InvalidTokenException;
 import ru.kpfu.itis.kuzmin.skillshare.service.RefreshTokenService;
 
 import java.sql.Timestamp;

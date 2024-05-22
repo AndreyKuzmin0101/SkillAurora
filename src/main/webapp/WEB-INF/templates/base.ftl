@@ -12,7 +12,7 @@
 </head>
 <body>
 <header>
-    <div>
+    <div style="display: inline-block">
         <div class="logo">
             <img src="/images/logo.png" alt="Логотип">
         </div>

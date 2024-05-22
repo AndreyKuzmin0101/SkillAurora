@@ -1,6 +1,7 @@
 package ru.kpfu.itis.kuzmin.skillshare.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +35,7 @@ public class QuestionController {
         //NumberFormatException
         Long questionId = Long.parseLong(id);
         QuestionResponseDto questionDto = questionService.getById(questionId);
-        model.addAttribute("article", questionDto);
+        model.addAttribute("question", questionDto);
         return "question";
     }
 
@@ -44,6 +45,7 @@ public class QuestionController {
     }
 
     @PostMapping("/create/question")
+    @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public UrlResponse postQuestion(@RequestBody QuestionRequestDto questionRequest) {
         Long questionId = questionService.save(questionRequest);

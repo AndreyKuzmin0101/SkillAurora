@@ -25,11 +25,8 @@ public class HttpHeaderUtil {
                 .filter(StringUtils::isNotBlank)
                 .map(bearer -> StringUtils.removeStart(bearer, SecurityConstants.BEARER).trim())
                 .filter(StringUtils::isNotBlank)
-                .orElse(null);
+                .orElseThrow(() -> new AuthenticationHeaderException("Authorization header token is empty"));
 
-        if (token == null) {
-            throw new AuthenticationHeaderException("Authorization header token is empty");
-        }
 
         return new TokenRequest(token);
     }

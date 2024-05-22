@@ -28,8 +28,6 @@
             <button id="minus-btn" class="btn"><img class="article-icon-rating" src="/images/minus.png"></button>
         </div>
     </div>
-
-
 </#macro>
 
 <#include "base.ftl">

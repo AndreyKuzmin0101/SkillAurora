@@ -9,5 +9,5 @@ public interface MessageService {
 
     List<MessageResponseDto> getByChatId(Long chatId);
 
-    void create(MessageRequestDto messageRequest);
+    void create(MessageRequestDto messageRequest, Long senderId);
 }

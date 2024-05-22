@@ -4,7 +4,7 @@
     margin: 20px;
 }
 
-.filter {
+.filter, .chats {
     flex: 1;
     background-color: #ecf0f1;
     padding: 20px;
@@ -12,7 +12,7 @@
     margin-right: 20px;
 }
 
-.articles {
+.articles, .messages {
     flex: 3;
     background-color: #ecf0f1;
     padding: 20px;
@@ -131,7 +131,7 @@
     max-height: 350px;
 }
 
-.article-profile-mini-img {
+.article-profile-mini-img, .chat-profile-mini-img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -146,7 +146,7 @@
     margin-right: 3px;
 }
 
-.article-content {
+.article-content, .question-content {
     background-color: #ecf0f1;
     padding: 20px;
     border-radius: 10px;
@@ -183,3 +183,37 @@
     display: flex;
     justify-content: right;
 }
+
+.question-header, .question-body {
+    padding: 6px;
+    color: #000;
+    background-color: white;
+    margin: 1px;
+}
+
+.question-header-author-info {
+    border-radius: 5px;
+    padding: 6px;
+    margin: 2px;
+    background-color: #D6E8FAFF;
+}
+
+.default-button {
+    color: white;
+    padding: 10px 20px;
+    background-color: #3498db;
+    border-radius: 8px;
+}
+
+.default-button:hover {
+    background: #198754;
+}
+
+.chat {
+    background: white;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+

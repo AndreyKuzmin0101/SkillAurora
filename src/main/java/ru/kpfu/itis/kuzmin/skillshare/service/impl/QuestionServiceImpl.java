@@ -62,6 +62,7 @@ public class QuestionServiceImpl implements QuestionService {
         QuestionEntity question = questionMapper.toEntity(questionDto);
         question.setCreatedDate(new Date(System.currentTimeMillis()));
         question.setStatus(QuestionStatus.OPEN);
+        question.setViews(0L);
 
         UserEntity author = UserEntity.builder()
                 .id(SecurityUtil.getIdAuthenticatedUser())

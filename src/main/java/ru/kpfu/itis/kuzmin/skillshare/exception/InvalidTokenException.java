@@ -1,12 +1,11 @@
-package ru.kpfu.itis.kuzmin.skillshare.security.exception;
+package ru.kpfu.itis.kuzmin.skillshare.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.FORBIDDEN)
-public class InvalidTokenException extends AuthenticationException {
+public class InvalidTokenException extends ServiceException {
     public InvalidTokenException(String msg) {
-        super(msg);
+        super(msg, HttpStatus.FORBIDDEN);
     }
 }

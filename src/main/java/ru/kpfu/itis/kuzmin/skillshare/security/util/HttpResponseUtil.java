@@ -14,12 +14,12 @@ import java.util.Map;
 public class HttpResponseUtil {
 
     public static void putExceptionInResponse(HttpServletRequest request, HttpServletResponse response,
-                                              Exception exception, String error, int exceptionStatus) throws IOException {
+                                              Exception exception, int exceptionStatus) throws IOException {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(exceptionStatus);
         final Map<String, Object> body = new HashMap<>();
         body.put("status", exceptionStatus);
-        body.put("error", error);
+        body.put("error", "Unauthorized");
         body.put("message", exception.getMessage());
         body.put("path", request.getRequestURI());
 

@@ -17,12 +17,12 @@ public class ChatEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @PrimaryKeyJoinColumn(name = "first_user")
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "first_user")
     private UserEntity firstUser;
 
-    @OneToOne
-    @PrimaryKeyJoinColumn(name = "second_user")
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "second_user")
     private UserEntity secondUser;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "chat")

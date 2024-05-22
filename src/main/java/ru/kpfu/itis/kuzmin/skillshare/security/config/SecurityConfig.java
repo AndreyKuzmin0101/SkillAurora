@@ -25,7 +25,7 @@ public class SecurityConfig {
             "/api/v1/answers/*/mark", "/api/v1/answers/*/unmark",
             "/api/v1/answers/create/*", "/api/v1/files/upload/image",
             "/api/v1/ratings/**", "/api/v1/settings/**", "/api/v1/users/me/**",
-            "/create/question", "/questions/{id}/close", "/api/v1/auth/check"
+            "/questions/{id}/close", "/api/v1/auth/check"
     };
 
     @Bean
@@ -37,6 +37,7 @@ public class SecurityConfig {
                     auth
                             .requestMatchers("/login", "/register", "/api/v1/auth/login").anonymous()
                             .requestMatchers(AUTHENTICATED).authenticated()
+                            .requestMatchers(HttpMethod.POST, "/create/question").authenticated()
                             .requestMatchers(HttpMethod.POST, "/api/v1/users").anonymous()
                             .requestMatchers("/api/v1/users/**").hasRole(Roles.ADMIN.getName())
                             .requestMatchers(HttpMethod.POST, "/create/article").hasAnyRole(Roles.AUTHOR.getName(), Roles.ADMIN.getName(), Roles.MODER.getName())
@@ -49,10 +50,7 @@ public class SecurityConfig {
                             // TODO: как правильно отдавать на фронт ошибки
                             .failureUrl("/login");
                 })
-                .logout(logout -> {
-                    logout
-                            .logoutUrl("/logout");
-                })
+                .logout(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 );

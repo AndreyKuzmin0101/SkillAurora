@@ -29,10 +29,10 @@
                     <h4>Статус</h4>
                     <ul id="status">
                         <li>
-                            <input type="radio" name="status-input" value="all" checked> Любой
+                            <input type="radio" name="status-input" value="all"> Любой
                         </li>
                         <li>
-                            <input type="radio" name="status-input" value="OPEN"> Открытые
+                            <input type="radio" name="status-input" value="OPEN" checked> Открытые
                         </li>
                         <li>
                             <input type="radio" name="status-input" value="RESOLVED"> Решённые
@@ -51,11 +51,13 @@
                 </div>
             </div>
         </div>
-        <div id="questions-stream" class="articles">
+
+        <div id="questions" class="articles">
             <div class="stream-header" style="display:flex; justify-content: space-between">
                 <h2>Поток вопросов</h2>
                 <a style="text-decoration: none;" href="/create/question"><button class="btn btn-outline-success">Задать вопрос</button></a>
             </div>
+            <div id="questions-stream"></div>
         </div>
     </div>
     <script src="js/question-filter.js"></script>

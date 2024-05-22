@@ -6,16 +6,13 @@ import org.springframework.stereotype.Service;
 import ru.kpfu.itis.kuzmin.skillshare.dto.request.TokenRequest;
 import ru.kpfu.itis.kuzmin.skillshare.dto.response.RefreshTokenResponse;
 import ru.kpfu.itis.kuzmin.skillshare.dto.response.TokenCoupleResponse;
-import ru.kpfu.itis.kuzmin.skillshare.model.RoleEntity;
+import ru.kpfu.itis.kuzmin.skillshare.exception.BadCredentialsException;
 import ru.kpfu.itis.kuzmin.skillshare.model.UserEntity;
 import ru.kpfu.itis.kuzmin.skillshare.repository.spring.UserSpringRepository;
-import ru.kpfu.itis.kuzmin.skillshare.security.exception.AuthenticationHeaderException;
 import ru.kpfu.itis.kuzmin.skillshare.security.provider.JwtAccessTokenProvider;
-import ru.kpfu.itis.kuzmin.skillshare.security.util.SecurityConstants;
 import ru.kpfu.itis.kuzmin.skillshare.service.AuthService;
 import ru.kpfu.itis.kuzmin.skillshare.service.RefreshTokenService;
 
-import java.util.HashMap;
 import java.util.Optional;
 
 @Service
@@ -31,7 +28,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public TokenCoupleResponse login(String username, String password) {
-        Optional<UserEntity> optionalUser =  userSpringRepository.findByUsername(username);
+        Optional<UserEntity> optionalUser = userSpringRepository.findByUsername(username);
         if (optionalUser.isPresent()) {
             UserEntity user = optionalUser.get();
             if (passwordEncoder.matches(password, user.getPassword())) {
@@ -40,7 +37,7 @@ public class AuthServiceImpl implements AuthService {
                 return new TokenCoupleResponse(accessToken, refreshToken);
             }
         }
-        throw new AuthenticationHeaderException("Bad credentials");
+        throw new BadCredentialsException("Bad credentials");
     }
 
     @Override
