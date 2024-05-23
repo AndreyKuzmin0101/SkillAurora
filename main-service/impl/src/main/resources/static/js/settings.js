@@ -23,15 +23,56 @@ $(document).ready(function () {
         update_field('age', age, this);
     });
 
+
+    let country;
+    $('#search-countries').on('click', function () {
+        $('#country-list').empty()
+        let name = $('#country-search').val();
+
+        $.getJSON('/api/v1/countries?name=' + name).done(function (data) {
+            data.forEach(country => {
+                $('#country-list').append('<option value="' + country.name + '">' + country.name + '</option>')
+            })
+        })
+    });
+
     $('#country-button').on('click', function () {
-        let country = $('#country-input').val()
+        country = $('#country-list').val();
+
         update_field('country', country, this);
     });
 
+    $('#search-cities').on('click', function () {
+        $('#city-list').empty()
+        let name = $('#city-search').val();
+
+        if (!country && $('#country').text() !== '') {
+            $.getJSON('/api/v1/countries?name=' + $('#country').text()).done(function (data) {
+                if (data.length > 0) {
+                    country = data[0].iso2;
+                    $.getJSON('/api/v1/cities?name=' + name + '&country=' + country).done(function (data) {
+                        data.forEach(country => {
+                            $('#city-list').append('<option value="' + country.name + '">' + country.name + '</option>')
+                        })
+                    })
+                }
+            })
+        } else {
+            $.getJSON('/api/v1/cities?name=' + name + '&country=' + country).done(function (data) {
+                data.forEach(country => {
+                    $('#city-list').append('<option value="' + country.name + '">' + country.name + '</option>')
+                })
+            })
+        }
+    });
+
     $('#city-button').on('click', function () {
-        let city = $('#city-input').val()
+        let city = $('#city-list').val();
+
         update_field('city', city, this);
     });
+
+
     $('#email-button').on('click', function () {
         let email = $('#email-input').val()
         if (!validate_email(email)) {

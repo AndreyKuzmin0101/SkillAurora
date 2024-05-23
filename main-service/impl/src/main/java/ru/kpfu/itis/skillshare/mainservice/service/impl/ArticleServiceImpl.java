@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.kpfu.itis.skillshare.mainservice.dto.Roles;
 import ru.kpfu.itis.skillshare.mainservice.dto.request.ArticleFilter;
 import ru.kpfu.itis.skillshare.mainservice.dto.request.ArticleRequestDto;
@@ -45,17 +46,18 @@ public class ArticleServiceImpl implements ArticleService {
     private final ArticleJpaRepository articleJpaRepository;
 
     private final ArticleMapper articleMapper;
-    private final UserMapper userMapper;
-
-    //TODO: обновление кол-во просмотров. запрет доступа другим пользователям, если модерация не пройдена
 
     //TODO: как отделить логику от безопасности
     //TODO: лучше один админский эндпоинт и один для пользователей или совмещать?
+
     @Override
     public ArticleResponseDto getById(Long id) {
         Optional<ArticleEntity> articleOptional = articleSpringRepository.findById(id);
         if (articleOptional.isPresent()) {
             ArticleEntity article = articleOptional.get();
+            article.setViews(article.getViews() + 1);
+            articleSpringRepository.saveAndFlush(article);
+
             article.setAuthor(UserProfileUtil.processUser(article.getAuthor()));
             article.setRating(
                     ratingSpringRepository.sumRatingByArticleId(article.getId())
@@ -79,6 +81,7 @@ public class ArticleServiceImpl implements ArticleService {
                     throw new ArticleNotFoundException(id);
                 }
             } else {
+
                 return articleDto;
             }
         }

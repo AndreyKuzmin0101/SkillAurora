@@ -72,7 +72,13 @@
                 </div>
             </div>
         </div>
-        <div id="articles-stream" class="articles">
+        <div class="articles">
+            <div id="articles-stream">
+            </div>
+            <div class="articles-navigate">
+                <button id="prev-btn" style="margin-right: 3px" class="default-button">Назад</button>
+                <button id="next-btn" style="margin-left: 3px" class="default-button">Вперёд</button>
+            </div>
         </div>
     </div>
     <script src="js/article-filter.js"></script>

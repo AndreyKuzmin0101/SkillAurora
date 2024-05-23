@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.kpfu.itis.skillshare.mainservice.dto.request.QuestionFilter;
 import ru.kpfu.itis.skillshare.mainservice.dto.request.QuestionRequestDto;
 import ru.kpfu.itis.skillshare.mainservice.dto.request.TagRequestDto;
@@ -50,6 +51,10 @@ public class QuestionServiceImpl implements QuestionService {
         Optional<QuestionEntity> questionOptional = questionSpringRepository.findById(id);
         if (questionOptional.isPresent()) {
             QuestionEntity question = questionOptional.get();
+            question.setViews(question.getViews() + 1);
+
+            questionSpringRepository.increaseViews(question.getId());
+
             question.setAuthor(UserProfileUtil.processUser(question.getAuthor()));
             question.setCountAnswers(answerSpringRepository.findAllByQuestion(question).size());
             return questionMapper.toResponse(question);

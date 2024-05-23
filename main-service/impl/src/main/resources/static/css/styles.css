@@ -263,3 +263,9 @@
 .reject-button:hover {
     background-color: #e10000;
 }
+
+.articles-navigate {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+}

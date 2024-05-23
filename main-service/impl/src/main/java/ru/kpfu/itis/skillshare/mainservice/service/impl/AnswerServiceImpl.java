@@ -20,6 +20,7 @@ import ru.kpfu.itis.skillshare.mainservice.repository.spring.UserSpringRepositor
 import ru.kpfu.itis.skillshare.mainservice.security.exception.AuthorizationException;
 import ru.kpfu.itis.skillshare.mainservice.service.AnswerService;
 import ru.kpfu.itis.skillshare.mainservice.security.util.SecurityUtil;
+import ru.kpfu.itis.skillshare.mainservice.service.RatingService;
 import ru.kpfu.itis.skillshare.mainservice.utils.UserProfileUtil;
 
 import java.sql.Date;
@@ -30,6 +31,8 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class AnswerServiceImpl implements AnswerService {
+
+    private final RatingService ratingService;
 
     private final AnswerSpringRepository answerRepository;
     private final QuestionSpringRepository questionRepository;
@@ -67,6 +70,7 @@ public class AnswerServiceImpl implements AnswerService {
         throw new AnswerNotFoundException(questionId);
     }
 
+    @Transactional
     @Override
     public AnswerResponseDto save(Long questionId, AnswerRequestDto answerDto) {
         Optional<QuestionEntity> optionalQuestion = questionRepository.findById(questionId);
@@ -90,11 +94,12 @@ public class AnswerServiceImpl implements AnswerService {
 
         answer.setBestAnswer(false);
 
-        AnswerEntity answerEntity = answerRepository.save(answer);
+        AnswerEntity answerEntity = answerRepository.saveAndFlush(answer);
         answerEntity.setAuthor(UserProfileUtil.processUser(answerEntity.getAuthor()));
         return answerMapper.toResponse(answerEntity);
     }
 
+    @Transactional
     @Override
     public void markAsTheBest(Long answerId) {
         Optional<AnswerEntity> optionalAnswer = answerRepository.findById(answerId);
@@ -110,6 +115,10 @@ public class AnswerServiceImpl implements AnswerService {
                     AnswerEntity bestAnswer = optionalBestAnswer.get();
                     bestAnswer.setBestAnswer(false);
                     answerRepository.save(bestAnswer);
+
+                    UserEntity author = bestAnswer.getAuthor();
+                    author.setRating(author.getRating() - 20);
+                    ratingService.checkCurrentRating(author.getId());
                 }
 
                 answer.setBestAnswer(true);
@@ -117,6 +126,11 @@ public class AnswerServiceImpl implements AnswerService {
 
                 question.setStatus(QuestionStatus.RESOLVED);
                 questionRepository.save(question);
+
+                UserEntity author = answer.getAuthor();
+                author.setRating(author.getRating() + 20);
+                userSpringRepository.save(author);
+                ratingService.checkCurrentRating(author.getId());
             } else {
                 throw new AuthorizationException("You are not author of question");
             }
@@ -125,6 +139,7 @@ public class AnswerServiceImpl implements AnswerService {
         }
     }
 
+    @Transactional
     @Override
     public void unmarkTheBest(Long answerId) {
         Optional<AnswerEntity> optionalAnswer = answerRepository.findById(answerId);
@@ -133,12 +148,16 @@ public class AnswerServiceImpl implements AnswerService {
             QuestionEntity question = answer.getQuestion();
 
             Long userId = SecurityUtil.getIdAuthenticatedUser();
-            if (question.getAuthor().getId().equals(userId)) {
+            if (answer.getBestAnswer() && question.getAuthor().getId().equals(userId)) {
                 answer.setBestAnswer(false);
                 answerRepository.save(answer);
 
                 question.setStatus(QuestionStatus.OPEN);
                 questionRepository.save(question);
+
+                UserEntity author = answer.getAuthor();
+                author.setRating(author.getRating() - 20);
+                userSpringRepository.save(author);
             } else {
                 throw new AuthorizationException("You are not author of question");
             }
@@ -146,4 +165,5 @@ public class AnswerServiceImpl implements AnswerService {
             throw new AnswerNotFoundException(answerId);
         }
     }
+
 }

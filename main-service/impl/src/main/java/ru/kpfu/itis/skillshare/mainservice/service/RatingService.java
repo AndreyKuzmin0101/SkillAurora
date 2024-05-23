@@ -9,4 +9,6 @@ public interface RatingService {
     void plusToArticle(Long articleId);
 
     void minusToArticle(Long articleId);
+
+    void checkCurrentRating(Long userId);
 }

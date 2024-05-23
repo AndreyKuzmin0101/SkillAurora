@@ -50,7 +50,12 @@
             <span id="country"></span>
             <button class="edit-btn" data-target="Country">✏️</button>
             <div class="edit-field" id="editCountry">
-                <input id="country-input" type="text" placeholder="Страна">
+                <input class="form-control me-2" type="search" placeholder="Поиск стран" id="country-search" style="width: 200px; margin-bottom: 5px; display: inline-block">
+                <button id="search-countries" class="edit-btn">🔍</button>
+                <div class="mb-3">
+                    <select class="form-select" id="country-list">
+                    </select>
+                </div>
                 <button id="country-button" data-target="Country" class="confirm-btn">Подтвердить</button>
             </div>
         </div>
@@ -59,7 +64,12 @@
             <span id="city"></span>
             <button class="edit-btn" data-target="City">✏️</button>
             <div class="edit-field" id="editCity">
-                <input id="city-input" type="text" placeholder="Город">
+                <input class="form-control me-2" type="search" placeholder="Поиск стран" id="city-search" style="width: 200px; margin-bottom: 5px; display: inline-block">
+                <button id="search-cities" class="edit-btn">🔍</button>
+                <div class="mb-3">
+                    <select class="form-select" id="city-list">
+                    </select>
+                </div>
                 <button id="city-button" data-target="City" class="confirm-btn">Подтвердить</button>
             </div>
         </div>

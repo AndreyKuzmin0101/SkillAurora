@@ -2,15 +2,22 @@ package ru.kpfu.itis.skillshare.mainservice.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.kpfu.itis.skillshare.mainservice.dto.Roles;
 import ru.kpfu.itis.skillshare.mainservice.exception.notfound.ArticleNotFoundException;
 import ru.kpfu.itis.skillshare.mainservice.model.ArticleEntity;
 import ru.kpfu.itis.skillshare.mainservice.model.RatingEntity;
+import ru.kpfu.itis.skillshare.mainservice.model.RoleEntity;
 import ru.kpfu.itis.skillshare.mainservice.model.UserEntity;
 import ru.kpfu.itis.skillshare.mainservice.repository.spring.ArticleSpringRepository;
 import ru.kpfu.itis.skillshare.mainservice.repository.spring.RatingSpringRepository;
+import ru.kpfu.itis.skillshare.mainservice.repository.spring.RoleSpringRepository;
+import ru.kpfu.itis.skillshare.mainservice.repository.spring.UserSpringRepository;
 import ru.kpfu.itis.skillshare.mainservice.service.RatingService;
 import ru.kpfu.itis.skillshare.mainservice.security.util.SecurityUtil;
 
+import javax.management.relation.RoleNotFoundException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,6 +26,8 @@ public class RatingServiceImpl implements RatingService {
 
     private final ArticleSpringRepository articleSpringRepository;
     private final RatingSpringRepository ratingSpringRepository;
+    private final UserSpringRepository userSpringRepository;
+    private final RoleSpringRepository roleSpringRepository;
 
     @Override
     public Long getArticleRating(Long articleId) {
@@ -44,6 +53,7 @@ public class RatingServiceImpl implements RatingService {
         throw new ArticleNotFoundException(articleId);
     }
 
+    @Transactional
     @Override
     public void plusToArticle(Long articleId) {
         Long userId = SecurityUtil.getIdAuthenticatedUser();
@@ -51,6 +61,7 @@ public class RatingServiceImpl implements RatingService {
         changeArticleRating(articleId, rating);
     }
 
+    @Transactional
     @Override
     public void minusToArticle(Long articleId) {
         Long userId = SecurityUtil.getIdAuthenticatedUser();
@@ -58,37 +69,49 @@ public class RatingServiceImpl implements RatingService {
         changeArticleRating(articleId, rating);
     }
 
+    @Override
+    public void checkCurrentRating(Long userId) {
+        UserEntity user = userSpringRepository.findById(userId).get();
+        List<String> roles = user.getRoles().stream().map(RoleEntity::getName).toList();
+        if (user.getRating() >= 200 && !roles.contains(Roles.AUTHOR.getFullName())) {
+            RoleEntity roleAuthor = roleSpringRepository.findByName(Roles.AUTHOR.getFullName()).get();
+            user.getRoles().add(roleAuthor);
+        } else if (user.getRating() < 200 && roles.contains(Roles.AUTHOR.getFullName())) {
+            user.getRoles().removeIf(roleEntity -> roleEntity.getName().equals(Roles.AUTHOR.getFullName()));
+        }
+    }
+
     // В зависимости от репутации пользователя или иных причин оценка пользователя
     // может быть более или менее ценной
     private Integer determineRatingChange(Long userId) {
-        return 10;
+        return 5;
     }
 
     private void changeArticleRating(Long articleId, Integer rating) {
         Optional<ArticleEntity> optionalArticle = articleSpringRepository.findById(articleId);
         if (optionalArticle.isPresent()) {
             Long userId = SecurityUtil.getIdAuthenticatedUser();
+            UserEntity author = userSpringRepository.findById(userId).get();
+            author.setRating(author.getRating() + rating);
+
+            checkCurrentRating(author.getId());
+
             Optional<RatingEntity> optionalRating = ratingSpringRepository.findByArticleAndUser(articleId, userId);
 
             if (optionalRating.isEmpty()) {
                 optionalRating = Optional.of(
                         RatingEntity.builder()
                         .article(ArticleEntity.builder().id(articleId).build())
-                        .user(UserEntity.builder().id(userId).build())
+                        .user(author)
                         .build()
                 );
             }
 
             RatingEntity ratingEntity = optionalRating.get();
             ratingEntity.setRatingValue(rating);
-
-            ratingSpringRepository.save(optionalRating.get());
         } else {
             throw new ArticleNotFoundException(articleId);
         }
     }
-
-
-
 
 }

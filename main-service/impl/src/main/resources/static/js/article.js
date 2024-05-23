@@ -29,7 +29,7 @@ response.then(res => {
 
 
 
-let check_auth_request = sendAuthenticatedRequest('/api/v1/auth/api/v1/auth/check', {method: 'GET'})
+let check_auth_request = sendAuthenticatedRequest('/api/v1/auth/check', {method: 'GET'})
 let authenticated = check_auth_request.then(res => {
    return res.status === 200;
 })
