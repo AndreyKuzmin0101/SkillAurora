@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import ru.kpfu.itis.skillshare.mainservice.dto.Roles;
 import ru.kpfu.itis.skillshare.mainservice.dto.request.ArticleFilter;
@@ -147,4 +148,34 @@ public class ArticleServiceImpl implements ArticleService {
                         }
                 ).map(articleMapper::toResponse).toList();
     }
+
+    @Override
+    public List<ArticleResponseDto> getPageWaiting(Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("publicationDate"));
+        Page<ArticleEntity> entitiesPage = articleSpringRepository.findAllByModerationStatus("waiting", pageable);
+
+        if (page > entitiesPage.getTotalPages()) {
+            throw new ArticleNotFoundException();
+        }
+
+        return entitiesPage.stream()
+                .peek(articleEntity -> {
+                            articleEntity.setAuthor(UserProfileUtil.processUser(articleEntity.getAuthor()));
+                        }
+                ).map(articleMapper::toResponse).toList();
+    }
+
+    @Override
+    public void setModerationStatus(Long articleId, String moderationStatus) {
+        Optional<ArticleEntity> optionalArticle = articleSpringRepository.findById(articleId);
+        if (optionalArticle.isPresent()) {
+            ArticleEntity article = optionalArticle.get();
+            article.setModerationStatus(moderationStatus);
+            articleSpringRepository.save(article);
+        } else {
+            throw new ArticleNotFoundException(articleId);
+        }
+    }
+
+
 }

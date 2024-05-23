@@ -236,3 +236,30 @@
     width: 92%;
 }
 
+.moderation-articles {
+    margin: 10px 150px;
+    background-color: #ecf0f1;
+    padding: 20px;
+}
+
+.confirm-button {
+    color: white;
+    padding: 10px 20px;
+    background-color: #44ce44;
+    border-radius: 8px;
+}
+
+.confirm-button:hover {
+    background: #198754;
+}
+
+.reject-button {
+    color: white;
+    padding: 10px 20px;
+    background-color: #ff4b4b;
+    border-radius: 8px;
+}
+
+.reject-button:hover {
+    background-color: #e10000;
+}

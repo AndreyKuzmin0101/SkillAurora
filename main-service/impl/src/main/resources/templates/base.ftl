@@ -27,7 +27,7 @@
         <li><a href="/questions">Вопросы</a></li>
         <li><a href="#">Вакансии</a></li>
         <li><a href="#">Резюме</a></li>
-        <li><a href="#">Модерация</a></li>
+        <li><a href="/moderation">Модерация</a></li>
     </ul>
 </nav>
 

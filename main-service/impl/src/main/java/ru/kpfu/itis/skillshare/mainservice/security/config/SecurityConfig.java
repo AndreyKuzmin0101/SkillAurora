@@ -42,6 +42,7 @@ public class SecurityConfig {
                             .requestMatchers(HttpMethod.POST, "/api/v1/users").anonymous()
                             .requestMatchers("/api/v1/users/**").hasRole(Roles.ADMIN.getName())
                             .requestMatchers(HttpMethod.POST, "/create/article").hasAnyRole(Roles.AUTHOR.getName(), Roles.ADMIN.getName(), Roles.MODER.getName())
+                            .requestMatchers("/api/v1/articles/moderation", "/api/v1/articles/*/moderation/**").hasAnyRole(Roles.ADMIN.getName(), Roles.MODER.getName())
                             .requestMatchers("/**").permitAll();
                 })
                 .formLogin(login -> {

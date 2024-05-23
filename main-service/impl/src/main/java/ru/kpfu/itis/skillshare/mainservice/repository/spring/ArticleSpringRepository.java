@@ -1,5 +1,7 @@
 package ru.kpfu.itis.skillshare.mainservice.repository.spring;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import ru.kpfu.itis.skillshare.mainservice.model.ArticleEntity;
 import ru.kpfu.itis.skillshare.mainservice.model.UserEntity;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -17,4 +20,5 @@ public interface ArticleSpringRepository extends JpaRepository<ArticleEntity, Lo
     @Query("select a.author from ArticleEntity a where a.id = :articleId")
     Optional<UserEntity> findAuthorByArticleId(@Param("articleId") Long articleId);
 
+    Page<ArticleEntity> findAllByModerationStatus(String moderationStatus, Pageable pageable);
 }

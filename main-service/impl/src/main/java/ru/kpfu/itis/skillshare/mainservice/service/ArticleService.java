@@ -9,6 +9,7 @@ import java.util.List;
 public interface ArticleService {
     ArticleResponseDto getById(Long id);
     Long save(Long authorId, ArticleRequestDto articleDto);
-
     List<ArticleResponseDto> getPageFiltered(ArticleFilter filter);
+    List<ArticleResponseDto> getPageWaiting(Integer page, Integer size);
+    void setModerationStatus(Long articleId, String moderationStatus);
 }

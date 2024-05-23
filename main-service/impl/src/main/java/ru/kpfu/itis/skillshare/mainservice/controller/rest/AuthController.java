@@ -47,6 +47,9 @@ public class AuthController implements AuthApi {
             if (url.equals("/create/article")) {
                 List<String> resolved = List.of(Roles.AUTHOR.getFullName(), Roles.ADMIN.getFullName(), Roles.MODER.getFullName());
                 return roles.anyMatch(resolved::contains);
+            } else if (url.equals("/moderation")) {
+                List<String> resolved = List.of(Roles.ADMIN.getFullName(), Roles.MODER.getFullName());
+                return roles.anyMatch(resolved::contains);
             }
         }
         return false;
