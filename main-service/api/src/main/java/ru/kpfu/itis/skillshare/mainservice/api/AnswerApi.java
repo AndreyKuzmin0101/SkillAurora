@@ -49,5 +49,5 @@ public interface AnswerApi {
     @SecurityRequirement(name = "JWT")
     @PostMapping("/{question-id}/answers")
     @ResponseStatus(HttpStatus.CREATED)
-    Long postAnswer(@PathVariable("question-id") Long questionId, AnswerRequestDto answerRequest);
+    AnswerResponseDto postAnswer(@PathVariable("question-id") Long questionId, @RequestBody AnswerRequestDto answerRequest);
 }

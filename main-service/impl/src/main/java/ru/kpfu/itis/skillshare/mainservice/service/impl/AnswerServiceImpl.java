@@ -3,6 +3,7 @@ package ru.kpfu.itis.skillshare.mainservice.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.kpfu.itis.skillshare.mainservice.dto.request.AnswerRequestDto;
 import ru.kpfu.itis.skillshare.mainservice.dto.response.AnswerResponseDto;
 import ru.kpfu.itis.skillshare.mainservice.exception.QuestionAlreadyClosedException;
@@ -15,12 +16,14 @@ import ru.kpfu.itis.skillshare.mainservice.dto.QuestionStatus;
 import ru.kpfu.itis.skillshare.mainservice.model.UserEntity;
 import ru.kpfu.itis.skillshare.mainservice.repository.spring.AnswerSpringRepository;
 import ru.kpfu.itis.skillshare.mainservice.repository.spring.QuestionSpringRepository;
+import ru.kpfu.itis.skillshare.mainservice.repository.spring.UserSpringRepository;
 import ru.kpfu.itis.skillshare.mainservice.security.exception.AuthorizationException;
 import ru.kpfu.itis.skillshare.mainservice.service.AnswerService;
 import ru.kpfu.itis.skillshare.mainservice.security.util.SecurityUtil;
 import ru.kpfu.itis.skillshare.mainservice.utils.UserProfileUtil;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +33,7 @@ public class AnswerServiceImpl implements AnswerService {
 
     private final AnswerSpringRepository answerRepository;
     private final QuestionSpringRepository questionRepository;
+    private final UserSpringRepository userSpringRepository;
 
     private final AnswerMapper answerMapper;
 
@@ -38,7 +42,23 @@ public class AnswerServiceImpl implements AnswerService {
         Optional<QuestionEntity> optionalQuestion = questionRepository.findById(questionId);
         if (optionalQuestion.isPresent()) {
             List<AnswerEntity> answers = answerRepository.findAllByQuestion(optionalQuestion.get());
-            return answers.stream()
+            List<AnswerEntity> sortedAnswers = new ArrayList<>();
+            for (AnswerEntity answer: answers) {
+                if (answer.getBestAnswer()) {
+                    sortedAnswers.add(answer);
+                    break;
+                }
+            }
+            if (!sortedAnswers.isEmpty()) {
+                for (AnswerEntity answer: answers) {
+                    if (answer.getBestAnswer()) continue;
+                    sortedAnswers.add(answer);
+                }
+            } else {
+                sortedAnswers = answers;
+            }
+
+            return sortedAnswers.stream()
                     .peek(answerEntity -> answerEntity.setAuthor(
                             UserProfileUtil.processUser(answerEntity.getAuthor())
                     ))
@@ -48,7 +68,7 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public Long save(Long questionId, AnswerRequestDto answerDto) {
+    public AnswerResponseDto save(Long questionId, AnswerRequestDto answerDto) {
         Optional<QuestionEntity> optionalQuestion = questionRepository.findById(questionId);
         if (optionalQuestion.isEmpty()) {
             throw new QuestionNotFoundException(questionId);
@@ -63,17 +83,16 @@ public class AnswerServiceImpl implements AnswerService {
         AnswerEntity answer = answerMapper.toEntity(answerDto);
         answer.setCreatedDate(new Date(System.currentTimeMillis()));
 
+        answer.setQuestion(question);
 
-        UserEntity author = UserEntity.builder()
-                .id(SecurityUtil.getIdAuthenticatedUser())
-                .build();
+        UserEntity author = userSpringRepository.findById(SecurityUtil.getIdAuthenticatedUser()).get();
         answer.setAuthor(author);
 
         answer.setBestAnswer(false);
 
-        return answerRepository
-                .save(answer)
-                .getId();
+        AnswerEntity answerEntity = answerRepository.save(answer);
+        answerEntity.setAuthor(UserProfileUtil.processUser(answerEntity.getAuthor()));
+        return answerMapper.toResponse(answerEntity);
     }
 
     @Override

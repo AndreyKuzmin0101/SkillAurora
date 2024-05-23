@@ -5,5 +5,5 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.sql.Date;
 
 @Schema(description = "Модель для получения ответа")
-public record AnswerResponseDto(String content, Date createdDate, UserResponseDto author, Boolean bestAnswer) {
+public record AnswerResponseDto(Long id, String content, Date createdDate, UserResponseDto author, Boolean bestAnswer) {
 }

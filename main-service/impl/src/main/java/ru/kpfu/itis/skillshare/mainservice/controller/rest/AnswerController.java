@@ -32,7 +32,7 @@ public class AnswerController implements AnswerApi {
     }
 
     @Override
-    public Long postAnswer(Long questionId,
+    public AnswerResponseDto postAnswer(Long questionId,
                            @Validated AnswerRequestDto answerRequest) {
         return answerService.save(questionId, answerRequest);
     }

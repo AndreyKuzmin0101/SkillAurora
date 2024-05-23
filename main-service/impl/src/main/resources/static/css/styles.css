@@ -217,3 +217,22 @@
     margin-bottom: 5px;
 }
 
+.answers {
+    margin: 10px 100px;
+}
+
+.answer {
+
+
+}
+
+.answer-info {
+    display: inline-block;
+    width: 7%;
+}
+
+.answer-content {
+    display: inline-block;
+    width: 92%;
+}
+

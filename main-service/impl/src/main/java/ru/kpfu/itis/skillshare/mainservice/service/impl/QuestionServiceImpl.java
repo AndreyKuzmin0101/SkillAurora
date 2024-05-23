@@ -21,6 +21,7 @@ import ru.kpfu.itis.skillshare.mainservice.model.UserEntity;
 import ru.kpfu.itis.skillshare.mainservice.repository.jpa.QuestionJpaRepository;
 import ru.kpfu.itis.skillshare.mainservice.repository.spring.AnswerSpringRepository;
 import ru.kpfu.itis.skillshare.mainservice.repository.spring.QuestionSpringRepository;
+import ru.kpfu.itis.skillshare.mainservice.security.exception.AuthenticationHeaderException;
 import ru.kpfu.itis.skillshare.mainservice.security.exception.AuthorizationException;
 import ru.kpfu.itis.skillshare.mainservice.security.util.SecurityUtil;
 import ru.kpfu.itis.skillshare.mainservice.service.QuestionService;
@@ -120,6 +121,23 @@ public class QuestionServiceImpl implements QuestionService {
             }
         } else {
             throw new QuestionNotFoundException(questionId);
+        }
+    }
+
+    @Override
+    public Boolean isAuthor(Long questionId) {
+        try {
+            Long userId = SecurityUtil.getIdAuthenticatedUser();
+            Optional<QuestionEntity> optionalQuestion = questionSpringRepository.findById(questionId);
+            if (optionalQuestion.isPresent()) {
+                QuestionEntity question = optionalQuestion.get();
+                return question.getAuthor().getId().equals(userId);
+            } else {
+                throw new QuestionNotFoundException(questionId);
+            }
+
+        } catch (AuthenticationHeaderException e) {
+            return false;
         }
     }
 }

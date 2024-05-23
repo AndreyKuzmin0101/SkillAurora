@@ -14,4 +14,6 @@ public interface QuestionService {
     List<QuestionResponseDto> getPageFiltered(QuestionFilter filter);
 
     void close(Long questionId);
+
+    Boolean isAuthor(Long questionId);
 }

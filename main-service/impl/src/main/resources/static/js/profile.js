@@ -29,7 +29,7 @@ response.then(res => {
     data.skills.forEach(skill => {
         $('#skills').append('<span class="tag-style">' + skill.name + '</span>');
         $('#selected-tags').append('<span class="tag-style">' + skill.name + '</span>');
-    })
+    });
 }).catch(() => {
     window.location.replace('/');
     alert('Войдите, чтобы зайти в профиль');

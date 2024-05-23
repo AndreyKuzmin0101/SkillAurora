@@ -3,6 +3,7 @@
 <#macro headtags>
     <link rel="stylesheet" href="/css/styles.css">
     <script src="/js/tags.js"></script>
+    <script src="/js/ckeditor/build/ckeditor.js"></script>
     <script type="module" src="/js/question.js"></script>
 </#macro>
 
@@ -22,6 +23,12 @@
                 <img class="article-profile-mini-img" src="${question.author().profileImage()}">
                 <span>${question.author().username()}</span>
             </div>
+        </div>
+    </div>
+    <div class="answers">
+        <div style="margin-bottom: 15px" id="write-answer"></div>
+        <hr>
+        <div id="answers">
         </div>
     </div>
 </#macro>

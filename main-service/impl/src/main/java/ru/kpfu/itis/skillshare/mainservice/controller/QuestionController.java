@@ -27,7 +27,7 @@ public class QuestionController {
 
     @GetMapping("/questions/filter")
     @ResponseBody
-    public List<QuestionResponseDto> getPageFilteredQuestions(@Validated @RequestBody QuestionFilter filter) {
+    public List<QuestionResponseDto> getPageFilteredQuestions(@Validated QuestionFilter filter) {
         return questionService.getPageFiltered(filter);
     }
 
@@ -58,4 +58,10 @@ public class QuestionController {
         questionService.close(questionId);
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    @GetMapping("/questions/{id}/is-author")
+    public Boolean isAuthor(@PathVariable("id") Long questionId) {
+        return questionService.isAuthor(questionId);
+    }
 }
