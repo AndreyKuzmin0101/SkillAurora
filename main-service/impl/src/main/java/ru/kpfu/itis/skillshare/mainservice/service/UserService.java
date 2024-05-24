@@ -18,7 +18,6 @@ public interface UserService {
 
     String updateProfileImage(MultipartFile image) throws IOException;
 
-    // TODO: с пользователем связаны статьи, теги, вопросы, ответы, что делать?
     void deleteUser(Long id);
 
     List<UserResponseDto> getAll();

@@ -7,7 +7,7 @@ response.then(res => {
    if (res.status === 200) {
       return res.json();
    }
-   return Promise.reject();
+   return Promise.reject(res);
 }).then(res => {
    document.title = res.title;
    $('#article-author-mini-img').attr('src', res.author.profileImage);
@@ -21,20 +21,19 @@ response.then(res => {
    })
    $('#article-content').html(res.content);
    $('#rating').html(res.rating);
-}).catch(() => {
-   window.location.replace('/');
-   // TODO: not found form
-   alert('УПС')
+}).catch((reason) => {
+   if (reason.status === 404) {
+      window.location.replace('/404')
+   }
+   return Promise.reject();
 })
 
 
-
-let check_auth_request = sendAuthenticatedRequest('/api/v1/auth/check', {method: 'GET'})
-let authenticated = check_auth_request.then(res => {
-   return res.status === 200;
-})
-
-$(document).ready(function () {
+$(document).ready(function (){
+   let check_auth_request = sendAuthenticatedRequest('/api/v1/auth/check', {method: 'GET'})
+   let authenticated = check_auth_request.then(res => {
+      return res.status === 200;
+   })
 
    authenticated.then(res => {
       if (res === true) {
@@ -46,11 +45,11 @@ $(document).ready(function () {
             }
             return Promise.reject(res.json());
          }).then(res => {
-            if (response > 0) {
+            if (res > 0) {
                $('#plus-btn').prop('disabled', true);
                $('#minus-btn').prop('disabled', false);
                $('#plus-btn').addClass('btn-success');
-            } else if (response < 0) {
+            } else if (res < 0) {
                $('#minus-btn').prop('disabled', true);
                $('#plus-btn').prop('disabled', false);
                $('#minus-btn').addClass('btn-success');
@@ -95,4 +94,4 @@ $(document).ready(function () {
          $('#minus-btn').prop('disabled', false);
       }
    })
-});
+})

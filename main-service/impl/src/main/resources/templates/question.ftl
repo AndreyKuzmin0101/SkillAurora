@@ -13,6 +13,7 @@
             <div><h3><strong>${question.title()}</strong></h3></div>
             <span style="margin-right: 20px; color: gray">Вопрос задан: ${question.createdDate()}</span>
             <span style="color:gray;">Просмотров: ${question.views()}</span>
+            <div id="manage-question" style="display: flex; justify-content: right"></div>
         </div>
         <div class="question-body">
             <div>${question.content()}</div>

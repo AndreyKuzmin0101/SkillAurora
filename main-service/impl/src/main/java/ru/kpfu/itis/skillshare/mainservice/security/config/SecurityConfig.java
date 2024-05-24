@@ -4,12 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.header.writers.XXssProtectionHeaderWriter;
 import org.springframework.web.filter.OncePerRequestFilter;
 import ru.kpfu.itis.skillshare.mainservice.dto.Roles;
 import ru.kpfu.itis.skillshare.mainservice.security.fliter.JwtTokenAuthenticationFilter;
@@ -44,13 +46,6 @@ public class SecurityConfig {
                             .requestMatchers(HttpMethod.POST, "/create/article").hasAnyRole(Roles.AUTHOR.getName(), Roles.ADMIN.getName(), Roles.MODER.getName())
                             .requestMatchers("/api/v1/articles/moderation", "/api/v1/articles/*/moderation/**").hasAnyRole(Roles.ADMIN.getName(), Roles.MODER.getName())
                             .requestMatchers("/**").permitAll();
-                })
-                .formLogin(login -> {
-                    login
-                            .loginPage("/login")
-                            .defaultSuccessUrl("/profile")
-                            // TODO: как правильно отдавать на фронт ошибки
-                            .failureUrl("/login");
                 })
                 .logout(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session

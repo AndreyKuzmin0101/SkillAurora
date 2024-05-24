@@ -12,6 +12,7 @@ import ru.kpfu.itis.skillshare.mainservice.dto.request.QuestionFilter;
 import ru.kpfu.itis.skillshare.mainservice.dto.request.QuestionRequestDto;
 import ru.kpfu.itis.skillshare.mainservice.dto.request.TagRequestDto;
 import ru.kpfu.itis.skillshare.mainservice.dto.response.QuestionResponseDto;
+import ru.kpfu.itis.skillshare.mainservice.exception.QuestionAlreadyResolvedException;
 import ru.kpfu.itis.skillshare.mainservice.exception.notfound.AnswerNotFoundException;
 import ru.kpfu.itis.skillshare.mainservice.exception.notfound.QuestionNotFoundException;
 import ru.kpfu.itis.skillshare.mainservice.mapper.QuestionMapper;
@@ -25,6 +26,7 @@ import ru.kpfu.itis.skillshare.mainservice.repository.spring.QuestionSpringRepos
 import ru.kpfu.itis.skillshare.mainservice.security.exception.AuthenticationHeaderException;
 import ru.kpfu.itis.skillshare.mainservice.security.exception.AuthorizationException;
 import ru.kpfu.itis.skillshare.mainservice.security.util.SecurityUtil;
+import ru.kpfu.itis.skillshare.mainservice.security.util.XssFilterUtil;
 import ru.kpfu.itis.skillshare.mainservice.service.QuestionService;
 import ru.kpfu.itis.skillshare.mainservice.service.TagService;
 import ru.kpfu.itis.skillshare.mainservice.utils.UserProfileUtil;
@@ -59,13 +61,16 @@ public class QuestionServiceImpl implements QuestionService {
             question.setCountAnswers(answerSpringRepository.findAllByQuestion(question).size());
             return questionMapper.toResponse(question);
         } else {
-            throw new AnswerNotFoundException(id);
+            throw new QuestionNotFoundException(id);
         }
     }
 
     @Override
     public Long save(QuestionRequestDto questionDto) {
         QuestionEntity question = questionMapper.toEntity(questionDto);
+
+        question.setContent(XssFilterUtil.protect(question.getContent()));
+
         question.setCreatedDate(new Date(System.currentTimeMillis()));
         question.setStatus(QuestionStatus.OPEN);
         question.setViews(0L);
@@ -119,6 +124,10 @@ public class QuestionServiceImpl implements QuestionService {
         if (optionalQuestion.isPresent()) {
             QuestionEntity question = optionalQuestion.get();
             if (question.getAuthor().getId().equals(SecurityUtil.getIdAuthenticatedUser())) {
+                if (question.getStatus().equals(QuestionStatus.RESOLVED)) {
+                    throw new QuestionAlreadyResolvedException(questionId);
+                }
+
                 question.setStatus(QuestionStatus.CLOSED);
                 questionSpringRepository.save(question);
             } else {

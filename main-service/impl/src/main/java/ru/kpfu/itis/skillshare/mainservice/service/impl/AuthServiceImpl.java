@@ -31,6 +31,11 @@ public class AuthServiceImpl implements AuthService {
         Optional<UserEntity> optionalUser = userSpringRepository.findByUsername(username);
         if (optionalUser.isPresent()) {
             UserEntity user = optionalUser.get();
+
+            if (!user.getEnabled()) {
+                throw new BadCredentialsException("Bad credentials");
+            }
+
             if (passwordEncoder.matches(password, user.getPassword())) {
                 String accessToken = jwtAccessTokenProvider.generateByUser(user);
                 String refreshToken = refreshTokenService.generateRefreshToken(user);

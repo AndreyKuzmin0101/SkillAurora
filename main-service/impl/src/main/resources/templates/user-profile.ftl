@@ -1,11 +1,13 @@
 <#macro title>Профиль ${user.username()}</#macro>
 <#macro headtags>
     <link rel="stylesheet" href="/css/styles.css">
+    <script type="module" src="/js/user-profile.js"></script>
 </#macro>
 
 <#macro content>
     <div class="profile">
         <h2>Профиль пользователя <strong>${user.username()}</strong></h2>
+        <div style="display: flex; justify-content: right"><button id="chat-btn"><img class="chat-btn" src="/images/chat.png"></button></div>
         <#if user.realName()??>
             <div class="info-item">
                 <span>Настоящее имя</span>
@@ -38,7 +40,7 @@
             <span>Рейтинг:</span>
             <span id="rating">${user.rating()}</span>
         </div>
-        <#if user.skills()?size gt 0>
+        <#if user.skills()??>
             <div class="info-item">
                 <span>Навыки:</span>
                 <span id="skills">
@@ -51,7 +53,7 @@
     </div>
 
     <div class="profile-img">
-        <div id="profile-image"><img id="profile-img" src="" style="width: 230px"></div>
+        <div id="profile-image"><img id="profile-img" src="${user.profileImage()}" style="width: 230px"></div>
         <label for="image-input">Аватарка</label>
     </div>
 </#macro>

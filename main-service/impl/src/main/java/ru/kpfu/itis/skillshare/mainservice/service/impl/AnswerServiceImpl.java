@@ -18,6 +18,7 @@ import ru.kpfu.itis.skillshare.mainservice.repository.spring.AnswerSpringReposit
 import ru.kpfu.itis.skillshare.mainservice.repository.spring.QuestionSpringRepository;
 import ru.kpfu.itis.skillshare.mainservice.repository.spring.UserSpringRepository;
 import ru.kpfu.itis.skillshare.mainservice.security.exception.AuthorizationException;
+import ru.kpfu.itis.skillshare.mainservice.security.util.XssFilterUtil;
 import ru.kpfu.itis.skillshare.mainservice.service.AnswerService;
 import ru.kpfu.itis.skillshare.mainservice.security.util.SecurityUtil;
 import ru.kpfu.itis.skillshare.mainservice.service.RatingService;
@@ -85,6 +86,9 @@ public class AnswerServiceImpl implements AnswerService {
         }
 
         AnswerEntity answer = answerMapper.toEntity(answerDto);
+
+        answer.setContent(XssFilterUtil.protect(answer.getContent()));
+
         answer.setCreatedDate(new Date(System.currentTimeMillis()));
 
         answer.setQuestion(question);
@@ -110,6 +114,10 @@ public class AnswerServiceImpl implements AnswerService {
             Long userId = SecurityUtil.getIdAuthenticatedUser();
 
             if (question.getAuthor().getId().equals(userId)) {
+                if (question.getStatus().equals(QuestionStatus.CLOSED)) {
+                    throw new QuestionAlreadyClosedException(answerId);
+                }
+
                 Optional<AnswerEntity> optionalBestAnswer = answerRepository.findByQuestionAndBestAnswerTrue(question);
                 if (optionalBestAnswer.isPresent()) {
                     AnswerEntity bestAnswer = optionalBestAnswer.get();

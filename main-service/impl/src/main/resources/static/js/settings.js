@@ -133,6 +133,22 @@ $(document).ready(function () {
         $('#edit' + targetId).toggle();
     });
 
+    $('#delete-confirm-btn').on('click', function () {
+        sendAuthenticatedRequest('api/v1/users/me', {method: 'DELETE'}).then(res => {
+            if (res.status === 200) {
+                alert('Аккаунт успешно удалён')
+                localStorage.clear();
+                window.location.replace("/");
+            } else {
+                return Promise.reject(res.json());
+            }
+        }).catch(reason => {alert(JSON.stringify(reason))})
+    });
+
+    $('#delete-cancel-btn').on('click', function () {
+        $('#editDelete').toggle();
+    });
+
     $('#upload-image').click(function () {
         let formData = new FormData();
         let fileInput = $('#image-input')[0].files[0];

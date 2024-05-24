@@ -59,4 +59,10 @@ public class UserController implements UserApi {
         UserResponseDto currentUser = userService.getUserById(userId);
         return currentUser.profileImage();
     }
+
+    @Override
+    public void deleteProfile() {
+        Long id = SecurityUtil.getIdAuthenticatedUser();
+        userService.deleteUser(id);
+    }
 }

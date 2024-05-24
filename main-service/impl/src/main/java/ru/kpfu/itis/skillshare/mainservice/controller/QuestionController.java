@@ -10,6 +10,7 @@ import ru.kpfu.itis.skillshare.mainservice.dto.request.QuestionFilter;
 import ru.kpfu.itis.skillshare.mainservice.dto.request.QuestionRequestDto;
 import ru.kpfu.itis.skillshare.mainservice.dto.response.QuestionResponseDto;
 import ru.kpfu.itis.skillshare.mainservice.dto.response.UrlResponse;
+import ru.kpfu.itis.skillshare.mainservice.exception.notfound.QuestionNotFoundException;
 import ru.kpfu.itis.skillshare.mainservice.service.QuestionService;
 
 import java.util.List;
@@ -35,9 +36,13 @@ public class QuestionController {
     public String getQuestionById(@PathVariable("id") String id, Model model) {
         //NumberFormatException
         Long questionId = Long.parseLong(id);
-        QuestionResponseDto questionDto = questionService.getById(questionId);
-        model.addAttribute("question", questionDto);
-        return "question";
+        try {
+            QuestionResponseDto questionDto = questionService.getById(questionId);
+            model.addAttribute("question", questionDto);
+            return "question";
+        } catch (QuestionNotFoundException e) {
+            return "not-found";
+        }
     }
 
     @GetMapping("/create/question")
@@ -54,6 +59,7 @@ public class QuestionController {
     }
 
     @PutMapping("/questions/{id}/close")
+    @ResponseStatus(HttpStatus.OK)
     public void closeQuestion(@PathVariable("id") Long questionId) {
         questionService.close(questionId);
     }

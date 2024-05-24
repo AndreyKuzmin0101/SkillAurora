@@ -44,6 +44,11 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
         Optional<RefreshTokenEntity> optionalRefreshToken = refreshTokenRepository.findByRefreshToken(refreshToken);
         if (optionalRefreshToken.isPresent()) {
             RefreshTokenEntity tokenEntity = optionalRefreshToken.get();
+
+            if (!tokenEntity.getUser().getEnabled()) {
+                throw new InvalidTokenException("Invalid refresh token.");
+            }
+
             long currentTimeMillis = System.currentTimeMillis();
             Timestamp current = new Timestamp(currentTimeMillis);
             if (tokenEntity.getExpiresAt().after(current)) {

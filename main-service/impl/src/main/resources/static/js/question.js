@@ -1,5 +1,6 @@
 import {sendAuthenticatedRequest} from "./auth.js";
 
+window.hasBestAnswer = false;
 
 let check_auth_request = sendAuthenticatedRequest('/api/v1/auth/check', {method: 'GET'})
 let authenticated = check_auth_request.then(res => {
@@ -81,11 +82,14 @@ function loadAnswers() {
             appendAnswer(answer)
 
             if (answer.bestAnswer === true) {
+                window.hasBestAnswer = true;
                 $('#info-' + answer.id).append('<img src="/images/mark.png" width="40px">')
                 $('#mark-label-' + answer.id).html('Снять метку')
                 $('#btn-check-outlined-' + answer.id).prop('checked', true);
             }
         })
+
+
         $('.btn-check').hide();
 
         sendAuthenticatedRequest('/questions/' + questionId + '/is-author', {method: 'GET'}).then(res => {
@@ -109,6 +113,22 @@ function loadAnswers() {
                         });
                     }
                 });
+
+                if (window.hasBestAnswer === false) {
+                    $('#manage-question').append(
+                        '<button id="close-question" class="default-button">Закрыть</button>'
+                    );
+                    $('#close-question').on('click', function () {
+                        sendAuthenticatedRequest('/questions/' + questionId + '/close', {method: 'PUT'}).then(res => {
+                            if (res.status === 200) {
+                                $('#close-question').hide()
+                                alert('Вопрос закрыт!')
+                            } else {
+                                return Promise.reject(res.json());
+                            }
+                        }).catch(reason => {alert(JSON.stringify(reason))})
+                    });
+                }
             }
         }).catch(reason => {alert(JSON.stringify(reason))});
 

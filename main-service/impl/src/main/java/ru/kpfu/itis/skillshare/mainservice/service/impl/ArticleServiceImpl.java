@@ -24,6 +24,7 @@ import ru.kpfu.itis.skillshare.mainservice.model.UserEntity;
 import ru.kpfu.itis.skillshare.mainservice.repository.jpa.ArticleJpaRepository;
 import ru.kpfu.itis.skillshare.mainservice.repository.spring.ArticleSpringRepository;
 import ru.kpfu.itis.skillshare.mainservice.repository.spring.RatingSpringRepository;
+import ru.kpfu.itis.skillshare.mainservice.security.util.XssFilterUtil;
 import ru.kpfu.itis.skillshare.mainservice.service.TagService;
 import ru.kpfu.itis.skillshare.mainservice.security.JwtTokenAuthentication;
 import ru.kpfu.itis.skillshare.mainservice.security.exception.AuthenticationHeaderException;
@@ -95,6 +96,9 @@ public class ArticleServiceImpl implements ArticleService {
         }
 
         ArticleEntity article = articleMapper.toEntity(articleDto);
+
+        article.setContent(XssFilterUtil.protect(article.getContent()));
+
         article.setPublicationDate(new Date(System.currentTimeMillis()));
         article.setModerationStatus("waiting");
         article.setViews(0L);

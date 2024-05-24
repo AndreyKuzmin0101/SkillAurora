@@ -106,6 +106,16 @@
                 <button id="password-button" data-target="Password" class="confirm-btn">Подтвердить</button>
             </div>
         </div>
+
+        <div>
+            <button class="edit-btn confirm-btn" data-target="Delete" style="margin-top: 20px; background-color: red">Удалить аккаунт</button>
+            <div class="edit-field" id="editDelete">
+                <h5>Вы уверенены?</h5>
+                <button id="delete-confirm-btn" class="confirm-btn" style="background-color: red">Подтвердить</button>
+                <button id="delete-cancel-btn" class="confirm-btn" style="background-color: green">Отменить</button>
+            </div>
+        </div>
+
         </div>
     </div>
     <div class="profile-img">

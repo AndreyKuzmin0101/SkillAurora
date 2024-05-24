@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import ru.kpfu.itis.skillshare.mainservice.exception.notfound.UserNotFoundException;
 import ru.kpfu.itis.skillshare.mainservice.service.UserService;
 
 @Controller
@@ -20,7 +21,12 @@ public class ProfileController {
 
     @GetMapping("/users/{id}")
     public String getProfileSomeUser(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("user", userService.getProfileById(id));
-        return "user-profile";
+        try {
+            model.addAttribute("user", userService.getProfileById(id));
+            return "user-profile";
+        } catch (UserNotFoundException e) {
+            return "not-found";
+        }
+
     }
 }

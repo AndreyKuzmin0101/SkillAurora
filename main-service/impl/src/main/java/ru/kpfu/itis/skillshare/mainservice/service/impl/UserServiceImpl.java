@@ -21,6 +21,7 @@ import ru.kpfu.itis.skillshare.mainservice.service.FileService;
 import ru.kpfu.itis.skillshare.mainservice.service.TagService;
 import ru.kpfu.itis.skillshare.mainservice.service.UserService;
 import ru.kpfu.itis.skillshare.mainservice.security.util.SecurityUtil;
+import ru.kpfu.itis.skillshare.mainservice.utils.UserProfileUtil;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -62,7 +63,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto getProfileById(Long id) {
-        return null;
+        Optional<UserEntity> optionalUser = userSpringRepository.findById(id);
+        if (optionalUser.isPresent()) {
+            UserEntity user = UserProfileUtil.processUser(optionalUser.get());
+            return userMapper.toResponse(user);
+        }
+        throw new UserNotFoundException(id);
     }
 
     @Override
@@ -200,7 +206,13 @@ public class UserServiceImpl implements UserService {
     // В целях сохранения целостности данных пользователь просто помечается удалённым
     @Override
     public void deleteUser(Long id) {
+        Optional<UserEntity> optionalUser = userSpringRepository.findById(id);
+        if (optionalUser.isPresent()) {
+            UserEntity user = optionalUser.get();
+            user.setEnabled(false);
+            userSpringRepository.save(user);
+        } else {
+            throw new UserNotFoundException(id);
+        }
     }
-
-
 }

@@ -7,9 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 import ru.kpfu.itis.skillshare.mainservice.exception.ServiceException;
 import ru.kpfu.itis.skillshare.mainservice.security.exception.AuthorizationException;
 
@@ -19,10 +18,11 @@ import java.util.Map;
 /**
  * Обработчик возникающих ошибок.
  */
-@RestControllerAdvice
+@ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ServiceException.class)
+    @ResponseBody
     public final ResponseEntity<ExceptionMessage> handleServiceException(ServiceException exception) {
         return ResponseEntity.status(exception.getStatus())
                 .body(ExceptionMessage.builder()
@@ -34,6 +34,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> exceptions = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
@@ -44,8 +45,15 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(exceptions, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(NoResourceFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String handleNoResourceFoundException(NoResourceFoundException ex) {
+        return "not-found";
+    }
+
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
     public ResponseEntity<Map<String, String>> handleConstraintViolationException(ConstraintViolationException ex) {
         Map<String, String> exceptions = new HashMap<>();
         ex.getConstraintViolations().forEach(cv -> {
@@ -58,6 +66,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AuthorizationException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ResponseBody
     public final ExceptionMessage handleAuthenticationException(AuthenticationException exception) {
         return ExceptionMessage.builder()
                 .message(exception.getMessage())
@@ -73,6 +82,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseBody
     public final ExceptionMessage onAllExceptions(Exception exception) {
         return ExceptionMessage.builder()
                 .message(exception.getMessage())

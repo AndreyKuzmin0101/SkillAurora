@@ -2,6 +2,20 @@ spring:
   application:
     name: impl
 
+#  liquibase:
+#    enabled: true
+#    change-log: classpath:/db/database-changelog-master.yml
+#    url: ${DATASOURCE_URL}
+#    user: ${DATASOURCE_USERNAME}
+#    password: ${DATASOURCE_PASSWORD}
+#    driver-class-name: org.postgresql.Driver
+#
+#  datasource:
+#    url: ${DATASOURCE_URL}
+#    username: ${DATASOURCE_USERNAME}
+#    password: ${DATASOURCE_PASSWORD}
+#    driver-class-name: org.postgresql.Driver
+
   liquibase:
     enabled: true
     change-log: classpath:/db/database-changelog-master.yml

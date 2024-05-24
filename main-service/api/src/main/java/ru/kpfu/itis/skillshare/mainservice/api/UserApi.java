@@ -79,4 +79,13 @@ public interface UserApi {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/me/profile-image")
     String getCurrentUserProfileImage();
+
+    @Operation(
+            summary = "Удалить мой профиль",
+            description = "Позволяет пользователю удалить аккаунт"
+    )
+    @SecurityRequirement(name = "JWT")
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping("/me")
+    void deleteProfile();
 }

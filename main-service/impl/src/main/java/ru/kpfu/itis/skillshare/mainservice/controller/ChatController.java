@@ -31,9 +31,11 @@ public class ChatController {
 
 
     @PostMapping("/api/v1/chats")
-    public String createChat(@Validated ChatRequestDto chatRequest) {
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
+    public Long createChat(@Validated @RequestBody ChatRequestDto chatRequest) {
         Long chatId = chatService.create(chatRequest);
-        return "redirect:/chats/%s".formatted(chatId);
+        return chatId;
     }
 
 }

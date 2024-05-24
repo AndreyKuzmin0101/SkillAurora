@@ -7,6 +7,8 @@ import java.util.List;
 
 @Schema(description = "Модель для отправки параметров фильтрации статей")
 public record ArticleFilter(
+
+
         @NotNull(message = "It is necessary to specify the quantity")
         @Max(value = 20, message = "You can't get more than 20")
         @Positive(message = "The value must be positive")

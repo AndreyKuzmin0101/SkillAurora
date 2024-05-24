@@ -269,3 +269,8 @@
     display: flex;
     justify-content: center;
 }
+
+.chat-btn {
+    width: 30px;
+    height: 30px;
+}
