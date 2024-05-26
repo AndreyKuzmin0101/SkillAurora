@@ -21,9 +21,8 @@ import java.util.List;
 public class ArticleController {
     private final ArticleService articleService;
 
-    @GetMapping()
+    @GetMapping("/")
     public String getStream() {
-        System.out.println(1);
         return "stream";
     }
 

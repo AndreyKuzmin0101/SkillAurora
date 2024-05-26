@@ -1,6 +1,7 @@
 package ru.kpfu.itis.skillshare.mainservice.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kpfu.itis.skillshare.mainservice.dto.Roles;
@@ -90,25 +91,36 @@ public class RatingServiceImpl implements RatingService {
     private void changeArticleRating(Long articleId, Integer rating) {
         Optional<ArticleEntity> optionalArticle = articleSpringRepository.findById(articleId);
         if (optionalArticle.isPresent()) {
-            Long userId = SecurityUtil.getIdAuthenticatedUser();
-            UserEntity author = userSpringRepository.findById(userId).get();
-            author.setRating(author.getRating() + rating);
+            ArticleEntity article = optionalArticle.get();
 
-            checkCurrentRating(author.getId());
+            Long userId = SecurityUtil.getIdAuthenticatedUser();
 
             Optional<RatingEntity> optionalRating = ratingSpringRepository.findByArticleAndUser(articleId, userId);
+
+            UserEntity author = article.getAuthor();
+            if (optionalRating.isPresent()) {
+                RatingEntity ratingEntity = optionalRating.get();
+                if ((ratingEntity.getRatingValue() < 0 && rating > 0) ||
+                        (ratingEntity.getRatingValue() > 0 && rating < 0)) {
+                    author.setRating(author.getRating() + rating * 2);
+                }
+            } else {
+                author.setRating(author.getRating() + rating);
+            }
+            checkCurrentRating(author.getId());
 
             if (optionalRating.isEmpty()) {
                 optionalRating = Optional.of(
                         RatingEntity.builder()
                         .article(ArticleEntity.builder().id(articleId).build())
-                        .user(author)
+                        .user(UserEntity.builder().id(userId).build())
                         .build()
                 );
             }
 
             RatingEntity ratingEntity = optionalRating.get();
             ratingEntity.setRatingValue(rating);
+            ratingSpringRepository.save(ratingEntity);
         } else {
             throw new ArticleNotFoundException(articleId);
         }

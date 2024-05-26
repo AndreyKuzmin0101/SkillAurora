@@ -12,7 +12,7 @@
         </filter>
     </appender>
 
-    <logger name="ru.kpfu.itis" level="INFO">
+    <logger name="ru.kpfu.itis">
         <appender-ref ref="file"/>
     </logger>
 

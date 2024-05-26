@@ -43,6 +43,7 @@ function refreshTokens(refresh_token) {
 }
 
 // resolved() только в случае, если пользователь успешно аутентифицирован
+// Нужна для отправки запросов на защищённые endpoint-ы
 export async function sendAuthenticatedRequest(url, settings) {
     let access_token = localStorage.getItem('access_token');
     let refresh_token = localStorage.getItem('refresh_token');
@@ -67,4 +68,15 @@ export async function sendAuthenticatedRequest(url, settings) {
         }
     }
     return response;
+}
+
+export async function sendWithTokensIfExist(url, settings) {
+    let access_token = localStorage.getItem('access_token');
+    let refresh_token = localStorage.getItem('refresh_token');
+
+    if (!access_token || !refresh_token) {
+        return await fetch(url, settings);
+    } else {
+        return await sendAuthenticatedRequest(url, settings);
+    }
 }

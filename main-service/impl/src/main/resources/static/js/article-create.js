@@ -1,6 +1,6 @@
-import { sendAuthenticatedRequest } from './auth.js';
+import {sendAuthenticatedRequest, sendWithTokensIfExist} from './auth.js';
 
-sendAuthenticatedRequest('/api/v1/auth/check-role-access?url=/create/article', {
+sendWithTokensIfExist('/api/v1/auth/check-role-access?url=/create/article', {
 	method: 'GET',
 	headers: {
 		'Content-Type': 'application/json'
@@ -9,14 +9,22 @@ sendAuthenticatedRequest('/api/v1/auth/check-role-access?url=/create/article', {
 	if (res.status === 200) {
 		return res.text();
 	}
-	return Promise.reject();
+	return Promise.reject(res);
 }).then(res => {
 	if (res === false) {
 		return Promise.reject();
 	}
-}).catch(() => {
-	window.location.replace('/');
-	alert('Вы ещё не стали автором!');
+}).catch((reason) => {
+	if (reason.status === 401) {
+		alert("Вы не вошли в аккаунт");
+		window.location.replace('/login');
+	} else if (reason.status === 403) {
+		alert('Вы ещё не стали автором!');
+		window.location.replace('/info/rating');
+	} else {
+		alert("Something went wrong.")
+		window.location.replace('/');
+	}
 })
 
 let editor = ClassicEditor
@@ -64,12 +72,12 @@ $(document).ready(function() {
 			if (response.status === 201) {
 				return response.json()
 			}
-			return Promise.reject();
+			return response.json().then(error => Promise.reject(error));
 		}).then(data => {
 			cover = data.url;
 			$('#cover-preview').empty();
 			$('#cover-preview').append('<img src="' + cover + '">');
-		});
+		}).catch(reason => alert(JSON.stringify(reason)));
 	});
 
 	$('#submit-button').on('click', function () {
@@ -96,11 +104,12 @@ $(document).ready(function() {
 			if (res.status === 201) {
 				return res.json();
 			}
-			return Promise.reject(res.json());
+			return res.json().then(error => Promise.reject(error));
 		}).then(res => {
 			window.location.replace(res.url);
-		}).catch((response) => {
-			alert(response);
+		}).catch((reason) => {
+			console.log(JSON.stringify(reason))
+			alert(JSON.stringify(reason));
 		})
 	});
 });

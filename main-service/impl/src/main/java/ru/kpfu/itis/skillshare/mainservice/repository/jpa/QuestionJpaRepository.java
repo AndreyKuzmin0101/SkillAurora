@@ -9,5 +9,5 @@ import ru.kpfu.itis.skillshare.mainservice.model.TagEntity;
 import java.util.List;
 
 public interface QuestionJpaRepository {
-    Page<QuestionEntity> findQuestionsByFilter(Pageable pageable, Boolean noAnswers, QuestionStatus status, List<TagEntity> tags);
+    Page<QuestionEntity> findQuestionsByFilter(Pageable pageable, String search, Boolean noAnswers, QuestionStatus status, List<TagEntity> tags);
 }

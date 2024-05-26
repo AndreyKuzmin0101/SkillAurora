@@ -25,7 +25,7 @@ public class QuestionJpaRepositoryImpl implements QuestionJpaRepository {
     private EntityManager em;
 
     @Override
-    public Page<QuestionEntity> findQuestionsByFilter(Pageable pageable, Boolean noAnswers, QuestionStatus status, List<TagEntity> tags) {
+    public Page<QuestionEntity> findQuestionsByFilter(Pageable pageable, String search, Boolean noAnswers,  QuestionStatus status, List<TagEntity> tags) {
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<QuestionEntity> query = criteriaBuilder.createQuery(QuestionEntity.class);
 
@@ -33,6 +33,12 @@ public class QuestionJpaRepositoryImpl implements QuestionJpaRepository {
         query.select(root);
 
         List<Predicate> predicates = new ArrayList<>();
+
+        if (search != null) {
+            search = search.toLowerCase();
+            Predicate predicateSearch = criteriaBuilder.like(criteriaBuilder.lower(root.get("title")), "%" + search + "%");
+            predicates.add(predicateSearch);
+        }
 
         if (noAnswers != null && noAnswers) {
             Subquery<Long> subquery = query.subquery(Long.class);

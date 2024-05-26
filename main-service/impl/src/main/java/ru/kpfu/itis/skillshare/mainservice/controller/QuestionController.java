@@ -55,7 +55,7 @@ public class QuestionController {
     @ResponseBody
     public UrlResponse postQuestion(@Validated @RequestBody QuestionRequestDto questionRequest) {
         Long questionId = questionService.save(questionRequest);
-        return new UrlResponse("/question/%s".formatted(questionId));
+        return new UrlResponse("/questions/%s".formatted(questionId));
     }
 
     @PutMapping("/questions/{id}/close")

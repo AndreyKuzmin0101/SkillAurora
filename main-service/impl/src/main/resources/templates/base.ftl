@@ -23,7 +23,7 @@
 <script type="module" src="/js/header.js"></script>
 <nav>
     <ul>
-        <li><a href="">Поток</a></li>
+        <li><a href="/">Поток</a></li>
         <li><a href="/questions">Вопросы</a></li>
         <li><a href="#">Вакансии</a></li>
         <li><a href="#">Резюме</a></li>

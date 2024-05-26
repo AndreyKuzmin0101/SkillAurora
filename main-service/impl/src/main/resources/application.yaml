@@ -1,34 +1,9 @@
 spring:
   application:
     name: impl
+  profiles:
+    active: development
 
-#  liquibase:
-#    enabled: true
-#    change-log: classpath:/db/database-changelog-master.yml
-#    url: ${DATASOURCE_URL}
-#    user: ${DATASOURCE_USERNAME}
-#    password: ${DATASOURCE_PASSWORD}
-#    driver-class-name: org.postgresql.Driver
-#
-#  datasource:
-#    url: ${DATASOURCE_URL}
-#    username: ${DATASOURCE_USERNAME}
-#    password: ${DATASOURCE_PASSWORD}
-#    driver-class-name: org.postgresql.Driver
-
-  liquibase:
-    enabled: true
-    change-log: classpath:/db/database-changelog-master.yml
-    url: jdbc:postgresql://localhost:5432/SkillShareDb
-    user: postgres
-    password: qwerty1234
-    driver-class-name: org.postgresql.Driver
-
-  datasource:
-    url: jdbc:postgresql://localhost:5432/SkillShareDb
-    username: postgres
-    password: qwerty1234
-    driver-class-name: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 #    hibernate:
@@ -40,6 +15,14 @@ spring:
 
   freemarker:
     suffix: .ftl
+
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+
+  jackson:
+    date-format: HH:mm:ss dd-MM-yyyy
 
 cloudinary:
   cloud_name: debjgvnym
@@ -60,4 +43,6 @@ logging:
 
 logger:
   rest-controllers:
+    enabled: true
+  annotations:
     enabled: true

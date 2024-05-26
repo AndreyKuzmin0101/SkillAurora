@@ -12,7 +12,7 @@ authenticated.then(res => {
             if (res_chats.status === 200) {
                 return res_chats.json();
             }
-            return Promise.reject(res_chats.json());
+            return res_chats.json().then(error => Promise.reject(error));
         }).then(data => {
             data.forEach(chat => {
                 $('#chats').append(
@@ -30,7 +30,7 @@ authenticated.then(res => {
                             connect(chatId);
                             return res_messages.json();
                         }
-                        return Promise.reject(res_messages.json());
+                        return res_messages.json().then(error => Promise.reject(error));
                     }).then(messages => {
                         messages.forEach(message => {
                             showMessage(

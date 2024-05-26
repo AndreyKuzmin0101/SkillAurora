@@ -58,6 +58,10 @@
                 <a style="text-decoration: none;" href="/create/question"><button class="btn btn-outline-success">Задать вопрос</button></a>
             </div>
             <div id="questions-stream"></div>
+            <div class="questions-navigate">
+                <button id="prev-btn" style="margin-right: 3px" class="default-button">Назад</button>
+                <button id="next-btn" style="margin-left: 3px" class="default-button">Вперёд</button>
+            </div>
         </div>
     </div>
     <script src="js/question-filter.js"></script>

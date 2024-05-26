@@ -1,14 +1,35 @@
 $(document).ready(function () {
+    window.page = 0;
+    $('#prev-btn').prop('disabled', true);
+
+    $('#prev-btn').on('click', function () {
+        if (window.page === 1) {
+            $('#prev-btn').prop('disabled', true);
+        }
+        window.page -= 1;
+        update_stream();
+    });
+
+    $('#next-btn').on('click', function () {
+        if (window.page === 0) {
+            $('#prev-btn').prop('disabled', false);
+        }
+        window.page += 1;
+        update_stream();
+    });
+
     update_stream();
 
     $('#find-button').on('click', function () {
+        window.page = 0;
+        $('#prev-btn').prop('disabled', true);
         update_stream();
     });
 });
 
 function update_stream() {
     let options = '';
-    options += 'page=0&size=20&'
+    options += 'page='+ window.page + '&size=10&'
 
     let search = $('#search').val();
     options += 'search=' + search + '&';
@@ -47,8 +68,10 @@ function update_stream() {
                         '<div id="tags-' + question.id + '">' +
                         '</div>' +
                         '<div class="question-author-info">' +
+                        '<a href="/users/'+ question.author.id +'" class="user-link">' +
                             '<img src="' + question.author.profileImage + '" class="article-profile-mini-img">' +
                             '<span style="color:royalblue;">' + question.author.username + '</span>' +
+                        '</a>' +
                         '</div>' +
                     '</div>' +
                 '</div>'

@@ -44,7 +44,7 @@ $(document).ready(function () {
 function update_stream() {
     let options = '';
 
-    options += 'page=' + window.page + '&size=10&'
+    options += 'page=' + window.page + '&size=5&'
 
     let search = $('#search').val();
     options += 'search=' + search + '&';
@@ -71,8 +71,12 @@ function update_stream() {
         response.forEach(function (article) {
             $('#articles-stream').append('<div class="article">' +
                 '<div>' +
+                '<div style="display:inline-block; margin-right: 5px">' +
+                '<a href="/users/'+ article.author.id +'" class="user-link">' +
                 '<img src="' + article.author.profileImage + '" class="article-profile-mini-img">' +
                 '<strong>' + article.author.username + '</strong>' +
+                '</a>' +
+                '</div>' +
                 '<span style="color: gray">Дата публикации:' + article.publicationDate + '</span>' +
                 '</div>' +
                 '<h3><strong>' + article.title + '</strong></h3>' +

@@ -1,4 +1,4 @@
-package ru.kpfu.itis.skillshare.mainservice.aspect;
+package ru.kpfu.itis.skillshare.loggingstarter.aspect;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -12,18 +12,16 @@ import org.springframework.util.StopWatch;
 
 
 @Aspect
-@Component
-public class LoggingAspect {
+public class AnnotationLoggingAspect {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(LoggingAspect.class.getName());
+    public static final Logger LOGGER = LoggerFactory.getLogger(AnnotationLoggingAspect.class.getName());
 
-    @Pointcut("@annotation(ru.kpfu.itis.skillshare.mainservice.aspect.annotation.Loggable)")
+    @Pointcut("@annotation(ru.kpfu.itis.skillshare.loggingstarter.annotation.Loggable)")
     public void logExecutionTime() {
-
     }
 
     @Around("logExecutionTime()")
-    public Object log(ProceedingJoinPoint joinPoint) {
+    public Object log(ProceedingJoinPoint joinPoint) throws Throwable {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
 
         String className = methodSignature.getDeclaringType().getName();
@@ -32,11 +30,9 @@ public class LoggingAspect {
         final StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         Object result;
-        try {
-            result = joinPoint.proceed();
-        } catch (Throwable e) {
-            throw new RuntimeException(e);
-        }
+
+        result = joinPoint.proceed();
+
         stopWatch.stop();
 
         LOGGER.info("Execution time of {}.{} = {} ms", className, methodName, stopWatch.getTotalTimeMillis());

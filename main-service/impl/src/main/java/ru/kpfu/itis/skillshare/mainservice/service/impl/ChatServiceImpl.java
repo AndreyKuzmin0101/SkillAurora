@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.kpfu.itis.skillshare.mainservice.dto.request.ChatRequestDto;
 import ru.kpfu.itis.skillshare.mainservice.dto.response.ChatResponseDto;
+import ru.kpfu.itis.skillshare.mainservice.exception.alreadyexitsts.ChatAlreadyExistsException;
 import ru.kpfu.itis.skillshare.mainservice.exception.notfound.UserNotFoundException;
 import ru.kpfu.itis.skillshare.mainservice.mapper.UserMapper;
 import ru.kpfu.itis.skillshare.mainservice.model.ChatEntity;
@@ -58,13 +59,18 @@ public class ChatServiceImpl implements ChatService {
 
         if (optionalSecondUser.isPresent()) {
             UserEntity secondUser = optionalSecondUser.get();
-            ChatEntity chat = chatSpringRepository.saveAndFlush(ChatEntity.builder()
-                    .firstUser(firstUser)
-                    .secondUser(secondUser)
-                    .build());
-            return chat.getId();
+            Optional<ChatEntity> optionalChat = chatSpringRepository.
+                    findByFirstUserIdAndSecondUserId(firstUser.getId(), secondUser.getId());
+            if (optionalChat.isEmpty()) {
+                ChatEntity chat = chatSpringRepository.saveAndFlush(ChatEntity.builder()
+                        .firstUser(firstUser)
+                        .secondUser(secondUser)
+                        .build());
+                return chat.getId();
+            } else {
+                throw new ChatAlreadyExistsException(firstUser.getId(), secondUser.getId());
+            }
         }
-
         throw new UserNotFoundException(chatRequestDto.secondUserId());
     }
 }

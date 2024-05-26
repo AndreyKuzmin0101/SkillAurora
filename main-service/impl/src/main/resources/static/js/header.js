@@ -14,7 +14,7 @@ response.then((res) => {
         '<div class = "profile-mini-img"><a href="/profile"><img src="' + res + '"></a></div>',
         '<div style="display: inline-block; margin-right: 10px"><a href="/chats"><img class="chat-btn" src="/images/chat.png"></a></div>',
         '<div style="display: inline-block"><button id="logout" class="header-button" style="background-color: #808080">Выйти</button></div>'
-);
+    );
     $('#logout').on('click', function () {
         localStorage.clear();
         window.location.replace('/')

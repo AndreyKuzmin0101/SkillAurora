@@ -4,6 +4,6 @@ import org.springframework.http.HttpStatus;
 
 public class QuestionAlreadyResolvedException extends ServiceException {
     public QuestionAlreadyResolvedException(Long id) {
-        super("Question with id = %s - already resolved", HttpStatus.BAD_REQUEST);
+        super("Question with id = %s - already resolved".formatted(id), HttpStatus.BAD_REQUEST);
     }
 }

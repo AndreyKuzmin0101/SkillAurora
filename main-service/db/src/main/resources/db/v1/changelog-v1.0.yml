@@ -17,4 +17,6 @@ databaseChangeLog:
   - include:
       file: DML/20240522-insert-roles-and-tags.yml
       relativeToChangelogFile: true
-
+  - include:
+      file: DDL/20240526-add-constraints.yml
+      relativeToChangelogFile: true

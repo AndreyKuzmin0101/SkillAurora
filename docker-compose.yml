@@ -26,6 +26,7 @@ services:
     ports:
       - "8080:8080"
     environment:
+      SPRING_PROFILES_ACTIVE: pre-prod
       DATASOURCE_URL: jdbc:postgresql://postgres:5432/SkillShare
       DATASOURCE_USERNAME: postgres
       DATASOURCE_PASSWORD: qwerty1234

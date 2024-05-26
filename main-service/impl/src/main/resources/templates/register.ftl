@@ -27,14 +27,6 @@
                     <input type="number" class="form-control" id="age" name="age">
                 </div>
                 <div class="mb-3">
-                    <label for="country" class="form-label">Страна</label>
-                    <input type="text" class="form-control" id="country" name="country">
-                </div>
-                <div class="mb-3">
-                    <label for="city" class="form-label">Город</label>
-                    <input type="text" class="form-control" id="city" name="city">
-                </div>
-                <div class="mb-3">
                     <label for="username" class="form-label">Имя пользователя</label>
                     <input type="text" class="form-control" id="username" name="username" required>
                 </div>

@@ -8,8 +8,11 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 import ru.kpfu.itis.skillshare.mainservice.exception.ServiceException;
+import ru.kpfu.itis.skillshare.mainservice.security.exception.AuthenticationHeaderException;
 import ru.kpfu.itis.skillshare.mainservice.security.exception.AuthorizationException;
 
 import java.util.HashMap;
@@ -72,6 +75,17 @@ public class GlobalExceptionHandler {
                 .message(exception.getMessage())
                 .exceptionName(exception.getClass().getSimpleName())
                 .build();
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    @ResponseBody
+    public ResponseEntity<ExceptionMessage> handleMaxSizeException(MaxUploadSizeExceededException exception) {
+        return ResponseEntity.status(400)
+                .body(ExceptionMessage.builder()
+                        .exceptionName(exception.getClass().getSimpleName())
+                        .message("File too large!")
+                        .build()
+                );
     }
 
     /**

@@ -104,6 +104,7 @@
 }
 
 .tag-style {
+    display: inline-block;
     border-radius: 5px;
     background-color: #3498db;
     margin: 5px;
@@ -120,6 +121,7 @@
 }
 
 .article {
+    margin-bottom: 10px;
     background-color: white;
     border-radius: 10px;
     color: black;
@@ -264,7 +266,7 @@
     background-color: #e10000;
 }
 
-.articles-navigate {
+.articles-navigate, .questions-navigate {
     margin-top: 15px;
     display: flex;
     justify-content: center;
@@ -273,4 +275,9 @@
 .chat-btn {
     width: 30px;
     height: 30px;
+}
+
+.user-link {
+    text-decoration: none;
+    color: inherit;
 }

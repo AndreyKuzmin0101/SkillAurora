@@ -3,6 +3,7 @@ package ru.kpfu.itis.skillshare.loggingstarter.config;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import ru.kpfu.itis.skillshare.loggingstarter.aspect.AnnotationLoggingAspect;
 import ru.kpfu.itis.skillshare.loggingstarter.aspect.RestControllerLoggingAspect;
 
 @Configuration
@@ -13,4 +14,11 @@ public class LoggingConfig {
     public RestControllerLoggingAspect restControllerLoggingAspect() {
         return new RestControllerLoggingAspect();
     }
+
+    @Bean
+    @ConditionalOnProperty(name = "logger.annotations.enabled", havingValue = "true")
+    public AnnotationLoggingAspect annotationLoggingAspect() {
+        return new AnnotationLoggingAspect();
+    }
+
 }

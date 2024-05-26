@@ -100,7 +100,7 @@ public class QuestionServiceImpl implements QuestionService {
         Pageable pageable = PageRequest.of(filter.page(), filter.size(), Sort.by(filter.showFirst()));
 
         Page<QuestionEntity> page = questionJpaRepository.findQuestionsByFilter(
-                pageable, filter.noAnswers(), filter.status(), tags
+                pageable, filter.search(), filter.noAnswers(), filter.status(), tags
         );
 
         if (filter.page() > page.getTotalPages()) {

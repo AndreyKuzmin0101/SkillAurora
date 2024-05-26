@@ -1,4 +1,7 @@
 $(document).ready(function (){
+
+
+
     $('#register-btn').on('click', function () {
         let realName = $('#realName').val();
         let age = $('#age').val();
@@ -43,13 +46,18 @@ $(document).ready(function (){
 
         let jsonString = JSON.stringify(json);
 
-        $.ajax({
-            type: "POST",
-            url: "/api/v1/users",
-            data: jsonString,
-            contentType: 'application/json'
-        }).done(function (){
-            window.location.replace("/login")
-        });
+        fetch('/api/v1/users', {
+            method: 'POST',
+            body: jsonString,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => {
+            if (res.status === 201) {
+                window.location.replace("/login")
+            } else {
+                return res.json().then(error => Promise.reject(error));
+            }
+        }).catch(reason => alert(JSON.stringify(reason)));
     });
 });

@@ -28,7 +28,11 @@ response.then(res => {
     $('#profile-img').attr('src', data.profileImage);
     data.skills.forEach(skill => {
         $('#skills').append('<span class="tag-style">' + skill.name + '</span>');
-        $('#selected-tags').append('<span class="tag-style">' + skill.name + '</span>');
+        $('#selected-tags').append('<span class="tag-style new-tag">' + skill.name + '</span>');
+    });
+
+    $('.new-tag').on('click', function () {
+        $(this).remove();
     });
 }).catch(() => {
     window.location.replace('/');

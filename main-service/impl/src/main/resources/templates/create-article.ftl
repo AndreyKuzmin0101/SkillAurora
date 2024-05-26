@@ -30,7 +30,7 @@
             <div class="mb-3">
                 <div id="cover-preview" class="cover"></div>
                 <input type="file" id="cover-input" accept=".png, .jpg, .jpeg">
-                <button id="upload-cover">Загрузить обложку</button>
+                <button id="upload-cover">Загрузить обложку</button><span>(max 5 MB)</span>
             </div>
             <div class="mb-3">
                 <h5 class="form-label">Теги</h5>

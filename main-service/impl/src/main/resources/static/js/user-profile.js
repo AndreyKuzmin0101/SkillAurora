@@ -20,7 +20,7 @@ authenticated.then(res => {
                     window.location.replace('/chats')
                     return Promise.resolve();
                 }
-                return Promise.reject(res.json());
+                return res.json().then(error => Promise.reject(error));
             }).catch(reason => {alert(JSON.stringify(reason))});
         })
     }

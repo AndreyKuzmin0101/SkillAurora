@@ -60,7 +60,7 @@ authenticated.then(res => {
                 if (res.status === 201) {
                     return res.json();
                 }
-                return Promise.reject(res.json());
+                return res.json().then(error => Promise.reject(error));
             }).then(res => {
                 window.location.replace(res.url);
             }).catch((reason) => {

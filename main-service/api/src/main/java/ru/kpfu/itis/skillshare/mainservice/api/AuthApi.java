@@ -3,11 +3,16 @@ package ru.kpfu.itis.skillshare.mainservice.api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.kpfu.itis.skillshare.mainservice.dto.request.LoginRequest;
 import ru.kpfu.itis.skillshare.mainservice.dto.request.TokenRequest;
 import ru.kpfu.itis.skillshare.mainservice.dto.response.TokenCoupleResponse;
+
+import java.io.IOException;
 
 @Tag(name = "Authentication | Аутентификация", description = "API аутентификации")
 @RequestMapping("/api/v1/auth")
@@ -45,5 +50,5 @@ public interface AuthApi {
     )
     @GetMapping("/check-role-access")
     @ResponseStatus(HttpStatus.OK)
-    Boolean accessRoleCheck(@RequestParam("url") String url);
+    ResponseEntity<?> accessRoleCheck(@RequestParam("url") String url, HttpServletRequest request, HttpServletResponse response) throws IOException;
 }

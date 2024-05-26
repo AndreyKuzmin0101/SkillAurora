@@ -7,8 +7,12 @@
 <#macro content>
     <div class="article-content">
         <div>
-            <img id="article-author-mini-img" src="" class="article-profile-mini-img">
-            <strong id="article-author-username"></strong>
+            <div style="margin-right: 5px; display:inline-block;">
+                <a id="user-link" class="user-link">
+                <img id="article-author-mini-img" src="" class="article-profile-mini-img">
+                <strong id="article-author-username"></strong>
+                </a>
+            </div>
             <span id="article-publication-date" style="color: gray"></span>
         </div>
         <h3><strong id="article-title"></strong></h3>

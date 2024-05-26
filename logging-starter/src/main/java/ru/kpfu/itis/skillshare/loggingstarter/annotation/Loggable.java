@@ -1,4 +1,4 @@
-package ru.kpfu.itis.skillshare.mainservice.aspect.annotation;
+package ru.kpfu.itis.skillshare.loggingstarter.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -64,7 +64,7 @@
             <span id="city"></span>
             <button class="edit-btn" data-target="City">✏️</button>
             <div class="edit-field" id="editCity">
-                <input class="form-control me-2" type="search" placeholder="Поиск стран" id="city-search" style="width: 200px; margin-bottom: 5px; display: inline-block">
+                <input class="form-control me-2" type="search" placeholder="Поиск городов" id="city-search" style="width: 200px; margin-bottom: 5px; display: inline-block">
                 <button id="search-cities" class="edit-btn">🔍</button>
                 <div class="mb-3">
                     <select class="form-select" id="city-list">
@@ -120,7 +120,7 @@
     </div>
     <div class="profile-img">
         <div id="profile-image"><img id="profile-img" src="" style="width: 230px"></div>
-        <label for="image-input">Аватарка</label>
+        <label for="image-input">Аватарка (max 5 MB)</label>
         <input type="file" name="image" id="image-input" accept=".png, .jpg, .jpeg" title=" ">
         <br>
         <button style="margin-top: 10px" id="upload-image">Загрузить</button>

@@ -13,11 +13,19 @@ function update_field(field, new_value, button) {
             $('#' + field).html(new_value)
             let targetId = $(button).data('target');
             $('#edit' + targetId).toggle();
+        } else {
+            return res.json().then(error => Promise.reject(error));
         }
-    });
+    }).catch(reason => {alert(JSON.stringify(reason))});
 }
 
 $(document).ready(function () {
+    $('#username-button').on('click', function () {
+        let username = $('#username-input').val()
+        update_field('username', username, this);
+    });
+
+
     $('#age-button').on('click', function () {
         let age = $('#age-input').val()
         update_field('age', age, this);
@@ -104,7 +112,6 @@ $(document).ready(function () {
     $('#skills-button').on('click', function () {
         let skills = [];
         $('#selected-tags span').each(function () {
-            // Получаем текст каждого span и выводим его в консоль
             let spanText = $(this).text();
             let jsonSkill = {}
             jsonSkill.name = spanText;
@@ -124,9 +131,12 @@ $(document).ready(function () {
                     $('#skills').append('<span class="tag-style">' + skill.name + '</span>')
                 })
                 $('#editSkills').toggle();
+            } else {
+                return res.json().then(error => Promise.reject(error))
             }
-        });
+        }).catch(reason => alert(JSON.stringify(reason)));
     });
+
 
     $('.edit-btn').click(function () {
         let targetId = $(this).data('target');
@@ -140,7 +150,7 @@ $(document).ready(function () {
                 localStorage.clear();
                 window.location.replace("/");
             } else {
-                return Promise.reject(res.json());
+                return res.json().then(error => Promise.reject(error));
             }
         }).catch(reason => {alert(JSON.stringify(reason))})
     });
@@ -162,11 +172,11 @@ $(document).ready(function () {
             if (response.status === 200) {
                 return response.json();
             }
-            return Promise.reject();
+            return response.json().then(error => Promise.reject(error));
         }).then(data => {
             $('#profile-image').empty();
             $('#profile-image').append('<img src="' + data.url + '" style="max-width: 230px">');
-        });
+        }).catch(reason => alert(JSON.stringify(reason)));
     });
 
 });

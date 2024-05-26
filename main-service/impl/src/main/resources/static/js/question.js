@@ -1,6 +1,7 @@
 import {sendAuthenticatedRequest} from "./auth.js";
 
 window.hasBestAnswer = false;
+window.isAuthor = false;
 
 let check_auth_request = sendAuthenticatedRequest('/api/v1/auth/check', {method: 'GET'})
 let authenticated = check_auth_request.then(res => {
@@ -64,7 +65,7 @@ function sendAnswer() {
         if (res.status === 201) {
             return res.json();
         }
-        return Promise.reject(res.json())
+        return res.json().then(error => Promise.reject(error));
     }).then(data => {
         appendAnswer(data)
     }).catch(reason => {alert(JSON.stringify(reason))});
@@ -76,7 +77,7 @@ function loadAnswers() {
         if (res.status === 200) {
             return res.json();
         }
-        return Promise.reject(res.json())
+        return res.json().then(error => Promise.reject(error));
     }).then(data => {
         data.forEach(answer => {
             appendAnswer(answer)
@@ -89,28 +90,36 @@ function loadAnswers() {
             }
         })
 
-
-        $('.btn-check').hide();
+        $('.manage-answer').hide();
 
         sendAuthenticatedRequest('/questions/' + questionId + '/is-author', {method: 'GET'}).then(res => {
             if (res.status === 200) {
                 return res.text();
             }
-            return Promise.reject(res.json())
+            return res.json().then(error => Promise.reject(error));
         }).then(isAuthor => {
             if (isAuthor === 'true') {
-                $('.btn-check').show();
+                window.isAuthor = true;
+                $('.manage-answer').show();
 
                 $('.btn-check').change(function () {
                     let targetId = $(this).data('target');
                     if ($(this).is(':checked')) {
                         sendAuthenticatedRequest('/api/v1/questions/answers/' + targetId + '/mark', {method: 'PUT'}).then(res => {
-                            $('#mark-label-' + targetId).html('Снять метку')
-                        });
+                            if (res.status === 200) {
+                                $('#mark-label-' + targetId).html('Снять метку')
+                            } else {
+                                return res.json().then(error => Promise.reject(error));
+                            }
+                        }).catch(reason => alert(JSON.stringify(reason)));
                     } else {
                         sendAuthenticatedRequest('/api/v1/questions/answers/' + targetId + '/unmark', {method: 'PUT'}).then(res => {
-                            $('#mark-label-' + targetId).html('Пометить лучшим')
-                        });
+                            if (res.status === 200) {
+                                $('#mark-label-' + targetId).html('Пометить лучшим')
+                            } else {
+                                return res.json().then(error => Promise.reject(error));
+                            }
+                        }).catch(reason => alert(JSON.stringify(reason)));
                     }
                 });
 
@@ -124,7 +133,7 @@ function loadAnswers() {
                                 $('#close-question').hide()
                                 alert('Вопрос закрыт!')
                             } else {
-                                return Promise.reject(res.json());
+                                return res.json().then(error => Promise.reject(error));
                             }
                         }).catch(reason => {alert(JSON.stringify(reason))})
                     });
@@ -139,7 +148,7 @@ function loadAnswers() {
 function appendAnswer(answer) {
     $('#answers').append(
         '<div class="answer">' +
-        '<div style="display: flex; justify-content: right">' +
+        '<div class="manage-answer" style="display: flex; justify-content: right">' +
         '<input data-target="' + answer.id + '" type="checkbox" class="btn-check" id="btn-check-outlined-' + answer.id +'" autoComplete="off">' +
         '<label id="mark-label-' + answer.id + '" class="btn btn-outline-primary" for="btn-check-outlined-' + answer.id + '">Пометить лучшим</label>' +
         '</div>' +
@@ -158,4 +167,10 @@ function appendAnswer(answer) {
         '<hr>' +
         '</div>'
     )
+    $('.manage-answer').hide();
+
+    if (window.isAuthor === true) {
+        $('.manage-answer').show();
+    }
+
 }
