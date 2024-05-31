@@ -76,7 +76,7 @@ $(document).ready(function() {
 		}).then(data => {
 			cover = data.url;
 			$('#cover-preview').empty();
-			$('#cover-preview').append('<img src="' + cover + '">');
+			$('#cover-preview').append('<img style="width: 800px" src="' + cover + '">');
 		}).catch(reason => alert(JSON.stringify(reason)));
 	});
 

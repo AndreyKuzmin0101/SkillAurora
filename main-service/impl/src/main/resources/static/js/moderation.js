@@ -49,7 +49,7 @@ function appendArticle(article) {
         '<span style="color: gray">Дата публикации: ' + article.publicationDate + '</span>' +
         '</div>' +
         '<h3><strong>'+ article.title + '</strong></h3>' +
-        '<img src="'+ article.cover + '">' +
+        '<img style="width: 800px" src="'+ article.cover + '">' +
         '<br>' +
         '<span>' + article.description + '</span>' +
         '<div id="tags-' + article.id + '"></div>' +

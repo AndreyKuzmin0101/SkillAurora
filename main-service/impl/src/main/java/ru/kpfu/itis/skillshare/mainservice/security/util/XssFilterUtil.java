@@ -20,8 +20,12 @@ public class XssFilterUtil {
                 .addTags("ul", "ol", "li")
                 // Разрешаем таблицы и их элементы
                 .addTags("table", "thead", "tbody", "tfoot", "tr", "th", "td")
+                .addTags("code", "pre")
+                // Для кода
+                .addAttributes("pre", "data-language", "spellcheck")
+                .addTags("br")
                 // Разрешаем стили для всех тегов
-                .addAttributes(":all", "style");
+                .addAttributes(":all", "style", "class");
 
         return Jsoup.clean(unsafeContent, safelist);
     }

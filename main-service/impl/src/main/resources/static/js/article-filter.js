@@ -85,7 +85,7 @@ function update_stream() {
                 '<img class="article-icon-views" src="/images/views.png" style="margin-left: 20px;">' +
                 '<strong style="color: gray">' + article.views + '</strong>' +
                 '</div>' +
-                '<img src="' + article.cover + '">' +
+                '<img style="width: 800px" src="' + article.cover + '">' +
                 '<br><span>' + article.description + '</span>' +
                 '<div id="tags-' + article.id + '"></div>' +
                 '<a href="/articles/' + article.id + '" style="text-decoration: none;"><button class="btn btn-outline-success">Читать далее</button></a>' +
