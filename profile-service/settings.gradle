@@ -1,0 +1,4 @@
+rootProject.name = 'profile-service'
+include 'profile-service-api'
+include 'profile-service-db'
+include 'profile-service-impl'
