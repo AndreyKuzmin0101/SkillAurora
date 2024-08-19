@@ -1,0 +1,4 @@
+rootProject.name = 'article-service'
+include 'article-service-api'
+include 'article-service-db'
+include 'article-service-impl'

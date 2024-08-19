@@ -1,0 +1,4 @@
+rootProject.name = 'project-service'
+include 'project-service-api'
+include 'project-service-db'
+include 'project-service-impl'

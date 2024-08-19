@@ -1,0 +1,4 @@
+rootProject.name = 'question-service'
+include 'question-service-api'
+include 'question-service-db'
+include 'question-service-impl'
