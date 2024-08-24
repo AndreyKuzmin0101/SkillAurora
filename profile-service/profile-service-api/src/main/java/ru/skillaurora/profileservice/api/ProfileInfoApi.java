@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,14 @@ public interface ProfileInfoApi {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     ProfileInfoResponse getByUserId(@PathVariable("id") UUID id);
+
+    @PatchMapping("/username")
+    @ResponseStatus(HttpStatus.OK)
+    void updateUsername(@PathVariable("id") UUID id,
+                        @Size(min = 3, max = 32, message = "Username не должен короче 3 символов и превышать 32.")
+                        @Pattern(regexp = "^[a-zA-Z0-9._-]+$", message = "Разрешено использовать латиницу, цифры и спец. символы: точка, подчёркивание и дефис")
+                        @RequestParam("username")
+                        String username);
 
     @PatchMapping("/real_name")
     @ResponseStatus(HttpStatus.OK)
@@ -53,4 +62,8 @@ public interface ProfileInfoApi {
     @PutMapping("/skills")
     @ResponseStatus(HttpStatus.OK)
     void updateSkills(@PathVariable("id") UUID id, @RequestBody SkillsRequest skills);
+
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    void delete(@PathVariable("id") UUID id);
 }
