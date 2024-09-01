@@ -1,3 +1,8 @@
 spring:
   application:
     name: profile-service
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog-master.yml
+    default-schema: public

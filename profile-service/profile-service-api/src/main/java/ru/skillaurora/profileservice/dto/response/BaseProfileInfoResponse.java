@@ -5,7 +5,7 @@ import java.util.UUID;
 public record BaseProfileInfoResponse(
     UUID userId,
     String username,
-    String profile_picture,
-    Statuses status
+    String profilePicture,
+    AccountStatus status
 ) {
 }

@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/ProfileServiceDb
+    username: postgres
+    password: qwerty1234
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  cloud:
+    consul:
+      discovery:
+        enabled: false
+      enabled: false
+      service-registry:
+        enabled: false

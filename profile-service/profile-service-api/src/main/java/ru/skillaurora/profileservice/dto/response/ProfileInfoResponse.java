@@ -1,6 +1,7 @@
 package ru.skillaurora.profileservice.dto.response;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.UUID;
 
 public record ProfileInfoResponse(
@@ -9,9 +10,10 @@ public record ProfileInfoResponse(
         String realName,
         String aboutMe,
         String profilePicture,
-        String country,
+        CountryResponse country,
         Long rating,
         Date registerDate,
-        Statuses status
+        AccountStatus status,
+        List<SkillResponse> skills
 ) {
 }

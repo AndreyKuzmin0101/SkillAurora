@@ -31,4 +31,8 @@ public interface InternalProfileInfoApi {
     @PostMapping("/profile")
     @ResponseStatus(HttpStatus.CREATED)
     void create(@Validated @RequestBody BaseProfileRequest baseProfile);
+
+    @GetMapping("/username/{username}/profile/base")
+    @ResponseStatus(HttpStatus.OK)
+    BaseProfileInfoResponse getOneByUsername(@PathVariable("username") String username);
 }

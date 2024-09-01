@@ -33,7 +33,7 @@ public interface ProfileInfoApi {
     @ResponseStatus(HttpStatus.OK)
     void updateUsername(@PathVariable("id") UUID id,
                         @Size(min = 3, max = 32, message = "Username не должен короче 3 символов и превышать 32.")
-                        @Pattern(regexp = "^[a-zA-Z0-9._-]+$", message = "Разрешено использовать латиницу, цифры и спец. символы: точка, подчёркивание и дефис")
+                        @Pattern(regexp = "^[a-zA-Z0-9._-]+$", message = "Разрешено использовать латиницу, цифры и спец. символы: точка, подчёркивание и дефис.")
                         @RequestParam("username")
                         String username);
 

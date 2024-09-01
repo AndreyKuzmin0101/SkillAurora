@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: DDL/20240824-init-db.yml
+      relativeToChangelogFile: true
+  - include:
+      file: DML/20240824-insert-countries.yml
+      relativeToChangelogFile: true
