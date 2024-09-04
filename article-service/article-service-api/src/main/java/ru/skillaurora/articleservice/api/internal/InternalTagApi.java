@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import ru.skillaurora.articleservice.dto.request.TagsRequest;
+import ru.skillaurora.articleservice.dto.request.TagRequest;
 import ru.skillaurora.articleservice.dto.response.TagResponse;
 
 import java.util.List;
@@ -21,5 +21,5 @@ public interface InternalTagApi {
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    List<Long> saveNonExistentAndGetAllIds(TagsRequest tags);
+    List<Long> saveAll (List<TagRequest> tags);
 }
