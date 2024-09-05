@@ -16,7 +16,6 @@ import ru.skillaurora.profileservice.dto.response.BaseProfileInfoResponse;
 import java.util.List;
 import java.util.UUID;
 
-@Hidden
 @RequestMapping("/internal/api/v2/users")
 public interface InternalProfileInfoApi {
 

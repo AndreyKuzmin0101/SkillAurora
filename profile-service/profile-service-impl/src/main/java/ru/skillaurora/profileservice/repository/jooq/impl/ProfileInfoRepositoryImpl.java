@@ -116,7 +116,7 @@ public class ProfileInfoRepositoryImpl implements ProfileInfoRepository {
     @Override
     public void save(ProfileInfoEntity entity) {
         dsl.insertInto(PROFILE_INFO_ENTITY)
-                .values(dsl.newRecord(PROFILE_INFO_ENTITY, entity))
+                .set(dsl.newRecord(PROFILE_INFO_ENTITY, entity))
                 .execute();
     }
 

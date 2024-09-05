@@ -9,6 +9,7 @@ import ru.skillaurora.profileservice.repository.jooq.SkillRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static ru.skillaurora.profileservice.model.jooq.schema.tables.Skill.SKILL_ENTITY;
 
@@ -29,5 +30,12 @@ public class SkillRepositoryImpl implements SkillRepository {
         }
 
         dsl.batch(queries).execute();
+    }
+
+    @Override
+    public void deleteAllByUserId(UUID userId) {
+        dsl.deleteFrom(SKILL_ENTITY)
+                .where(SKILL_ENTITY.USER_ID.eq(userId))
+                .execute();
     }
 }
