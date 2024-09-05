@@ -4,6 +4,6 @@ import java.util.List;
 
 public record SkillsRequest(
         List<Long> skillIds,
-        List<String> newSkills
+        List<TagRequest> newSkills
 ) {
 }

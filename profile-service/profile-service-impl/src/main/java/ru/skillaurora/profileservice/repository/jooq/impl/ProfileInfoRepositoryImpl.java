@@ -116,8 +116,15 @@ public class ProfileInfoRepositoryImpl implements ProfileInfoRepository {
     @Override
     public void save(ProfileInfoEntity entity) {
         dsl.insertInto(PROFILE_INFO_ENTITY)
-                .values(dsl.newRecord(PROFILE_INFO_ENTITY, entity))
+                .set(dsl.newRecord(PROFILE_INFO_ENTITY, entity))
                 .execute();
     }
 
+    @Override
+    public int updateRating(UUID id, Long updatedRating) {
+        return dsl.update(PROFILE_INFO_ENTITY)
+                .set(PROFILE_INFO_ENTITY.RATING, updatedRating)
+                .where(PROFILE_INFO_ENTITY.ID.eq(id))
+                .execute();
+    }
 }

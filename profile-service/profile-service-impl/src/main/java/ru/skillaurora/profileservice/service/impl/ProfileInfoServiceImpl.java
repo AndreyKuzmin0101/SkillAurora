@@ -3,13 +3,17 @@ package ru.skillaurora.profileservice.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.skillaurora.profileservice.client.ArticleServiceClient;
 import ru.skillaurora.profileservice.dto.request.AboutMeRequest;
 import ru.skillaurora.profileservice.dto.request.BaseProfileRequest;
+import ru.skillaurora.profileservice.dto.request.RatingUpdateRequest;
 import ru.skillaurora.profileservice.dto.request.SkillsRequest;
+import ru.skillaurora.profileservice.dto.request.TagRequest;
 import ru.skillaurora.profileservice.dto.response.AccountStatus;
 import ru.skillaurora.profileservice.dto.response.BaseProfileInfoResponse;
 import ru.skillaurora.profileservice.dto.response.ProfileInfoResponse;
 import ru.skillaurora.profileservice.dto.response.SkillResponse;
+import ru.skillaurora.profileservice.exception.model.BadRequestException;
 import ru.skillaurora.profileservice.exception.model.CountryNotFoundException;
 import ru.skillaurora.profileservice.exception.model.ProfileNotFoundException;
 import ru.skillaurora.profileservice.mapper.ProfileInfoMapper;
@@ -24,12 +28,16 @@ import ru.skillaurora.profileservice.util.ProfileInfoConstants;
 import ru.skillaurora.profileservice.util.ProfileInfoUtil;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class ProfileInfoServiceImpl implements ProfileInfoService {
+
+    private final ArticleServiceClient articleServiceClient;
 
     private final ProfileInfoRepository profileInfoRepository;
     private final CountryRepository countryRepository;
@@ -48,11 +56,10 @@ public class ProfileInfoServiceImpl implements ProfileInfoService {
 
         if (profileInfoEntity.getSkills() != null) {
             List<Long> tagIds = profileInfoEntity.getSkills().stream().map(SkillResponse::id).toList();
-            //TODO: обращение к сервису статей для получения названий
-            List<SkillResponse> skills = null;
+            List<SkillResponse> skills = articleServiceClient.getAllByIds(tagIds);
+            profileInfoEntity.setSkills(skills);
         }
 
-//        profileInfoEntity.setSkills(skills);
 
         return profileInfoMapper.toResponse(profileInfoEntity);
     }
@@ -60,6 +67,12 @@ public class ProfileInfoServiceImpl implements ProfileInfoService {
     @Transactional
     @Override
     public void updateUsername(UUID id, String username) {
+        Optional<ProfileInfoEntity> optionalProfile = profileInfoRepository.findByUsername(username);
+        if (optionalProfile.isPresent()) {
+            if (optionalProfile.get().getId().equals(id)) return;
+            throw new BadRequestException("Пользователь с username = %s уже существует".formatted(username));
+        }
+
         if (profileInfoRepository.updateUsername(id, username) == 0)
             throw new ProfileNotFoundException(id);
     }
@@ -82,11 +95,11 @@ public class ProfileInfoServiceImpl implements ProfileInfoService {
     @Override
     public void updateCountry(UUID id, String countryCode) {
         CountryEntity countryEntity = countryRepository.findByCode(countryCode)
-                .orElseThrow(() ->  new CountryNotFoundException(countryCode));
+                .orElseThrow(() -> new CountryNotFoundException(countryCode));
 
         if (profileInfoRepository.updateCountryId(id, countryEntity.getId()) == 0) {
             throw new ProfileNotFoundException(id);
-        };
+        }
     }
 
     @Transactional
@@ -95,14 +108,26 @@ public class ProfileInfoServiceImpl implements ProfileInfoService {
         profileInfoRepository.findById(id)
                 .orElseThrow(() -> new ProfileNotFoundException(id));
 
-        //TODO: обращение к сервису статей
-        List<Long> tagIds = null;
+        skillRepository.deleteAllByUserId(id);
 
-        skillRepository.saveAll(
-                tagIds.stream()
-                        .map(tagId -> new SkillEntity(id, tagId))
-                        .toList()
-        );
+        List<Long> tagIds = new ArrayList<>();
+        if (skills.skillIds() != null) tagIds.addAll(skills.skillIds());
+
+        List<TagRequest> newSkills = skills.newSkills();
+        if (newSkills != null && !newSkills.isEmpty()) {
+            tagIds.addAll(
+                    articleServiceClient.saveAll(skills.newSkills())
+            );
+        }
+
+        if (!tagIds.isEmpty()) {
+            skillRepository.saveAll(
+                    tagIds.stream()
+                            .distinct()
+                            .map(tagId -> new SkillEntity(id, tagId))
+                            .toList()
+            );
+        }
     }
 
     @Transactional
@@ -132,6 +157,11 @@ public class ProfileInfoServiceImpl implements ProfileInfoService {
     @Transactional
     @Override
     public void create(BaseProfileRequest baseProfile) {
+        profileInfoRepository.findByUsername(baseProfile.username())
+                .orElseThrow(() -> new BadRequestException("Пользователь с username = %s уже существует"
+                        .formatted(baseProfile.username())
+                ));
+
         ProfileInfoEntity profileInfoEntity = profileInfoMapper.toEntity(baseProfile);
         profileInfoEntity.setAccountStatus(AccountStatus.ACTIVE.name());
         profileInfoEntity.setRegisterDate(LocalDate.now());
@@ -147,5 +177,14 @@ public class ProfileInfoServiceImpl implements ProfileInfoService {
         return profileInfoMapper.toBaseResponse(
                 ProfileInfoUtil.processProfileInfo(profileInfoEntity)
         );
+    }
+
+    @Override
+    public void updateRating(RatingUpdateRequest ratingUpdateRequest) {
+        ProfileInfoEntity profileInfo = profileInfoRepository.findById(ratingUpdateRequest.userId())
+                .orElseThrow(() -> new ProfileNotFoundException(ratingUpdateRequest.userId()));
+
+        Long updatedRating = profileInfo.getRating() + ratingUpdateRequest.difference();
+        profileInfoRepository.updateRating(profileInfo.getId(), updatedRating);
     }
 }

@@ -16,12 +16,13 @@ public interface ProfileInfoMapper {
     ProfileInfoEntity toEntity(BaseProfileRequest request);
 
     @Mapping(source = "id", target = "userId")
+    @Mapping(source = "accountStatus", target = "status")
     ProfileInfoResponse toResponse(ProfileInfoEntity entity);
 
     @Mapping(source = "id", target = "userId")
+    @Mapping(source = "accountStatus", target = "status")
     BaseProfileInfoResponse toBaseResponse(ProfileInfoEntity entity);
 
-    @Mapping(source = "id", target = "userId")
     List<BaseProfileInfoResponse> toBaseResponse(List<ProfileInfoEntity> entities);
 
 }
