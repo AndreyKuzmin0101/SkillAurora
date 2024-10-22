@@ -10,7 +10,7 @@ import ru.skillaurora.profileservice.dto.response.SkillResponse;
 import java.util.List;
 
 
-@FeignClient(name = "employee-service-v2")
+@FeignClient(name = "article-service")
 @Profile("!local")
 public interface ArticleServiceClient {
 
