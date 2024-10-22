@@ -29,4 +29,5 @@ public interface ProfileInfoRepository {
 
     void save(ProfileInfoEntity entity);
 
+    int updateRating(UUID id, Long updatedRating);
 }

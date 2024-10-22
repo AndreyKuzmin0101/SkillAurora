@@ -2,6 +2,7 @@ package ru.skillaurora.profileservice.service;
 
 import ru.skillaurora.profileservice.dto.request.AboutMeRequest;
 import ru.skillaurora.profileservice.dto.request.BaseProfileRequest;
+import ru.skillaurora.profileservice.dto.request.RatingUpdateRequest;
 import ru.skillaurora.profileservice.dto.request.SkillsRequest;
 import ru.skillaurora.profileservice.dto.response.BaseProfileInfoResponse;
 import ru.skillaurora.profileservice.dto.response.ProfileInfoResponse;
@@ -32,4 +33,6 @@ public interface ProfileInfoService {
     void create(BaseProfileRequest baseProfile);
 
     BaseProfileInfoResponse getBaseInfoByUsername(String username);
+
+    void updateRating(RatingUpdateRequest ratingUpdateRequest);
 }

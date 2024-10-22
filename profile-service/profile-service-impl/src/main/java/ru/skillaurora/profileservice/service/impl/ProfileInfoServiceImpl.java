@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.skillaurora.profileservice.client.ArticleServiceClient;
 import ru.skillaurora.profileservice.dto.request.AboutMeRequest;
 import ru.skillaurora.profileservice.dto.request.BaseProfileRequest;
+import ru.skillaurora.profileservice.dto.request.RatingUpdateRequest;
 import ru.skillaurora.profileservice.dto.request.SkillsRequest;
 import ru.skillaurora.profileservice.dto.request.TagRequest;
 import ru.skillaurora.profileservice.dto.response.AccountStatus;
@@ -176,5 +177,14 @@ public class ProfileInfoServiceImpl implements ProfileInfoService {
         return profileInfoMapper.toBaseResponse(
                 ProfileInfoUtil.processProfileInfo(profileInfoEntity)
         );
+    }
+
+    @Override
+    public void updateRating(RatingUpdateRequest ratingUpdateRequest) {
+        ProfileInfoEntity profileInfo = profileInfoRepository.findById(ratingUpdateRequest.userId())
+                .orElseThrow(() -> new ProfileNotFoundException(ratingUpdateRequest.userId()));
+
+        Long updatedRating = profileInfo.getRating() + ratingUpdateRequest.difference();
+        profileInfoRepository.updateRating(profileInfo.getId(), updatedRating);
     }
 }
