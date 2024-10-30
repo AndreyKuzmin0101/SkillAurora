@@ -41,7 +41,7 @@ public interface CommentApi {
 
     @DeleteMapping("/comments/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    UUID delete(@PathVariable("id") UUID id);
+    void delete(@PathVariable("id") UUID id);
 
     @PostMapping("/comments/{id}/like")
     @ResponseStatus(HttpStatus.OK)
