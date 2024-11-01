@@ -12,7 +12,7 @@ public interface ArticleService {
 
     ArticleResponse getById(UUID id);
 
-    Page<BaseArticleResponse> searchByFilter(ArticleFilter filter);
+    Page<BaseArticleResponse> searchByFilter(ArticleFilter filter, boolean similar);
 
     UUID save(ArticleRequest articleRequest);
 

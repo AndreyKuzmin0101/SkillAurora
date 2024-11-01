@@ -17,11 +17,11 @@ public class InternalTagController implements InternalTagApi {
 
     @Override
     public List<TagResponse> getAllByIds(List<Long> ids) {
-        return List.of();
+        return tagService.getAll(ids);
     }
 
     @Override
     public List<Long> saveAll(List<TagRequest> tags) {
-        return List.of();
+        return tagService.saveAll(tags);
     }
 }

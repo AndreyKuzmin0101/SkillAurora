@@ -30,7 +30,11 @@ public interface ArticleApi {
 
     @GetMapping("/filter")
     @ResponseStatus(HttpStatus.OK)
-    Page<BaseArticleResponse> search(@Validated @RequestBody ArticleFilter filter);
+    Page<BaseArticleResponse> searchDirectly(@Validated @RequestBody ArticleFilter filter);
+
+    @GetMapping("/filter")
+    @ResponseStatus(HttpStatus.OK)
+    Page<BaseArticleResponse> searchSimilar(@Validated @RequestBody ArticleFilter filter);
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UuidGenerator;
+import ru.skillaurora.articleservice.dto.response.BaseProfileInfo;
 import ru.skillaurora.articleservice.dto.response.ModerStatus;
 
 import java.time.LocalDateTime;
@@ -58,4 +59,7 @@ public class ArticleEntity {
             inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id")
     )
     private List<TagEntity> tags;
+
+    @Transient
+    private BaseProfileInfo author;
 }

@@ -8,6 +8,8 @@ public record ArticleResponse(
         UUID id,
         String title,
         String content,
+        String cover,
+        String description,
         BaseProfileInfo author,
         LocalDateTime publicationTime,
         Long views,

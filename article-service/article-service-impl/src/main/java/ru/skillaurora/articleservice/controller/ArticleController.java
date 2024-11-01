@@ -26,8 +26,13 @@ public class ArticleController implements ArticleApi {
     }
 
     @Override
-    public Page<BaseArticleResponse> search(ArticleFilter filter) {
-        return articleService.searchByFilter(filter);
+    public Page<BaseArticleResponse> searchDirectly(ArticleFilter filter) {
+        return articleService.searchByFilter(filter, false);
+    }
+
+    @Override
+    public Page<BaseArticleResponse> searchSimilar(ArticleFilter filter) {
+        return articleService.searchByFilter(filter, true);
     }
 
     @Override

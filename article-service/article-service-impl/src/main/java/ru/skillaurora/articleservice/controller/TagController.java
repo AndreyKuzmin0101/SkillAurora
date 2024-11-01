@@ -16,11 +16,11 @@ public class TagController implements TagApi {
 
     @Override
     public List<TagResponse> getMostPopular(Integer count) {
-        return List.of();
+        return tagService.getSortedByCntUsage(count);
     }
 
     @Override
     public List<TagResponse> searchTags(String query, Integer maxCountMatches) {
-        return List.of();
+        return tagService.search(query, maxCountMatches);
     }
 }
